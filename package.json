@@ -1,7 +1,7 @@
 {
   "name": "restricted-input",
   "version": "1.0.0",
-  "description": "Restrict <input>s to certain valid characters (e.g. formatting phone or card numbers)",
+  "description": "Restrict inputs to certain valid characters (e.g. formatting phone or card numbers)",
   "author": "Braintree <code@getbraintree.com> (https://www.braintreepayments.com/)",
   "license": "MIT",
   "main": "main.js",
