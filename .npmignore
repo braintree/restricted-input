@@ -1,0 +1,14 @@
+spec/
+test/
+config/
+Rakefile
+Gemfile*
+gulpfile.js
+.travis.yml
+.eslintrc
+.eslintignore
+.rspec
+.nvmrc
+.rvmrc
+bower.json
+.npmignore
