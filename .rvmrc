@@ -1,0 +1,1 @@
+rvm use ruby-2.3.0@restricted-input --create --install

@@ -1,0 +1,11 @@
+---
+  env:
+    mocha: true
+
+  globals:
+    expect: false
+    sinon: false
+
+  rules:
+    no-invalid-this: 0
+    no-unused-expressions: 0

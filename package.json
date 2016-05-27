@@ -1,0 +1,55 @@
+{
+  "name": "restricted-input",
+  "version": "1.0.3",
+  "description": "Restrict <input>s to certain valid characters (e.g. formatting phone or card numbers)",
+  "author": "Braintree <code@getbraintree.com> (https://www.braintreepayments.com/)",
+  "license": "MIT",
+  "main": "main.js",
+  "homepage": "https://github.com/braintree/restricted-input",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/braintree/restricted-input.git"
+  },
+  "bugs": "https://github.com/braintree/restricted-input/issues",
+  "keywords": [
+    "input",
+    "formatting",
+    "filtering",
+    "text",
+    "spacing",
+    "restrict"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist; browserify ./main.js -o dist/restricted-input.js -s RestrictedInput -v",
+    "doc": "jsdoc -r -R README.md -d jsdoc lib/",
+    "doc:watch": "npm run doc && chokidar 'lib/**/*.js' -c 'npm run doc'",
+    "start": "node ./test/support/server.js",
+    "development": "npm run build & npm start & chokidar 'lib/**/*.js' -c 'npm run build; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
+    "lint": "eslint lib test",
+    "test": "npm run lint && karma start config/karma.js --single-run",
+    "test:watch": "karma start config/karma.js",
+    "test:integration": ". ./.env && bundle exec rake sauce:spec test_files=spec",
+    "test:all": "npm run test && npm run test:integration"
+  },
+  "devDependencies": {
+    "browserify": "10.2.4",
+    "chai": "3.0.0",
+    "chokidar-cli": "1.2.0",
+    "eslint": "2.7.0",
+    "eslint-config-braintree": "1.0.0",
+    "express": "4.13.0",
+    "jsdoc": "3.4.0",
+    "karma": "0.12.37",
+    "karma-browserify": "4.2.1",
+    "karma-chai-sinon": "0.1.5",
+    "karma-mocha": "0.2.0",
+    "karma-mocha-reporter": "1.0.2",
+    "karma-phantomjs-launcher": "0.2.0",
+    "lodash.assign": "3.2.0",
+    "mocha": "2.2.5",
+    "phantomjs-prebuilt": "2.1.7",
+    "sauce-connect-launcher": "0.14.0",
+    "sinon": "1.15.4",
+    "sinon-chai": "2.8.0"
+  }
+}
