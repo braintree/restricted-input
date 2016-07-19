@@ -50,6 +50,7 @@
     "phantomjs-prebuilt": "2.1.7",
     "sauce-connect-launcher": "0.15.1",
     "sinon": "1.17.4",
-    "sinon-chai": "2.8.0"
+    "sinon-chai": "2.8.0",
+    "watchify": "^3.7.0"
   }
 }
