@@ -48,7 +48,7 @@
     "lodash.assign": "4.0.9",
     "mocha": "2.5.3",
     "phantomjs-prebuilt": "2.1.7",
-    "sauce-connect-launcher": "0.15.1",
+    "sauce-connect-launcher": "0.14.0",
     "sinon": "1.17.4",
     "sinon-chai": "2.8.0",
     "watchify": "^3.7.0"
