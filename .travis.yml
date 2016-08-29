@@ -2,6 +2,7 @@ language: node_js
 node_js:
 - '6'
 - '4'
+before_script: bundle install
 script: 'npm run test:all'
 notifications:
   email: false
