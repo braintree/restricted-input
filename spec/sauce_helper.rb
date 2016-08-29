@@ -22,7 +22,8 @@ Sauce.config do |c|
   c[:sauce_connect_4_executable] = "./node_modules/sauce-connect-launcher/sc/sc-4.3.13-linux/bin/sc"
   c[:browsers] = [
     ["Windows 10", "chrome", nil],
-    ["Windows 10", "firefox", nil],
+    # Firefox 48 (latest on Sauce) is failing all tests
+    ["Windows 10", "firefox", 47],
     ["OS X 10.11", "safari", nil],
     ["Windows 7", "internet explorer", "9"],
     ["Windows 8", "internet explorer", "10"],
