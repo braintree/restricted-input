@@ -4,3 +4,4 @@ node_modules
 dist/
 .env
 jsdoc/
+sauce_connect.ready
