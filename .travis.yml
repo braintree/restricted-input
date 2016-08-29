@@ -8,7 +8,7 @@ before_install:
 - >
   PATH=`echo $PATH | sed "s/\.\/node_modules\/\.bin//g"`;
   export PATH=$PATH:./node_modules/.bin;
-  rvm install ruby-2.3.0 --binary && rvm use ruby-2.3.0;
+  rvm install ruby-2.3.0 --binary && rvm use ruby-2.3.0 && bundle install;
 script: 'npm run test:all'
 notifications:
   email: false
