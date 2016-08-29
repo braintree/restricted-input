@@ -2,7 +2,11 @@ language: node_js
 node_js:
 - '6'
 - '4'
-before_script: rvm install ruby-2.3.0 && bundle install
+before_install:
+# See https://github.com/travis-ci/travis-ci/issues/5092#issuecomment-171777646
+- mv node_modules/.bin/which node_modules/.bin/which.backup
+- rvm install ruby-2.3.0 --binary && rvm use ruby-2.3.0
+- mv node_modules/.bin/which.backup node_modules/.bin/which
 script: 'npm run test:all'
 notifications:
   email: false
