@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## Unreleased
+## 1.0.1 (2016-08-30)
 
 * Remove deprecated `keyIdentifier` check
 * Optimize RegExp creation
