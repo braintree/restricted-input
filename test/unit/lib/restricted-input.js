@@ -39,24 +39,10 @@ describe('RestrictedInput', function () {
   });
 
   describe('getUnformattedValue', function () {
-    it('returns the value if already unformatted', function () {
+    it('returns the value from formatter.unformat', function () {
       var actual;
       var context = {
         inputElement: {value: 'input value'},
-        isFormatted: false,
-        formatter: {unformat: function () { return {value: 'unformatted'}; }}
-      };
-
-      actual = RestrictedInput.prototype.getUnformattedValue.call(context);
-
-      expect(actual).to.equal('input value');
-    });
-
-    it('returns the unformatted value if already formatted', function () {
-      var actual;
-      var context = {
-        inputElement: {value: 'input value'},
-        isFormatted: true,
         formatter: {unformat: function () { return {value: 'unformatted'}; }}
       };
 
