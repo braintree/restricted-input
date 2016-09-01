@@ -15,7 +15,7 @@ Sauce.config do |c|
   c[:start_local_application] = false
   c[:start_tunnel] = true
   c[:connect_options] = {
-    :tunnel_identifier => ENV["TRAVIS_JOB_NUMBER"] || tunnel_id,
+    :tunnel_identifier => tunnel_id,
     :se_port => 4443
   }
   c["tunnel-identifier"] = tunnel_id
