@@ -28,7 +28,7 @@
     "lint": "eslint lib test",
     "test": "npm run lint && karma start config/karma.js --single-run",
     "test:watch": "karma start config/karma.js",
-    "test:integration": "bundle exec rake sauce:spec test_files=spec",
+    "test:integration": ". ./.env && bundle exec rake sauce:spec test_files=spec",
     "test:all": "npm run test && npm run test:integration"
   },
   "devDependencies": {

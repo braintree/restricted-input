@@ -1,10 +1,11 @@
 language: node_js
 before_install:
 # See https://github.com/travis-ci/travis-ci/issues/5092#issuecomment-171777646
-  # Dirty hack for https://github.com/travis-ci/travis-ci/issues/5092
+# Dirty hack for https://github.com/travis-ci/travis-ci/issues/5092
 - >
   PATH=`echo $PATH | sed "s/\.\/node_modules\/\.bin//g"`;
   export PATH=$PATH:./node_modules/.bin;
+  touch .env;
   rvm install ruby-2.3.0 --binary && rvm use ruby-2.3.0 && bundle install;
 script: npm run test:all
 addons:
