@@ -15,7 +15,8 @@ describe 'Restricted Input' do
 
     it 'only allows digits' do
       input = find '#credit-card-number'
-      input.send_keys 'abcdefghhijklmnopqrstuvwxyz !@#$%^&*()_=+ 1234567890123456'
+      input.send_keys 'abcdefghhijklmnopqrstuvwxyz !@#$%^&*()_=+'
+      input.send_keys '1234567890123456'
       expect(input.value).to eql('1234 5678 9012 3456')
     end
 
@@ -175,7 +176,8 @@ describe 'Restricted Input' do
 
     it 'only allows digits' do
       input = find '#credit-card-amex'
-      input.send_keys 'abcdefghhijklmnopqrstuvwxyz !@#$%^&*()_=+ 123456789012345'
+      input.send_keys 'abcdefghhijklmnopqrstuvwxyz !@#$%^&*()_=+'
+      input.send_keys '1234567890123456'
       expect(input.value).to eql('1234 567890 12345')
     end
 
@@ -323,7 +325,8 @@ describe 'Restricted Input' do
 
     it 'only allows digits' do
       input = find '#credit-card-unformatted'
-      input.send_keys 'abcdefghhijklmnopqrstuvwxyz !@#$%^&*()_=+ 1234567890123456'
+      input.send_keys 'abcdefghhijklmnopqrstuvwxyz !@#$%^&*()_=+'
+      input.send_keys '1234567890123456'
       expect(input.value).to eql('1234567890123456')
     end
 
