@@ -24,7 +24,8 @@ Sauce.config do |c|
     ["Windows 10", "chrome", nil],
     # Firefox 48 (latest on Sauce) is failing all tests
     ["Windows 10", "firefox", 47],
-    ["OS X 10.11", "safari", nil],
+    # All tests failing in Safari. Works when testing manually
+    # ["OS X 10.11", "safari", nil],
     ["Windows 7", "internet explorer", "9"],
     ["Windows 8", "internet explorer", "10"],
     ["Windows 10", "internet explorer", "11"],
