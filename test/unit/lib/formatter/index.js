@@ -84,7 +84,9 @@ describe('Formatter', function () {
       var formatted = formatter.format(options);
       var reunformatted = formatter.unformat(formatted);
 
-      expect(reunformatted).to.deep.equal(options);
+      expect(reunformatted.selection.start).to.equal(options.selection.start);
+      expect(reunformatted.selection.end).to.equal(options.selection.end);
+      expect(reunformatted.value).to.equal(options.value);
     });
 
     describe('formatting', function () {
@@ -188,7 +190,8 @@ describe('Formatter', function () {
       expect(formatter.unformat(options).value).to.equal('89');
       expect(formatter.unformat(options).selection).to.deep.equal({
         start: 1,
-        end: 1
+        end: 1,
+        delta: 0
       });
     });
 
@@ -202,7 +205,8 @@ describe('Formatter', function () {
       expect(formatter.unformat(options).value).to.equal('8b');
       expect(formatter.unformat(options).selection).to.deep.equal({
         start: 0,
-        end: 0
+        end: 0,
+        delta: 0
       });
     });
 

@@ -4,6 +4,20 @@ var device = require('../../../lib/device');
 
 describe('device', function () {
   describe('isAndroidChrome()', function () {
+    it('returns true if user agent includes android', function () {
+      var ua = 'browser Chrome on Android';
+
+      expect(device.isAndroid(ua)).to.equal(true);
+    });
+
+    it('returns false if user agent does not include Android', function () {
+      var ua = 'andromeda browser';
+
+      expect(device.isAndroid(ua)).to.equal(false);
+    });
+  });
+
+  describe('isAndroidChrome()', function () {
     it('returns true if user agent is Chrome for Android', function () {
       var ua = 'browser Chrome on Android';
 
