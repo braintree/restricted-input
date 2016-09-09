@@ -28,8 +28,8 @@ Sauce.config do |c|
     ["Windows 7", "internet explorer", "9"],
     ["Windows 8", "internet explorer", "10"],
     ["Windows 10", "internet explorer", "11"],
-    # ["Linux", "android", nil],
-    # ["Linux", "android", "4.4"],
+    ["Linux", "android", nil],
+    ["Linux", "android", "4.4"],
     ["OS X 10.10", "iphone", "9.2"],
   ]
 end
