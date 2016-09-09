@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable camelcase */
 
 var device = require('../../../lib/device');
 var AGENTS = {

@@ -249,7 +249,7 @@ describe('Formatter', function () {
         event: {}
       };
 
-      sandbox.stub(this.formatter, 'unformat');
+      global.sandbox.stub(this.formatter, 'unformat');
     });
 
     it('deletes all characters in selection if there is a delta in the selection start and end', function () {
@@ -284,7 +284,7 @@ describe('Formatter', function () {
           start: 3,
           end: 3
         },
-        value: 'abcdefghijk',
+        value: 'abcdefghijk'
       });
 
       result = this.formatter.simulateDeletion(this.options);
@@ -308,7 +308,7 @@ describe('Formatter', function () {
           start: 3,
           end: 3
         },
-        value: 'abcdefghijk',
+        value: 'abcdefghijk'
       });
 
       result = this.formatter.simulateDeletion(this.options);
