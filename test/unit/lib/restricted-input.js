@@ -22,47 +22,36 @@ describe('RestrictedInput', function () {
 
       expect(fn).to.throw('A valid HTML input or textarea element must be provided');
     });
+  });
 
-    it('sets inputElement property', function () {
-      var element = document.createElement('input');
-      var ri = global.getCleanInstance({element: element});
+  describe('getUnformattedValue()', function () {
+    it('calls the strategy getUnformattedValue method', function () {
+      var ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
 
-      expect(ri.inputElement).to.deep.equal(element);
-    });
+      global.sandbox.stub(ri.strategy, 'getUnformattedValue');
 
-    it('sets restriction pattern', function () {
-      var pattern = 'ptrn';
-      var ri = global.getCleanInstance({pattern: pattern});
+      ri.getUnformattedValue();
 
-      expect(ri.pattern).to.equal(pattern);
+      expect(ri.strategy.getUnformattedValue).to.be.calledOnce;
     });
   });
 
-  describe('getUnformattedValue', function () {
-    it('returns the value if already unformatted', function () {
-      var actual;
-      var context = {
-        inputElement: {value: 'input value'},
-        isFormatted: false,
-        formatter: {unformat: function () { return {value: 'unformatted'}; }}
-      };
+  describe('setPattern()', function () {
+    it('calls the strategy setPattern method', function () {
+      var ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
 
-      actual = RestrictedInput.prototype.getUnformattedValue.call(context);
+      global.sandbox.stub(ri.strategy, 'setPattern');
 
-      expect(actual).to.equal('input value');
-    });
+      ri.setPattern('{{1}}');
 
-    it('returns the unformatted value if already formatted', function () {
-      var actual;
-      var context = {
-        inputElement: {value: 'input value'},
-        isFormatted: true,
-        formatter: {unformat: function () { return {value: 'unformatted'}; }}
-      };
-
-      actual = RestrictedInput.prototype.getUnformattedValue.call(context);
-
-      expect(actual).to.equal('unformatted');
+      expect(ri.strategy.setPattern).to.be.calledOnce;
+      expect(ri.strategy.setPattern).to.be.calledWith('{{1}}');
     });
   });
 });
