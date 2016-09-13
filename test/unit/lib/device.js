@@ -38,6 +38,18 @@ var AGENTS = {
 };
 
 describe('device', function () {
+  describe('isAndroidChrome()', function () {
+    it('returns true if user agent is Chrome for Android', function () {
+      expect(device.isAndroidChrome(AGENTS.androidPhoneChrome)).to.equal(true);
+    });
+
+    it('returns false for Chrome desktop', function () {
+      expect(device.isAndroidChrome(AGENTS.pcChrome_27)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.pcChrome_41)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.iPhoneChrome)).to.equal(false);
+    });
+  });
+
   describe('isIos', function () {
     it('returns true for an iPad', function () {
       expect(device.isIos(AGENTS.iPad3_2Safari)).to.equal(true);
