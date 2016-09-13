@@ -1,7 +1,7 @@
 'use strict';
 
 var IosStrategy = require('../../../../lib/strategies/ios');
-var DefaultStrategy = require('../../../../lib/strategies/default');
+var BaseStrategy = require('../../../../lib/strategies/base');
 
 describe('iOS Strategy', function () {
   beforeEach(function () {
@@ -15,10 +15,10 @@ describe('iOS Strategy', function () {
   });
 
   describe('constructor()', function () {
-    it('is an instance of DefaultStrategy', function () {
+    it('is an instance of BaseStrategy', function () {
       var strategy = new IosStrategy(this.options);
 
-      expect(strategy).to.be.an.instanceof(DefaultStrategy);
+      expect(strategy).to.be.an.instanceof(BaseStrategy);
     });
 
     it('adds ios specific listeners', function () {

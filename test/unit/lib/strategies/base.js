@@ -1,8 +1,8 @@
 'use strict';
 
-var DefaultStrategy = require('../../../../lib/strategies/default');
+var BaseStrategy = require('../../../../lib/strategies/base');
 
-describe('Default Strategy', function () {
+describe('Base Strategy', function () {
   beforeEach(function () {
     this.options = {
       element: {
@@ -15,7 +15,7 @@ describe('Default Strategy', function () {
 
   describe('constructor()', function () {
     it('adds input listeners', function () {
-      var strategy = new DefaultStrategy(this.options);
+      var strategy = new BaseStrategy(this.options);
 
       ['keydown', 'keypress', 'keyup', 'input', 'paste'].forEach(function (event) {
         expect(strategy.inputElement.addEventListener).to.be.calledWith(event, global.sandbox.match.func);
@@ -25,7 +25,7 @@ describe('Default Strategy', function () {
 
   describe('getUnformattedValue()', function () {
     it('returns the value if already unformatted', function () {
-      var strategy = new DefaultStrategy(this.options);
+      var strategy = new BaseStrategy(this.options);
 
       strategy.isFormatted = false;
 
@@ -33,7 +33,7 @@ describe('Default Strategy', function () {
     });
 
     it('returns the unformatted value if formatted', function () {
-      var strategy = new DefaultStrategy(this.options);
+      var strategy = new BaseStrategy(this.options);
 
       strategy.isFormatted = true;
       global.sandbox.stub(strategy.formatter, 'unformat').returns({value: 'unformatted value'});
@@ -42,7 +42,7 @@ describe('Default Strategy', function () {
     });
 
     it('returns the unformatted value if unformatted but force is set to true', function () {
-      var strategy = new DefaultStrategy(this.options);
+      var strategy = new BaseStrategy(this.options);
 
       strategy.isFormatted = false;
       global.sandbox.stub(strategy.formatter, 'unformat').returns({value: 'unformatted value'});
@@ -53,7 +53,7 @@ describe('Default Strategy', function () {
 
   describe('setPattern()', function () {
     it('sets a new pattern', function () {
-      var strategy = new DefaultStrategy(this.options);
+      var strategy = new BaseStrategy(this.options);
       var oldFormatter = strategy.formatter;
 
       strategy.setPattern('{{111}}');
@@ -62,7 +62,7 @@ describe('Default Strategy', function () {
     });
 
     it('reformats input', function () {
-      var strategy = new DefaultStrategy(this.options);
+      var strategy = new BaseStrategy(this.options);
 
       strategy.setPattern('{{aa}}x-1{{aa}}');
 

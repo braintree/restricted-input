@@ -1,7 +1,7 @@
 'use strict';
 
 var AndroidChromeStrategy = require('../../../../lib/strategies/android-chrome');
-var DefaultStrategy = require('../../../../lib/strategies/default');
+var BaseStrategy = require('../../../../lib/strategies/base');
 
 describe('Android Chrome Strategy', function () {
   beforeEach(function () {
@@ -15,10 +15,10 @@ describe('Android Chrome Strategy', function () {
   });
 
   describe('constructor()', function () {
-    it('is an instance of DefaultStrategy', function () {
+    it('is an instance of BaseStrategy', function () {
       var strategy = new AndroidChromeStrategy(this.options);
 
-      expect(strategy).to.be.an.instanceof(DefaultStrategy);
+      expect(strategy).to.be.an.instanceof(BaseStrategy);
     });
   });
 });

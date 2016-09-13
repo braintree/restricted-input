@@ -1,6 +1,10 @@
 'use strict';
 
 var RestrictedInput = require('../../../lib/restricted-input');
+var BaseStrategy = require('../../../lib/strategies/base');
+var IosStrategy = require('../../../lib/strategies/ios');
+var AndroidChromeStrategy = require('../../../lib/strategies/android-chrome');
+var device = require('../../../lib/device');
 
 describe('RestrictedInput', function () {
   beforeEach(function () {
@@ -9,6 +13,7 @@ describe('RestrictedInput', function () {
 
   afterEach(function () {
     global.inputNode = null;
+    global.sandbox.restore();
   });
 
   describe('constructor()', function () {
@@ -21,6 +26,43 @@ describe('RestrictedInput', function () {
       }
 
       expect(fn).to.throw('A valid HTML input or textarea element must be provided');
+    });
+
+    it('defaults to BaseStrategy', function () {
+      var ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(BaseStrategy);
+      expect(ri.strategy).to.not.be.an.instanceof(IosStrategy);
+      expect(ri.strategy).to.not.be.an.instanceof(AndroidChromeStrategy);
+    });
+
+    it('uses IosStrategy for ios devices', function () {
+      var ri;
+
+      global.sandbox.stub(device, 'isIos').returns(true);
+
+      ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(IosStrategy);
+    });
+
+    it('uses AndroidChromeStrategy for android chrome devices', function () {
+      var ri;
+
+      global.sandbox.stub(device, 'isAndroidChrome').returns(true);
+
+      ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(AndroidChromeStrategy);
     });
   });
 
