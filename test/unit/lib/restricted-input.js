@@ -1,6 +1,10 @@
 'use strict';
 
 var RestrictedInput = require('../../../lib/restricted-input');
+var BaseStrategy = require('../../../lib/strategies/base');
+var IosStrategy = require('../../../lib/strategies/ios');
+var AndroidChromeStrategy = require('../../../lib/strategies/android-chrome');
+var device = require('../../../lib/device');
 
 describe('RestrictedInput', function () {
   beforeEach(function () {
@@ -9,6 +13,7 @@ describe('RestrictedInput', function () {
 
   afterEach(function () {
     global.inputNode = null;
+    global.sandbox.restore();
   });
 
   describe('constructor()', function () {
@@ -23,46 +28,72 @@ describe('RestrictedInput', function () {
       expect(fn).to.throw('A valid HTML input or textarea element must be provided');
     });
 
-    it('sets inputElement property', function () {
-      var element = document.createElement('input');
-      var ri = global.getCleanInstance({element: element});
+    it('defaults to BaseStrategy', function () {
+      var ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
 
-      expect(ri.inputElement).to.deep.equal(element);
+      expect(ri.strategy).to.be.an.instanceof(BaseStrategy);
+      expect(ri.strategy).to.not.be.an.instanceof(IosStrategy);
+      expect(ri.strategy).to.not.be.an.instanceof(AndroidChromeStrategy);
     });
 
-    it('sets restriction pattern', function () {
-      var pattern = 'ptrn';
-      var ri = global.getCleanInstance({pattern: pattern});
+    it('uses IosStrategy for ios devices', function () {
+      var ri;
 
-      expect(ri.pattern).to.equal(pattern);
+      global.sandbox.stub(device, 'isIos').returns(true);
+
+      ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(IosStrategy);
+    });
+
+    it('uses AndroidChromeStrategy for android chrome devices', function () {
+      var ri;
+
+      global.sandbox.stub(device, 'isAndroidChrome').returns(true);
+
+      ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(AndroidChromeStrategy);
     });
   });
 
-  describe('getUnformattedValue', function () {
-    it('returns the value if already unformatted', function () {
-      var actual;
-      var context = {
-        inputElement: {value: 'input value'},
-        isFormatted: false,
-        formatter: {unformat: function () { return {value: 'unformatted'}; }}
-      };
+  describe('getUnformattedValue()', function () {
+    it('calls the strategy getUnformattedValue method', function () {
+      var ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
 
-      actual = RestrictedInput.prototype.getUnformattedValue.call(context);
+      global.sandbox.stub(ri.strategy, 'getUnformattedValue');
 
-      expect(actual).to.equal('input value');
+      ri.getUnformattedValue();
+
+      expect(ri.strategy.getUnformattedValue).to.be.calledOnce;
     });
+  });
 
-    it('returns the unformatted value if already formatted', function () {
-      var actual;
-      var context = {
-        inputElement: {value: 'input value'},
-        isFormatted: true,
-        formatter: {unformat: function () { return {value: 'unformatted'}; }}
-      };
+  describe('setPattern()', function () {
+    it('calls the strategy setPattern method', function () {
+      var ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
 
-      actual = RestrictedInput.prototype.getUnformattedValue.call(context);
+      global.sandbox.stub(ri.strategy, 'setPattern');
 
-      expect(actual).to.equal('unformatted');
+      ri.setPattern('{{1}}');
+
+      expect(ri.strategy.setPattern).to.be.calledOnce;
+      expect(ri.strategy.setPattern).to.be.calledWith('{{1}}');
     });
   });
 });

@@ -241,4 +241,85 @@ describe('Formatter', function () {
       }]);
     });
   });
+
+  describe('simulateDeletion()', function () {
+    beforeEach(function () {
+      this.formatter = new Formatter('{{a}}');
+      this.options = {
+        event: {}
+      };
+
+      global.sandbox.stub(this.formatter, 'unformat');
+    });
+
+    it('deletes all characters in selection if there is a delta in the selection start and end', function () {
+      var result;
+
+      this.formatter.unformat.returns({
+        selection: {
+          start: 1,
+          end: 6
+        },
+        value: 'abcdefghijk'
+      });
+
+      result = this.formatter.simulateDeletion(this.options);
+
+      expect(result).to.deep.equal({
+        selection: {
+          start: 1,
+          end: 1
+        },
+        value: 'aghijk'
+      });
+    });
+
+    it('deletes one character back from the cursor start if no selection and key was backspace', function () {
+      var result;
+
+      this.options.event.key = 'Backspace';
+
+      this.formatter.unformat.returns({
+        selection: {
+          start: 3,
+          end: 3
+        },
+        value: 'abcdefghijk'
+      });
+
+      result = this.formatter.simulateDeletion(this.options);
+
+      expect(result).to.deep.equal({
+        selection: {
+          start: 2,
+          end: 2
+        },
+        value: 'abdefghijk'
+      });
+    });
+
+    it('deletes one character forward from the cursor start if no selection and key was not backspace', function () {
+      var result;
+
+      this.options.event.key = 'Delete';
+
+      this.formatter.unformat.returns({
+        selection: {
+          start: 3,
+          end: 3
+        },
+        value: 'abcdefghijk'
+      });
+
+      result = this.formatter.simulateDeletion(this.options);
+
+      expect(result).to.deep.equal({
+        selection: {
+          start: 3,
+          end: 3
+        },
+        value: 'abcefghijk'
+      });
+    });
+  });
 });
