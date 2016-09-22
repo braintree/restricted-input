@@ -4,6 +4,7 @@
 # For options, check out http://saucelabs.com/docs/platforms
 require "sauce"
 require "sauce/capybara"
+require_relative "./os"
 
 tunnel_id = "restricted-input"
 
@@ -19,7 +20,7 @@ Sauce.config do |c|
     :se_port => 4443
   }
   c["tunnel-identifier"] = tunnel_id
-  c[:sauce_connect_4_executable] = "./node_modules/sauce-connect-launcher/sc/sc-4.3.13-linux/bin/sc"
+  c[:sauce_connect_4_executable] = OS.get_sauce_bin
   c[:browsers] = [
     ["Windows 10", "chrome", nil],
     # Firefox 48 (latest on Sauce) is failing all tests
