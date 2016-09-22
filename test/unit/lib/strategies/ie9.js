@@ -24,7 +24,7 @@ describe('IE9 Strategy', function () {
     it('adds IE9 specific listeners', function () {
       var strategy = new IE9Strategy(this.options);
 
-      ['keydown', 'focus'].forEach(function (event) {
+      ['keydown', 'paste', 'focus'].forEach(function (event) {
         expect(strategy.inputElement.addEventListener).to.be.calledWith(event, global.sandbox.match.func);
       });
     });
