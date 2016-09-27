@@ -84,4 +84,15 @@ describe('device', function () {
       }
     });
   });
+
+  describe('isIE9', function () {
+    it('returns true for IE9', function () {
+      expect(device.isIE9(AGENTS.ie9)).to.equal(true);
+    });
+
+    it('returns false for non-IE9', function () {
+      expect(device.isIE9(AGENTS.ie10)).to.equal(false);
+      expect(device.isIE9(AGENTS.ie11)).to.equal(false);
+    });
+  });
 });
