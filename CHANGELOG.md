@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.3 (2016-09-28)
+
+* Fix IE9 stutering when formatting inputs
+
 ## 1.0.2 (2016-09-16)
 
 * Fix iOS stuttering when formatting inputs
