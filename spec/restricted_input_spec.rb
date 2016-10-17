@@ -402,8 +402,8 @@ describe 'Restricted Input' do
 
     it 'accepts mixed alphanumeric' do
       input = find '#wildcard'
-      input.send_keys 'aA33'
-      expect(input.value).to eql('*A*3 aA33')
+      input.send_keys 'aZ54'
+      expect(input.value).to eql('*A*3 aZ54')
     end
   end
 end
