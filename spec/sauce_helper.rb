@@ -31,6 +31,6 @@ Sauce.config do |c|
     ["Windows 10", "internet explorer", "11"],
     # ["Linux", "android", nil],
     # ["Linux", "android", "4.4"],
-    ["OS X 10.10", "iphone", "9.2"],
+    # ["OS X 10.10", "iphone", "9.2"],
   ]
 end
