@@ -8,6 +8,39 @@ require_relative "./os"
 
 tunnel_id = "restricted-input"
 
+PLATFORM = ENV["PLATFORM"]
+
+def select_browsers
+  browsers = []
+
+  if !PLATFORM || PLATFORM == "desktop"
+    browsers += [
+      ["Windows 10", "chrome", nil],
+      # Firefox 48 (latest on Sauce) is failing all tests
+      ["Windows 10", "firefox", 47],
+      ["OS X 10.11", "safari", nil],
+      ["Windows 7", "internet explorer", "9"],
+      ["Windows 8", "internet explorer", "10"],
+      ["Windows 10", "internet explorer", "11"],
+    ]
+  end
+
+  # if !PLATFORM || PLATFORM == "android"
+  #   browsers += [
+  #     ["Linux", "android", nil],
+  #     ["Linux", "android", "4.4"],
+  #   ]
+  # end
+
+  if !PLATFORM || PLATFORM == "ios"
+    browsers += [
+      ["OS X 10.10", "iphone", "9.2"],
+    ]
+  end
+
+  browsers
+end
+
 Capybara.default_driver = :sauce
 Sauce.config do |c|
   c[:job_name] = tunnel_id
@@ -21,16 +54,5 @@ Sauce.config do |c|
   }
   c["tunnel-identifier"] = tunnel_id
   c[:sauce_connect_4_executable] = OS.get_sauce_bin
-  c[:browsers] = [
-    ["Windows 10", "chrome", nil],
-    # Firefox 48 (latest on Sauce) is failing all tests
-    ["Windows 10", "firefox", 47],
-    ["OS X 10.11", "safari", nil],
-    ["Windows 7", "internet explorer", "9"],
-    ["Windows 8", "internet explorer", "10"],
-    ["Windows 10", "internet explorer", "11"],
-    # ["Linux", "android", nil],
-    # ["Linux", "android", "4.4"],
-    ["OS X 10.10", "iphone", "9.2"],
-  ]
+  c[:browsers] = select_browsers
 end
