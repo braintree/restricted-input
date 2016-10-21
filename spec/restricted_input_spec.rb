@@ -377,7 +377,33 @@ describe 'Restricted Input' do
 
       button.click()
 
-      expect(input.value).to eql('4111 111111 11111');
+      expect(input.value).to eql('4111 111111 11111')
+    end
+  end
+
+  describe 'wildcard' do
+    it 'accepts digits' do
+      input = find '#wildcard'
+      input.send_keys '3333'
+      expect(input.value).to eql('*A*3 3')
+    end
+
+    it 'accepts lowercase alpha' do
+      input = find '#wildcard'
+      input.send_keys 'jjjj'
+      expect(input.value).to eql('*A*3 jjj')
+    end
+
+    it 'accepts uppercase alpha' do
+      input = find '#wildcard'
+      input.send_keys 'NNNN'
+      expect(input.value).to eql('*A*3 NNN')
+    end
+
+    it 'accepts mixed alphanumeric' do
+      input = find '#wildcard'
+      input.send_keys 'aZ54'
+      expect(input.value).to eql('*A*3 aZ54')
     end
   end
 end
