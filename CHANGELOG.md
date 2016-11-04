@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.4 (2016-11-04)
+
+* Fix Safari autocomplete issue
+
 ## 1.0.3 (2016-09-28)
 
 * Fix IE9 stutering when formatting inputs
