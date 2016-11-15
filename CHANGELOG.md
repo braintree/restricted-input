@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.5 (2016-11-15)
+
+* Fix iOS Safari autocomplete issue
+
 ## 1.0.4 (2016-11-04)
 
 * Fix Safari autocomplete issue
