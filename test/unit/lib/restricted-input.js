@@ -4,7 +4,6 @@ var RestrictedInput = require('../../../lib/restricted-input');
 var BaseStrategy = require('../../../lib/strategies/base');
 var IosStrategy = require('../../../lib/strategies/ios');
 var IE9Strategy = require('../../../lib/strategies/ie9');
-var AndroidChromeStrategy = require('../../../lib/strategies/android-chrome');
 var device = require('../../../lib/device');
 
 describe('RestrictedInput', function () {
@@ -37,7 +36,6 @@ describe('RestrictedInput', function () {
 
       expect(ri.strategy).to.be.an.instanceof(BaseStrategy);
       expect(ri.strategy).to.not.be.an.instanceof(IosStrategy);
-      expect(ri.strategy).to.not.be.an.instanceof(AndroidChromeStrategy);
     });
 
     it('uses IosStrategy for ios devices', function () {
@@ -53,7 +51,7 @@ describe('RestrictedInput', function () {
       expect(ri.strategy).to.be.an.instanceof(IosStrategy);
     });
 
-    it('uses AndroidChromeStrategy for android chrome devices', function () {
+    it('uses IosStrategy for android chrome devices', function () {
       var ri;
 
       global.sandbox.stub(device, 'isAndroidChrome').returns(true);
@@ -63,7 +61,7 @@ describe('RestrictedInput', function () {
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(AndroidChromeStrategy);
+      expect(ri.strategy).to.be.an.instanceof(IosStrategy);
     });
 
     it('uses IE9Strategy for IE9 browser', function () {
