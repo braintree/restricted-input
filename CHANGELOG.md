@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.7 (2016-12-16)
+
+* Fix for Samsung keyboards not selecting input correctly after a permacharacter insertion on Android Chrome
+
 ## 1.0.6 (2016-12-12)
 
 * Fix for third party keyboards on Android Chrome
