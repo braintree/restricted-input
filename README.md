@@ -3,6 +3,12 @@ Restricted Input
 
 Allow restricted character sets in `input` elements.
 
+## Demo
+
+Try the latest version of Restricted Input:
+
+http://braintree.github.io/restricted-input/
+
 ## Features
 
 - Disallow arbitrary chars based on patterns
