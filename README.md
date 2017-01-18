@@ -5,9 +5,7 @@ Allow restricted character sets in `input` elements.
 
 ## Demo
 
-Try the latest version of Restricted Input:
-
-http://braintree.github.io/restricted-input/
+Try the latest version of Restricted Input [here](https://braintree.github.io/restricted-input/).
 
 ## Features
 

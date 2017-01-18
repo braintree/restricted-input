@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e           # aborts if there are errors
+set -u           # errors if you use an undefined variable
+set -o pipefail  # errors if a pipe fails
 
 git checkout master
 
