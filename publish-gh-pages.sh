@@ -15,6 +15,6 @@ mv dist/* .
 
 git add restricted-input.js
 git add index.html
-git commit -ve -m 'Update test page for restricted-input'
+git commit -ve -m 'Update demo page for restricted-input'
 
 echo 'You can now `git push` to gh-pages!'
