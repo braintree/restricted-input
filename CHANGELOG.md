@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.8 (2017-01-18)
+
+* Fix for Samsung keyboards reporting a ranged selection on first character input
+
 ## 1.0.7 (2016-12-16)
 
 * Fix for Samsung keyboards not selecting input correctly after a permacharacter insertion on Android Chrome
