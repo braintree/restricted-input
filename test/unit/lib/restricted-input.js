@@ -5,6 +5,7 @@ var BaseStrategy = require('../../../lib/strategies/base');
 var IosStrategy = require('../../../lib/strategies/ios');
 var IE9Strategy = require('../../../lib/strategies/ie9');
 var AndroidChromeStrategy = require('../../../lib/strategies/android-chrome');
+var NoopStrategy = require('../../../lib/strategies/noop');
 var device = require('../../../lib/device');
 
 describe('RestrictedInput', function () {
@@ -77,6 +78,19 @@ describe('RestrictedInput', function () {
       });
 
       expect(ri.strategy).to.be.an.instanceof(IE9Strategy);
+    });
+
+    it('uses NoopStrategy for Samsung browser', function () {
+      var ri;
+
+      global.sandbox.stub(device, 'isSamsungBrowser').returns(true);
+
+      ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(NoopStrategy);
     });
   });
 
