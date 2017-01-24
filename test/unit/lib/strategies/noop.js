@@ -12,6 +12,7 @@ describe('Noop Strategy', function () {
       return typeof BaseStrategy.prototype[property] === 'function' && property[0] !== '_';
     });
 
+    expect(noopPublicMethods.length > 0).to.equal(true);
     expect(noopPublicMethods.length).to.equal(basePublicMethods.length);
     basePublicMethods.forEach(function (method) {
       expect(noopPublicMethods).to.contain(method);
