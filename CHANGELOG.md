@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## UNRELEASED
+## 1.0.9 (2017-01-25)
 
 * Disable restricted input in the Samsung Browser
 
