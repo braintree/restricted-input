@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## UNRELEASED
+
+* Disable restricted input in the Samsung Browser
+
 ## 1.0.8 (2017-01-18)
 
 * Fix for Samsung keyboards reporting a ranged selection on first character input
