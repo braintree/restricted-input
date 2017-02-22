@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.11 (2017-02-22)
+
+* Correct detection of Samsung browsers to disable formatting in old versions
+
 ## 1.0.10 (2017-02-14)
 
 * Fix formatting when using 1Password autofill
