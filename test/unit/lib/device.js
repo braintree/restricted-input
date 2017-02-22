@@ -35,6 +35,8 @@ var AGENTS = {
   pcChrome_41: 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
   pcFirefox: 'Mozilla/5.0 (Windows NT x.y; Win64; x64; rv:10.0) Gecko/20100101 Firefox/10.0',
   pcSafari5_1: 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50',
+  samsungBrowserWebview: 'Mozilla/5.0 (Linux; U; Android 4.2.2; en-us; Samsung Galaxy Note 2 - 4.2.2 - API 17 - 720x1280 Build/JDQ39E) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
+  samsungAndroidChrome: 'Mozilla/5.0 (Linux; Android 4.2.2; Samsung Galaxy Note 2 - 4.2.2 - API 17 - 720x1280 Build/JDQ39E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36',
   samsungBrowser2_1: 'Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG SPH-L720T Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36'
 };
 
@@ -98,8 +100,12 @@ describe('device', function () {
   });
 
   describe('isSamsungBrowser', function () {
-    it('returns true for Samsung Browser', function () {
+    it('returns true for current Samsung Browser', function () {
       expect(device.isSamsungBrowser(AGENTS.samsungBrowser2_1)).to.equal(true);
+    });
+
+    it('returns true for old Samsung Browser and webviews', function () {
+      expect(device.isSamsungBrowser(AGENTS.samsungBrowserWebview)).to.equal(true);
     });
 
     it('returns false when not Samsung Browser', function () {
