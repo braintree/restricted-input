@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## UNRELEASED
+## 1.1.0 (2017-04-04)
 
 * Provide specific strategy for Android KitKat Chromium based webviews. Fixes issue where only 4 characters could be input
 * Provide helper method for determining if the browser supports formatting
