@@ -88,6 +88,24 @@ describe('device', function () {
     });
   });
 
+  describe('isOldAndroidChromedBasedWebview()', function () {
+    it('returns true if user agent is Android 4 Webview with Chrome in useragent', function () {
+      expect(device.isOldAndroidChromeBasedWebview(AGENTS.androidWebviewKitKatLollipop)).to.equal(true);
+    });
+
+    it('returns false for Android webviews without chrome in user agent', function () {
+      expect(device.isOldAndroidChromeBasedWebview(AGENTS.androidWebviewOld)).to.equal(false);
+    });
+
+    it('returns false for Android webviews with newer builds of Chrome', function () {
+      expect(device.isOldAndroidChromeBasedWebview(AGENTS.androidWebviewLollipopAndAbove)).to.equal(false);
+    });
+
+    it('returns false for Android Chrome', function () {
+      expect(device.isOldAndroidChromeBasedWebview(AGENTS.androidPhoneChrome)).to.equal(false);
+    });
+  });
+
   describe('isIE9', function () {
     it('returns true for IE9', function () {
       expect(device.isIE9(AGENTS.ie9)).to.equal(true);

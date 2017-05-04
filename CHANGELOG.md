@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## UNRELEASED
+
+* Provide specific strategy for old Android webviews. Fixes issue where only 4 characters could be input
+
 ## 1.0.11 (2017-02-22)
 
 * Correct detection of Samsung browsers to disable formatting in old versions
