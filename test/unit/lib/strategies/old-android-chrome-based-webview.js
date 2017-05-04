@@ -1,7 +1,7 @@
 'use strict';
 
 var AndroidChromeStrategy = require('../../../../lib/strategies/android-chrome');
-var OldAndroidChromeBasedWebviewStrategy = require('../../../../lib/strategies/android-chrome');
+var KitKatChromiumBasedWebViewStrategy = require('../../../../lib/strategies/kitkat-chromium-based-webview');
 
 describe('Old Android Chrome Based Webview Strategy', function () {
   beforeEach(function () {
@@ -16,7 +16,7 @@ describe('Old Android Chrome Based Webview Strategy', function () {
 
   describe('constructor()', function () {
     it('is an instance of AndroidChromeStrategy', function () {
-      var strategy = new OldAndroidChromeBasedWebviewStrategy(this.options);
+      var strategy = new KitKatChromiumBasedWebViewStrategy(this.options);
 
       expect(strategy).to.be.an.instanceof(AndroidChromeStrategy);
     });

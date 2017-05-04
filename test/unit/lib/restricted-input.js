@@ -5,6 +5,7 @@ var BaseStrategy = require('../../../lib/strategies/base');
 var IosStrategy = require('../../../lib/strategies/ios');
 var IE9Strategy = require('../../../lib/strategies/ie9');
 var AndroidChromeStrategy = require('../../../lib/strategies/android-chrome');
+var KitKatChromiumBasedWebViewStrategy = require('../../../lib/strategies/kitkat-chromium-based-webview');
 var NoopStrategy = require('../../../lib/strategies/noop');
 var device = require('../../../lib/device');
 
@@ -52,6 +53,19 @@ describe('RestrictedInput', function () {
       });
 
       expect(ri.strategy).to.be.an.instanceof(IosStrategy);
+    });
+
+    it('uses KitKatChromiumBasedWebViewStrategy for Android KitKiat webvies', function () {
+      var ri;
+
+      global.sandbox.stub(device, 'isKitKatWebview').returns(true);
+
+      ri = new RestrictedInput({
+        element: document.createElement('input'),
+        pattern: '{{a}}'
+      });
+
+      expect(ri.strategy).to.be.an.instanceof(KitKatChromiumBasedWebViewStrategy);
     });
 
     it('uses AndroidChromeStrategy for android chrome devices', function () {
