@@ -138,4 +138,18 @@ describe('RestrictedInput', function () {
       expect(ri.strategy.setPattern).to.be.calledWith('{{1}}');
     });
   });
+
+  describe('supportsFormatting', function () {
+    it('returns false if device is a samsung browser', function () {
+      global.sandbox.stub(device, 'isSamsungBrowser').returns(true);
+
+      expect(RestrictedInput.supportsFormatting()).to.equal(false);
+    });
+
+    it('returns true if device is not a Samsung browser', function () {
+      global.sandbox.stub(device, 'isSamsungBrowser').returns(false);
+
+      expect(RestrictedInput.supportsFormatting()).to.equal(true);
+    });
+  });
 });
