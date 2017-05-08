@@ -102,6 +102,10 @@ Some example patterns with behavior are listed:
 - IE10 (desktop/metro)
 - IE9
 
+## Browsers Where Formatting is Turned Off Automatically
+
+Old versions of Samsung Android browsers are incompatible with formatting. These will not attempt to intercept the values and format the input.
+
 ## TODO
 
 - [ ] Improve jsdoc
