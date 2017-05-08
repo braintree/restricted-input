@@ -1,5 +1,10 @@
 # Restricted Input - Release Notes
 
+## 1.2.0 (2017-04-08)
+
+* Fix issue where restricted input could not be required in a server context
+* Provide supports-input-formatting as a standalone file
+
 ## 1.1.0 (2017-04-04)
 
 * Provide specific strategy for Android KitKat Chromium based webviews. Fixes issue where only 4 characters could be input
