@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## UNRELEASED
+
+* Update browser detection lib
+
 ## 1.2.0 (2017-04-08)
 
 * Fix issue where restricted input could not be required in a server context
