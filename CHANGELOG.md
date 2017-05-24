@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## UNRELEASED
+## 1.2.1 (2017-05-24)
 
 * Update browser detection lib
 
