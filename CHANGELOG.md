@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## UNRELEASED
+
+* Fix Chrome Autofill to format the input correctly
+
 ## 1.2.1 (2017-05-24)
 
 * Update browser detection lib
