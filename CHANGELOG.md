@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## UNRELEASED
+## 1.2.2 (2017-06-01)
 
 * Fix Chrome Autofill to format the input correctly
 
