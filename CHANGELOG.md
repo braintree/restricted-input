@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## UNRELEASED
+## 1.2.3 (2017-06-01)
 
 * Use scoped version of browser-switch dependency
 
