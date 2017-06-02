@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## UNRELEASED
+## 1.2.4 (2017-06-02)
 
 * Fix LastPass autofill bug
 
