@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## UNRELEASED
+
+* Fix LastPass autofill bug
+
 ## 1.2.3 (2017-06-01)
 
 * Use scoped version of browser-switch dependency
