@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## Unreleased
+
+* Update browser-detection to latest major version
+
 ## 1.2.4 (2017-06-02)
 
 * Fix LastPass autofill bug
