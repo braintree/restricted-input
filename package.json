@@ -34,7 +34,7 @@
     "publish:demo": "./publish-gh-pages.sh"
   },
   "dependencies": {
-    "@braintree/browser-detection": "1.4.1"
+    "@braintree/browser-detection": "^1.5.0"
   },
   "devDependencies": {
     "browserify": "13.0.1",
