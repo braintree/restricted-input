@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.0.10 (2017-08-30)
+
+* Run build task before publishing to npm
+
 ## 1.0.9 (2017-01-25)
 
 * Disable restricted input in the Samsung Browser
