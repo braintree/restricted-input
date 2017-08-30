@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 1.2.6 (2017-08-31)
+
+* Add prebublish script to build file before publishing
+
 ## 1.2.5 (2017-07-07)
 
 * Update browser-detection to latest major version
