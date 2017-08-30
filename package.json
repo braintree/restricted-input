@@ -31,7 +31,8 @@
     "test:unit": "karma start config/karma.js --single-run",
     "test:integration": ". ./.env && bundle exec rake sauce:spec test_files=spec",
     "test:all": "npm run test && npm run test:integration",
-    "publish:demo": "./publish-gh-pages.sh"
+    "publish:demo": "./publish-gh-pages.sh",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "browserify": "13.0.1",
