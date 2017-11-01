@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+* Fix bug where iOS inputs would not paste correctly
+
 ## 1.2.6 (2017-08-31)
 
 * Add prebublish script to build file before publishing
