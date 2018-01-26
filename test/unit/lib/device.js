@@ -37,19 +37,30 @@ var AGENTS = {
   pcSafari5_1: 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50',
   samsungAndroidBrowserWebview: 'Mozilla/5.0 (Linux; U; Android 4.2.2; en-us; Samsung Galaxy Note 2 - 4.2.2 - API 17 - 720x1280 Build/JDQ39E) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30',
   samsungAndroidChrome: 'Mozilla/5.0 (Linux; Android 4.2.2; Samsung Galaxy Note 2 - 4.2.2 - API 17 - 720x1280 Build/JDQ39E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.91 Mobile Safari/537.36',
-  samsungAndroidBrowser2_1: 'Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG SPH-L720T Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36'
+  samsungAndroidBrowser2_1: 'Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG SPH-L720T Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36',
+  samsungAndroidBrowserSPHL720T: 'Mozilla/5.0 (Linux; Android 5.0.1; SAMSUNG SPH-L720T Build/LRX22C) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36'
 };
 
 describe('device', function () {
   describe('isAndroidChrome()', function () {
     it('returns true if user agent is Chrome for Android', function () {
       expect(device.isAndroidChrome(AGENTS.androidPhoneChrome)).to.equal(true);
+      expect(device.isAndroidChrome(AGENTS.samsungAndroidChrome)).to.equal(true);
     });
 
     it('returns false for Chrome desktop', function () {
       expect(device.isAndroidChrome(AGENTS.pcChrome_27)).to.equal(false);
       expect(device.isAndroidChrome(AGENTS.pcChrome_41)).to.equal(false);
       expect(device.isAndroidChrome(AGENTS.iPhoneChrome)).to.equal(false);
+    });
+
+    it('returns false for Samsung browsers', function () {
+      expect(device.isAndroidChrome(AGENTS.pcChrome_27)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.pcChrome_41)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.iPhoneChrome)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.samsungAndroidBrowserWebview)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.samsungAndroidBrowser2_1)).to.equal(false);
+      expect(device.isAndroidChrome(AGENTS.samsungAndroidBrowserSPHL720T)).to.equal(false);
     });
   });
 
@@ -129,6 +140,7 @@ describe('device', function () {
       expect(device.isAndroid(AGENTS.samsungAndroidBrowserWebview)).to.equal(true);
       expect(device.isAndroid(AGENTS.samsungAndroidChrome)).to.equal(true);
       expect(device.isAndroid(AGENTS.samsungAndroidBrowser2_1)).to.equal(true);
+      expect(device.isAndroid(AGENTS.samsungAndroidBrowserSPHL720T)).to.equal(true);
     });
 
     it('returns false when not an Android Device', function () {
