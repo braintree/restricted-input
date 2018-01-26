@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+* Drop formatting for Android devices not using Google Chrome
+
 ## 1.2.7 (2017-11-01)
 
 * Fix bug where iOS inputs would not paste correctly
