@@ -94,10 +94,11 @@ describe('RestrictedInput', function () {
       expect(ri.strategy).to.be.an.instanceof(IE9Strategy);
     });
 
-    it('uses NoopStrategy for Samsung browser', function () {
+    it('uses NoopStrategy for browsers that do not support formatting', function () {
       var ri;
 
-      global.sandbox.stub(device, 'isSamsungBrowser').returns(true);
+      global.sandbox.stub(device, 'isAndroid').returns(true);
+      global.sandbox.stub(device, 'isAndroidChrome').returns(false);
 
       ri = new RestrictedInput({
         element: document.createElement('input'),
@@ -140,14 +141,22 @@ describe('RestrictedInput', function () {
   });
 
   describe('supportsFormatting', function () {
-    it('returns false if device is a samsung browser', function () {
-      global.sandbox.stub(device, 'isSamsungBrowser').returns(true);
+    it('returns false if device is an Android phone not using Google Chrome', function () {
+      global.sandbox.stub(device, 'isAndroid').returns(true);
+      global.sandbox.stub(device, 'isAndroidChrome').returns(false);
 
       expect(RestrictedInput.supportsFormatting()).to.equal(false);
     });
 
-    it('returns true if device is not a Samsung browser', function () {
-      global.sandbox.stub(device, 'isSamsungBrowser').returns(false);
+    it('returns true if device is not a an Android Device', function () {
+      global.sandbox.stub(device, 'isAndroid').returns(false);
+
+      expect(RestrictedInput.supportsFormatting()).to.equal(true);
+    });
+
+    it('returns true if device is an Android Device running Google Chrome', function () {
+      global.sandbox.stub(device, 'isAndroid').returns(true);
+      global.sandbox.stub(device, 'isAndroidChrome').returns(true);
 
       expect(RestrictedInput.supportsFormatting()).to.equal(true);
     });
