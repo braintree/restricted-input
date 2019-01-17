@@ -6,7 +6,7 @@ before_install:
   PATH=`echo $PATH | sed "s/\.\/node_modules\/\.bin//g"`;
   export PATH=$PATH:./node_modules/.bin;
   touch .env;
-  if [ $IS_INTEGRATION_TEST ]; then rvm install ruby-2.3.0 --binary && rvm use ruby-2.3.0 && bundle install; else echo "Not an integration test. Skipping Ruby setup"; fi
+  if [ $IS_INTEGRATION_TEST ]; then rvm install ruby-2.4.3 --binary && rvm use ruby-2.4.3 && bundle install; else echo "Not an integration test. Skipping Ruby setup"; fi
 script: npm run $TEST
 addons:
   sauce_connect: true
