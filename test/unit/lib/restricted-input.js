@@ -42,6 +42,20 @@ describe('RestrictedInput', function () {
       expect(ri.strategy).to.not.be.an.instanceof(AndroidChromeStrategy);
     });
 
+    it('isFormatted has ben `true` after instance', function () {
+      var element = document.createElement('input');
+      var ri;
+
+      element.value = '41111111';
+      ri = new RestrictedInput({
+        element: element,
+        pattern: '{{9999}} {{9999}}'
+      });
+
+      expect(ri.strategy.inputElement.value).to.equal('4111 1111');
+      expect(ri.strategy.isFormatted).to.equal(true);
+    });
+
     it('uses IosStrategy for ios devices', function () {
       var ri;
 
