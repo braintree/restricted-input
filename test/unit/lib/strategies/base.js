@@ -9,7 +9,7 @@ describe('Base Strategy', function () {
         value: 'input value',
         addEventListener: global.sandbox.stub()
       },
-      pattern: '{{9}}'
+      pattern: '{{CCCCC}} {{CCCCC}}'
     };
   });
 
@@ -27,9 +27,8 @@ describe('Base Strategy', function () {
     it('returns the value if already unformatted', function () {
       var strategy = new BaseStrategy(this.options);
 
-      strategy.isFormatted = false;
-
-      expect(strategy.getUnformattedValue()).to.equal('input value');
+      expect(strategy.inputElement.value).to.equal('input value');
+      expect(strategy.getUnformattedValue()).to.equal('inputvalue');
     });
 
     it('returns the unformatted value if formatted', function () {
