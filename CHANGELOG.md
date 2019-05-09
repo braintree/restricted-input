@@ -1,5 +1,11 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+_Breaking Changes_
+
+* Inputs initialize in foramtted state
+
 ## 1.2.7 (2017-11-01)
 
 * Fix bug where iOS inputs would not paste correctly
