@@ -166,6 +166,11 @@ describe 'Restricted Input' do
       expect(input['data-selection-start']).to eql('5')
       expect(input['data-selection-end']).to eql('5')
     end
+
+    it 'pre-formats on initialization' do
+      input = find '#prefilled-credit-card-number'
+      expect(input.value).to eql('4111 1111 1111 1111')
+    end
   end
 
   describe 'for amex' do
