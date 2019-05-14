@@ -59,32 +59,4 @@ task :test => [
   :mac_mojave_safari
 ]
 
-#
-# Always set a Default Task
-#
-task :default do
-  Rake::Task[:windows_10_chrome].execute
-end
-
-#
-# For Running Sauce Demo
-# This runs multiple platforms at the same time, which isn't considered best practice,
-# but is useful for demonstrating Sauce Labs features
-#
-
-@success = true
-
-PLATFORMS = %w[windows_10_edge mac_sierra_chrome windows_7_ff windows_8_ie mac_mojave_safari].freeze
-
-PLATFORMS.each do |platform|
-  task "#{platform}_demo" do
-    ENV['PLATFORM'] = platform
-    ENV['PARALLEL_SPLIT_TEST_PROCESSES'] = '2'
-    begin
-      @result = system 'parallel_split_test spec'
-    ensure
-      @success &= @result
-    end
-  end
-end
-
+task :default => [:test]
