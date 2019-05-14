@@ -32,7 +32,8 @@
     "test:integration": ". ./.env && bundle exec rake sauce:spec test_files=spec",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "postpublish": "npm run publish:demo"
   },
   "dependencies": {
     "@braintree/browser-detection": "^1.5.0"
