@@ -1,7 +1,9 @@
 language: node_js
 before_install:
   touch .env;
-  if [ $IS_INTEGRATION_TEST ]; then rvm install ruby-2.4.3 --binary && rvm use ruby-2.4.3 && bundle install && npm run sauceconnect & npm run development; else echo "Not an integration test. Skipping Ruby setup"; fi
+  if [ $IS_INTEGRATION_TEST ]; then rvm install ruby-2.4.3 --binary && rvm use ruby-2.4.3 && bundle install; else echo "Not an integration test. Skipping Ruby setup"; fi
+before_script:
+  if [ $IS_INTEGRATION_TEST ]; then npm run sauceconnect & npm run development; else echo "Not an integration test. Skipping app setup"; fi
 script: npm run $TEST
 addons:
   sauce_connect: true
