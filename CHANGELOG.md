@@ -2,9 +2,11 @@
 
 ## unreleased
 
+* Fix bug in iOS Chrome where autofill may not format correctly
+
 _Breaking Changes_
 
-* Inputs initialize in foramtted state if input has a preset value
+* Inputs initialize in formatted state if input has a preset value
 
 ## 1.2.7 (2017-11-01)
 
