@@ -7,11 +7,9 @@ require 'sauce_whisk'
 
 Dotenv.load
 
-HOSTNAME = `hostname`.chomp
 PORT = ENV['PORT'] || 3099
 
 Capybara.default_driver = :selenium
-Capybara.app_host = "https://#{HOSTNAME}:#{PORT}"
 Capybara.default_max_wait_time = 20
 
 SauceWhisk.data_center = :US_WEST
@@ -30,6 +28,7 @@ RSpec.configure do |config|
 
       caps = Selenium::WebDriver::Remote::Capabilities.send(opt.delete(:browser_name).to_sym, opt)
 
+      caps['tunnel-identifier'] = ENV['TRAVIS_JOB_NUMBER'] if ENV['TRAVIS_JOB_NUMBER']
       url = 'https://ondemand.saucelabs.com:443/wd/hub'
 
       Capybara::Selenium::Driver.new(app, browser: :remote,
