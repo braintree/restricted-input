@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.RestrictedInput = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.RestrictedInput = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -9,46 +9,52 @@ module.exports = {
 };
 
 },{}],2:[function(require,module,exports){
+(function (global){
 'use strict';
 
-var UA = navigator.userAgent;
+var UA = global.navigator && global.navigator.userAgent;
 
-var ANDROID_REGEX = /android/i;
-var CHROME_REGEX = /Chrome/;
-var IE9_REGEX = /MSIE 9/;
+var isAndroid = require('@braintree/browser-detection/is-android');
+var isChrome = require('@braintree/browser-detection/is-chrome');
+var isIos = require('@braintree/browser-detection/is-ios');
+var isIE9 = require('@braintree/browser-detection/is-ie9');
 
-function _isAndroid(ua) {
-  return ANDROID_REGEX.test(ua || UA);
+// Old Android Webviews used specific versions of Chrome with 0.0.0 as their version suffix
+// https://developer.chrome.com/multidevice/user-agent#webview_user_agent
+var KITKAT_WEBVIEW_REGEX = /Version\/\d\.\d* Chrome\/\d*\.0\.0\.0/;
+
+function _isOldSamsungBrowserOrSamsungWebview(ua) {
+  return !isChrome(ua) && ua.indexOf('Samsung') > -1;
 }
 
-function _isChrome(ua) {
-  return CHROME_REGEX.test(ua || UA);
-}
+function isKitKatWebview(uaArg) {
+  var ua = uaArg || UA;
 
-function isIE9(ua) {
-  ua = ua || UA;
-
-  return IE9_REGEX.test(ua);
+  return isAndroid(ua) && KITKAT_WEBVIEW_REGEX.test(ua);
 }
 
 function isAndroidChrome(uaArg) {
   var ua = uaArg || UA;
 
-  return _isAndroid(ua) && _isChrome(ua);
+  return isAndroid(ua) && isChrome(ua);
 }
 
-function isIos(ua) {
+function isSamsungBrowser(ua) {
   ua = ua || UA;
-  return /iPhone|iPod|iPad/.test(ua);
+
+  return /SamsungBrowser/.test(ua) || _isOldSamsungBrowserOrSamsungWebview(ua);
 }
 
 module.exports = {
   isIE9: isIE9,
   isAndroidChrome: isAndroidChrome,
-  isIos: isIos
+  isIos: isIos,
+  isKitKatWebview: isKitKatWebview,
+  isSamsungBrowser: isSamsungBrowser
 };
 
-},{}],3:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"@braintree/browser-detection/is-android":18,"@braintree/browser-detection/is-chrome":19,"@braintree/browser-detection/is-ie9":21,"@braintree/browser-detection/is-ios":22}],3:[function(require,module,exports){
 'use strict';
 
 var parsePattern = require('./parse-pattern');
@@ -350,12 +356,15 @@ module.exports = function (event) {
 'use strict';
 
 var device = require('./device');
+var supportsInputFormatting = require('../supports-input-formatting');
 var constants = require('./constants');
 var isValidElement = require('./is-valid-element');
 var IosStrategy = require('./strategies/ios');
 var AndroidChromeStrategy = require('./strategies/android-chrome');
+var KitKatChromiumBasedWebViewStrategy = require('./strategies/kitkat-chromium-based-webview');
 var IE9Strategy = require('./strategies/ie9');
 var BaseStrategy = require('./strategies/base');
+var NoopStrategy = require('./strategies/noop');
 
 /**
  * Instances of this class can be used to modify the formatter for an input
@@ -375,8 +384,12 @@ function RestrictedInput(options) {
     throw new Error(constants.errors.PATTERN_MISSING);
   }
 
-  if (device.isIos()) {
+  if (!RestrictedInput.supportsFormatting()) {
+    this.strategy = new NoopStrategy(options);
+  } else if (device.isIos()) {
     this.strategy = new IosStrategy(options);
+  } else if (device.isKitKatWebview()) {
+    this.strategy = new KitKatChromiumBasedWebViewStrategy(options);
   } else if (device.isAndroidChrome()) {
     this.strategy = new AndroidChromeStrategy(options);
   } else if (device.isIE9()) {
@@ -403,9 +416,13 @@ RestrictedInput.prototype.setPattern = function (pattern) {
   this.strategy.setPattern(pattern);
 };
 
+RestrictedInput.supportsFormatting = function () {
+  return supportsInputFormatting();
+};
+
 module.exports = RestrictedInput;
 
-},{"./constants":1,"./device":2,"./is-valid-element":8,"./strategies/android-chrome":11,"./strategies/base":12,"./strategies/ie9":13,"./strategies/ios":14}],11:[function(require,module,exports){
+},{"../supports-input-formatting":24,"./constants":1,"./device":2,"./is-valid-element":8,"./strategies/android-chrome":11,"./strategies/base":12,"./strategies/ie9":13,"./strategies/ios":14,"./strategies/kitkat-chromium-based-webview":15,"./strategies/noop":16}],11:[function(require,module,exports){
 'use strict';
 
 var keyCannotMutateValue = require('../key-cannot-mutate-value');
@@ -441,7 +458,7 @@ AndroidChromeStrategy.prototype._attachListeners = function () {
     self._reformatInput(event);
   });
 
-  self.inputElement.addEventListener('paste', this.pasteEventHandler.bind(this));
+  self.inputElement.addEventListener('paste', this._pasteEventHandler.bind(this));
 };
 
 AndroidChromeStrategy.prototype._prePasteEventHandler = function () {
@@ -499,6 +516,17 @@ function BaseStrategy(options) {
   this.formatter = new Formatter(options.pattern);
 
   this._attachListeners();
+
+  if (this.inputElement.value) {
+    this._reformatInput();
+  }
+}
+
+function isSimulatedEvent(event) {
+  // 1Password sets input.value then fires keyboard events. Dependent on browser
+  // here might be falsy values (key = '', keyCode = 0) or these keys might be omitted
+  // Chrome autofill inserts keys all at once and fires a single event without key info
+  return !event.key && !event.keyCode;
 }
 
 BaseStrategy.prototype.getUnformattedValue = function (forceUnformat) {
@@ -526,12 +554,19 @@ BaseStrategy.prototype._attachListeners = function () {
   var self = this;
 
   self.inputElement.addEventListener('keydown', function (event) {
+    if (isSimulatedEvent(event)) {
+      self.isFormatted = false;
+    }
     if (keyCannotMutateValue(event)) { return; }
     if (self._isDeletion(event)) {
       self._unformatInput(event);
     }
   });
   self.inputElement.addEventListener('keypress', function (event) {
+    if (isSimulatedEvent(event)) {
+      self.isFormatted = false;
+    }
+
     if (keyCannotMutateValue(event)) { return; }
     self._unformatInput(event);
   });
@@ -539,13 +574,16 @@ BaseStrategy.prototype._attachListeners = function () {
     self._reformatInput(event);
   });
   self.inputElement.addEventListener('input', function (event) {
-    // Safari AutoFill fires CustomEvents -- mark the input as unformatted without actually unformatting the current value
-    if (event instanceof CustomEvent) {
+    // Safari AutoFill fires CustomEvents
+    // LastPass sends an `isTrusted: false` property
+    // Since the input is changed all at once, set isFormatted
+    // to false so that reformatting actually occurs
+    if (event instanceof CustomEvent || !event.isTrusted) {
       self.isFormatted = false;
     }
     self._reformatInput(event);
   });
-  self.inputElement.addEventListener('paste', this.pasteEventHandler.bind(this));
+  self.inputElement.addEventListener('paste', this._pasteEventHandler.bind(this));
 };
 
 BaseStrategy.prototype._isDeletion = function (event) {
@@ -604,7 +642,7 @@ BaseStrategy.prototype._postPasteEventHandler = function () {
   this._reformatAfterPaste();
 };
 
-BaseStrategy.prototype.pasteEventHandler = function (event) {
+BaseStrategy.prototype._pasteEventHandler = function (event) {
   var selection, splicedEntry;
   var entryValue = '';
 
@@ -650,7 +688,7 @@ BaseStrategy.prototype._getStateToFormat = function () {
   if (this._stateToFormat) {
     stateToFormat = this._stateToFormat;
     delete this._stateToFormat;
-  } else if (selection.start === input.value.length) {
+  } else if (selection.start === input.value.length && this.isFormatted) {
     stateToFormat = this.formatter.unformat(stateToFormat);
   }
 
@@ -682,7 +720,7 @@ IE9Strategy.prototype.getUnformattedValue = function () {
 IE9Strategy.prototype._attachListeners = function () {
   this.inputElement.addEventListener('keydown', this._keydownListener.bind(this));
   this.inputElement.addEventListener('focus', this._format.bind(this));
-  this.inputElement.addEventListener('paste', this.pasteEventHandler.bind(this));
+  this.inputElement.addEventListener('paste', this._pasteEventHandler.bind(this));
 };
 
 IE9Strategy.prototype._format = function () {
@@ -796,6 +834,7 @@ IosStrategy.prototype._attachListeners = function () {
     }
   }.bind(this));
   this.inputElement.addEventListener('focus', this._formatListener.bind(this));
+  this.inputElement.addEventListener('paste', this._pasteEventHandler.bind(this));
 };
 
 // When deleting the last character on iOS, the cursor
@@ -834,7 +873,122 @@ IosStrategy.prototype._keydownListener = function (event) {
 module.exports = IosStrategy;
 
 },{"../input-selection":5,"../key-cannot-mutate-value":9,"./base":12}],15:[function(require,module,exports){
+'use strict';
+
+// Android Devices on KitKat use Chromium based webviews. For some reason,
+// the value of the inputs are not accessible in the event loop where the
+// key event listeners are called. This causes formatting to get stuck
+// on permacharacters. By putting them in setTimeouts, this fixes the
+// problem. This causes other problems in non-webviews, so we give it
+// its own strategy.
+
+var AndroidChromeStrategy = require('./android-chrome');
+
+function KitKatChromiumBasedWebViewStrategy(options) {
+  AndroidChromeStrategy.call(this, options);
+}
+
+KitKatChromiumBasedWebViewStrategy.prototype = Object.create(AndroidChromeStrategy.prototype);
+KitKatChromiumBasedWebViewStrategy.prototype.constructor = KitKatChromiumBasedWebViewStrategy;
+
+KitKatChromiumBasedWebViewStrategy.prototype._reformatInput = function () {
+  setTimeout(function () {
+    AndroidChromeStrategy.prototype._reformatInput.call(this);
+  }.bind(this), 0);
+};
+
+KitKatChromiumBasedWebViewStrategy.prototype._unformatInput = function () {
+  setTimeout(function () {
+    AndroidChromeStrategy.prototype._unformatInput.call(this);
+  }.bind(this), 0);
+};
+
+module.exports = KitKatChromiumBasedWebViewStrategy;
+
+},{"./android-chrome":11}],16:[function(require,module,exports){
+'use strict';
+
+function NoopStrategy(options) {
+  this.inputElement = options.element;
+}
+
+NoopStrategy.prototype.getUnformattedValue = function () {
+  return this.inputElement.value;
+};
+
+NoopStrategy.prototype.setPattern = function () {};
+
+module.exports = NoopStrategy;
+
+},{}],17:[function(require,module,exports){
 module.exports = require('./lib/restricted-input');
 
-},{"./lib/restricted-input":10}]},{},[15])(15)
+},{"./lib/restricted-input":10}],18:[function(require,module,exports){
+(function (global){
+'use strict';
+
+module.exports = function isAndroid(ua) {
+  ua = ua || global.navigator.userAgent;
+  return /Android/.test(ua);
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],19:[function(require,module,exports){
+'use strict';
+
+var isEdge = require('./is-edge');
+var isSamsung = require('./is-samsung');
+
+module.exports = function isChrome(ua) {
+  ua = ua || navigator.userAgent;
+  return (ua.indexOf('Chrome') !== -1 || ua.indexOf('CriOS') !== -1) && !isEdge(ua) && !isSamsung(ua);
+};
+
+},{"./is-edge":20,"./is-samsung":23}],20:[function(require,module,exports){
+'use strict';
+
+module.exports = function isEdge(ua) {
+  ua = ua || navigator.userAgent;
+  return ua.indexOf('Edge/') !== -1;
+};
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+module.exports = function isIe9(ua) {
+  ua = ua || navigator.userAgent;
+  return ua.indexOf('MSIE 9') !== -1;
+};
+
+},{}],22:[function(require,module,exports){
+(function (global){
+'use strict';
+
+module.exports = function isIos(ua) {
+  ua = ua || global.navigator.userAgent;
+  return /iPhone|iPod|iPad/i.test(ua);
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],23:[function(require,module,exports){
+(function (global){
+'use strict';
+
+module.exports = function isSamsungBrowser(ua) {
+  ua = ua || global.navigator.userAgent;
+  return /SamsungBrowser/i.test(ua);
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],24:[function(require,module,exports){
+'use strict';
+
+var device = require('./lib/device');
+
+module.exports = function () {
+  // Digits get dropped in samsung browser
+  return !device.isSamsungBrowser();
+};
+
+},{"./lib/device":2}]},{},[17])(17)
 });
