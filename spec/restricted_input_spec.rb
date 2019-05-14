@@ -1,5 +1,7 @@
-HOSTNAME = `hostname`.chomp
-PORT = ENV['PORT'] || 3099
+require 'spec_helper'
+
+HOSTNAME ||= `hostname`.chomp
+PORT ||= ENV['PORT'] || 3099
 
 describe 'Restricted Input' do
   before :each do
