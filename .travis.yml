@@ -14,8 +14,8 @@ notifications:
     on_failure: always
 env:
   matrix:
-    - TEST="lint"
-    - TEST="test:unit"
+    # - TEST="lint"
+    # - TEST="test:unit"
     - TEST="test:integration" PLATFORM="desktop" IS_INTEGRATION_TEST=true
     # iOS tests on Travis are flaky. Run these manually before merging something in
     # - TEST="test:integration" PLATFORM="ios" IS_INTEGRATION_TEST=true
