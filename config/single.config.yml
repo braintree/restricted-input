@@ -1,0 +1,10 @@
+server: "hub-cloud.browserstack.com"
+
+common_caps:
+  "browserstack.local": true
+  "build": "rspec-browserstack"
+  "browserstack.debug": true
+
+browser_caps:
+  -
+    "browser": "chrome"
