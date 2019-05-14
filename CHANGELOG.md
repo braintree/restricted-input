@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## unreleased
+## 2.0.0
 
 * Fix bug in iOS Chrome where autofill may not format correctly
 
