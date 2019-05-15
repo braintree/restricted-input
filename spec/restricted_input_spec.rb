@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-HOSTNAME = `hostname`.chomp
+HOSTNAME = ENV['HOSTNAME'] || `hostname`.chomp
 PORT ||= ENV['PORT'] || 3099
 
 describe 'Restricted Input' do
   before :each do
-    visit "http://localhost:#{PORT}"
+    visit "http://jsdk.bt.local:#{PORT}"
   end
 
   # describe 'for number' do
