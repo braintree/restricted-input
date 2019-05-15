@@ -31,7 +31,7 @@
     "test": "npm run lint && npm run test:unit",
     "test:watch": "karma start config/karma.js",
     "test:unit": "karma start config/karma.js --single-run",
-    "test:integration": "bundle exec rake windows_10_chrome",
+    "test:integration": "bundle exec rake test",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
     "prepublish": "npm run build",
