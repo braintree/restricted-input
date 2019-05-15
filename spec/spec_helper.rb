@@ -3,25 +3,67 @@ require 'capybara'
 require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'rspec'
+require "parallel_tests"
+require "rspec/retry"
 require 'sauce_whisk'
 
 Dotenv.load
 
 PORT = ENV['PORT'] || 3099
+SAUCE_CONNECT_PORT = 4445
 
 Capybara.default_driver = :selenium
 Capybara.default_max_wait_time = 20
 
 SauceWhisk.data_center = :US_WEST
 
+$pids = []
+
+def spawn_until_port(cmd, port)
+  `lsof -i :#{port}`
+  if $? != 0
+    puts "[STARTING] #{cmd} on #{port}"
+    $pids.push spawn(cmd, :out => "/dev/null")
+    wait_port(port)
+  end
+  puts "[RUNNING] #{cmd} on #{port}"
+end
+
+def wait_port(port)
+  loop do
+    `lsof -i :#{port}`
+    sleep 2
+    break if $? == 0
+  end
+end
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include Capybara::RSpecMatchers
 
-  # config.verbose_retry = true
-  # config.around(:each) do |c|
-  #   c.run_with_retry(retry: 2)
-  # end
+  config.verbose_retry = true
+  config.around(:each) do |c|
+    c.run_with_retry(retry: 2)
+  end
+
+  if ParallelTests.first_process?
+    config.before(:suite) do
+      spawn_until_port("npm run development", PORT)
+      spawn_until_port("npm run sauceconnect", SAUCE_CONNECT_PORT)
+    end
+
+    config.after(:suite) do
+      ParallelTests.wait_for_other_processes_to_finish
+      $pids.each do |pid|
+        Process.kill("INT", pid)
+      end
+    end
+  else
+    config.before(:suite) do
+      wait_port PORT
+      wait_port SAUCE_CONNECT_PORT
+    end
+  end
+
   config.before(:each) do |test|
     Capybara.register_driver :sauce do |app|
       opt = platform(test.full_description)

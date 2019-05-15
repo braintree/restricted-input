@@ -29,9 +29,8 @@ GEM
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
     parallel (1.17.0)
-    parallel_split_test (0.7.0)
-      parallel (>= 0.5.13)
-      rspec (>= 3.1.0)
+    parallel_tests (2.29.0)
+      parallel
     public_suffix (3.0.3)
     rack (2.0.7)
     rack-test (1.1.0)
@@ -54,6 +53,8 @@ GEM
     rspec-mocks (3.8.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
+    rspec-retry (0.6.1)
+      rspec-core (> 3.3)
     rspec-support (3.8.0)
     rubyzip (1.2.2)
     sauce_whisk (0.2.1)
@@ -74,9 +75,10 @@ PLATFORMS
 DEPENDENCIES
   capybara (>= 3.16.2)
   dotenv
-  parallel_split_test
+  parallel_tests
   rake
   rspec
+  rspec-retry
   sauce_whisk
   selenium-webdriver
 
