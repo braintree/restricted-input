@@ -26,20 +26,20 @@ task :windows_10_ff do
 end
 
 desc 'Run tests using Windows 8 with Internet Explorer 9'
-task :windows_7_ie9 do
-  ENV['PLATFORM'] = 'windows_8_ie10'
+task :windows_ie9 do
+  ENV['PLATFORM'] = 'windows_ie9'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
 desc 'Run tests using Windows 8 with Internet Explorer 10'
-task :windows_8_ie10 do
-  ENV['PLATFORM'] = 'windows_8_ie10'
+task :windows_ie10 do
+  ENV['PLATFORM'] = 'windows_ie10'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
 desc 'Run tests using Windows 10 with Internet Explorer 11'
-task :windows_10_ie11 do
-  ENV['PLATFORM'] = 'windows_10_ie11'
+task :windows_ie11 do
+  ENV['PLATFORM'] = 'windows_ie11'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
@@ -51,9 +51,9 @@ end
 
 desc "Run all internet explorer tests"
 task :ie => [
-  :windows_7_ie9,
-  :windows_8_ie10,
-  :windows_10_ie11
+  :windows_ie9,
+  :windows_ie10,
+  :windows_ie11
 ]
 
 desc "Run all browser tests"

@@ -93,23 +93,23 @@ RSpec.configure do |config|
     #   {platform_name: 'Windows 10',
     #    browser_name: 'edge',
     #    browser_version: '18.17763'}.merge(sauce_w3c(name))
-    when 'windows_7_ie9'
+    when 'windows_ie9'
       {
         platform: 'Windows 7',
         browser_name: 'ie',
-        version: '9.0'
+        browser_version: '9.0'
       }.merge(sauce_w3c(name))
-    when 'windows_8_ie10'
+    when 'windows_ie10'
       {
         platform: 'Windows 8.1',
         browser_name: 'ie',
-        version: '10.0'
+        browser_version: '10.0'
       }.merge(sauce_w3c(name))
-    when 'windows_10_ie11'
+    when 'windows_ie11'
       {
         platform: 'Windows 10',
         browser_name: 'ie',
-        version: '11.0'
+        browser_version: '11.0'
       }.merge(sauce_w3c(name))
     when 'windows_10_chrome'
       # This is for running Chrome with w3c which is not yet the default
