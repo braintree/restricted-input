@@ -5,6 +5,7 @@ before_install:
 script: npm run $TEST
 addons:
   sauce_connect: true
+  no_ssl_bump_domains: true
 notifications:
   email: false
   slack:
