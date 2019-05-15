@@ -14,8 +14,8 @@ notifications:
     on_failure: always
 env:
   matrix:
-    - TEST="lint"
-    - TEST="test:unit"
+    # - TEST="lint"
+    # - TEST="test:unit"
     - TEST="test:integration" IS_INTEGRATION_TEST=true
   global:
   - secure: SvjZyrdqFJBWCgduVObookkrTLIer/OF4yILB5uy5DuzDT52vmUGLKWj1Zjevy6PKdoZ3QPdrbrEn8tIRuiiTCbBTi9X3X8cQjVHN1Jxq1w/TIUiCxg1Wt+M+FnS2EamLMo2BFEsCM5qXrLwUd23uLXxMRJKDikBvaq1Lgib+S3CDhROORgEtnZeXXd328NiUNriDadhnC7kTACZ16Urt9ZrTJrXwQLujNJlO/zVxB0dBTV8Hzjp/Qce/D3XFg943xeHj7UuffF9ntcJqGEImY226VVWwk3D78j9zpfOXCIBJD/h/uls77eZzSi/9o2voVqfWHGuuKoRfVC8772kuWoe95Fm8ntFUbEWutDnfhs7aMqSW4rYMbFUSMqf6qBGWse07clk6zx0cZpsC1vscf3QSDQu/joj8ohX6+1Qn4gd+1/Rp3WjLBdWUcTfcODLspahwXZ5xnkzU04m46eO23E++U6WYD22xJnHZVsWHM+aGcDRQYFg07mnzOQwSUs66qXpMLCiL4vFiZ4tTehzTD3iMNF+3cr8WDlgFUH9rNBJjzYJeCOycdxwQg9f7orh/Iwm8TdcWQAxpXaWdfa6KidY/4fDi7gCCoxePjuDHnDXt8e+xlMYIM3fy+xfHb7GWCyGnHdQRxLEPFSTPnTDyWVcg7CSbGl9YmqMRa7SMus=
