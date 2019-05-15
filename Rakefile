@@ -13,27 +13,33 @@ ENV['SAUCE_START_TIME'] = "Restricted Input: Local-#{Time.now.to_i}"
 # setting the 2 ENV variables and executing this command
 #
 
-desc 'Run tests using Windows 10 with Edge'
-task :windows_10_edge do
-  ENV['PLATFORM'] = 'windows_10_edge'
-  system 'rspec spec/restricted_input_spec.rb'
-end
-
 desc 'Run tests using Mac Sierra with Chrome'
 task :windows_10_chrome do
   ENV['PLATFORM'] = 'windows_10_chrome'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
-desc 'Run tests using Windows 7 with Firefox'
-task :windows_7_ff do
-  ENV['PLATFORM'] = 'windows_7_ff'
+desc 'Run tests using Windows 10 with Firefox'
+task :windows_10_ff do
+  ENV['PLATFORM'] = 'windows_10_ff'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
-desc 'Run tests using Windows 8 with Internet Explorer'
-task :windows_8_ie do
-  ENV['PLATFORM'] = 'windows_8_ie'
+desc 'Run tests using Windows 8 with Internet Explorer 9'
+task :windows_7_ie9 do
+  ENV['PLATFORM'] = 'windows_8_ie10'
+  system 'rspec spec/restricted_input_spec.rb'
+end
+
+desc 'Run tests using Windows 8 with Internet Explorer 10'
+task :windows_8_ie10 do
+  ENV['PLATFORM'] = 'windows_8_ie10'
+  system 'rspec spec/restricted_input_spec.rb'
+end
+
+desc 'Run tests using Windows 10 with Internet Explorer 11'
+task :windows_10_ie11 do
+  ENV['PLATFORM'] = 'windows_10_ie11'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
@@ -43,11 +49,18 @@ task :mac_mojave_safari do
   system 'rspec spec/restricted_input_spec.rb'
 end
 
+desc "Run all internet explorer tests"
+task :ie => [
+  :windows_7_ie9,
+  :windows_8_ie10,
+  :windows_10_ie11
+]
+
+desc "Run all browser tests"
 task :test => [
-  :windows_10_edge,
+  :ie,
   :windows_10_chrome,
-  :windows_7_ff,
-  :windows_8_ie,
+  :windows_10_ff,
   :mac_mojave_safari
 ]
 

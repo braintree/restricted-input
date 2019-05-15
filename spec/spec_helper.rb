@@ -36,14 +36,15 @@ def wait_port(port)
     break if $? == 0
   end
 end
+
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include Capybara::RSpecMatchers
 
-  config.verbose_retry = true
-  config.around(:each) do |c|
-    c.run_with_retry(retry: 2)
-  end
+  # config.verbose_retry = true
+  # config.around(:each) do |c|
+  #   c.run_with_retry(retry: 2)
+  # end
 
   if ParallelTests.first_process?
     config.before(:suite) do
@@ -88,33 +89,53 @@ RSpec.configure do |config|
 
   def platform(name)
     case ENV['PLATFORM']
-    when 'windows_10_edge'
-      {platform_name: 'Windows 10',
-       browser_name: 'edge',
-       browser_version: '18.17763'}.merge(sauce_w3c(name))
-    when 'windows_8_ie'
-      {platform: 'Windows 8.1',
-       browser_name: 'ie',
-       version: '11.0'}.merge(sauce_w3c(name))
+    # when 'windows_10_edge'
+    #   {platform_name: 'Windows 10',
+    #    browser_name: 'edge',
+    #    browser_version: '18.17763'}.merge(sauce_w3c(name))
+    when 'windows_7_ie9'
+      {
+        platform: 'Windows 7',
+        browser_name: 'ie',
+        version: '9.0'
+      }.merge(sauce_w3c(name))
+    when 'windows_8_ie10'
+      {
+        platform: 'Windows 8.1',
+        browser_name: 'ie',
+        version: '10.0'
+      }.merge(sauce_w3c(name))
+    when 'windows_10_ie11'
+      {
+        platform: 'Windows 10',
+        browser_name: 'ie',
+        version: '11.0'
+      }.merge(sauce_w3c(name))
     when 'windows_10_chrome'
       # This is for running Chrome with w3c which is not yet the default
-      {platform_name: 'Windows 10',
-       browser_name: 'chrome',
-       "goog:chromeOptions": {w3c: true}, browser_version: '65.0'}.merge(sauce_w3c(name))
+      {
+        platform_name: 'Windows 10',
+        browser_name: 'chrome',
+        "goog:chromeOptions": {w3c: true},
+      }.merge(sauce_w3c(name))
     when 'mac_mojave_safari'
-      {platform_name: 'macOS 10.14',
-       browser_name: 'safari',
-       browser_version: '12.0'}.merge(sauce_w3c(name))
-    when 'windows_7_ff'
-      {platform_name: 'Windows 7',
-       browser_name: 'firefox',
-       browser_version: '60.0'}.merge(sauce_w3c(name))
+      {
+        platform_name: 'macOS 10.14',
+        browser_name: 'safari',
+      }.merge(sauce_w3c(name))
+    when 'windows_10_ff'
+      {
+        platform_name: 'Windows 10',
+        browser_name: 'firefox',
+      }.merge(sauce_w3c(name))
     else
       # Always specify a default;
       # this doesn't force Chrome to w3c
-      {platform: 'macOS 10.12',
-       browser_name: 'chrome',
-       version: '65.0'}.merge(sauce_oss(name))
+      {
+        platform: 'macOS 10.12',
+        browser_name: 'chrome',
+        version: '65.0'
+      }.merge(sauce_oss(name))
     end
   end
 
