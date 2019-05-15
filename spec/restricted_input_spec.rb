@@ -5,7 +5,7 @@ PORT ||= ENV['PORT'] || 3099
 
 describe 'Restricted Input' do
   before :each do
-    visit "http://bt.local:#{PORT}"
+    visit "http://localhost:#{PORT}"
   end
 
   # describe 'for number' do
