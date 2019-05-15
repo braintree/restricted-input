@@ -13,31 +13,31 @@ ENV['SAUCE_START_TIME'] = "Restricted Input: Local-#{Time.now.to_i}"
 # setting the 2 ENV variables and executing this command
 #
 
-desc 'Run tests in parallel within suite using Windows 10 with Edge'
+desc 'Run tests using Windows 10 with Edge'
 task :windows_10_edge do
   ENV['PLATFORM'] = 'windows_10_edge'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
-desc 'Run tests in parallel within suite using Mac Sierra with Chrome'
+desc 'Run tests using Mac Sierra with Chrome'
 task :windows_10_chrome do
   ENV['PLATFORM'] = 'windows_10_chrome'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
-desc 'Run tests in parallel within suite using Windows 7 with Firefox'
+desc 'Run tests using Windows 7 with Firefox'
 task :windows_7_ff do
   ENV['PLATFORM'] = 'windows_7_ff'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
-desc 'Run tests in parallel within suite using Windows 8 with Internet Explorer'
+desc 'Run tests using Windows 8 with Internet Explorer'
 task :windows_8_ie do
   ENV['PLATFORM'] = 'windows_8_ie'
   system 'rspec spec/restricted_input_spec.rb'
 end
 
-desc 'Run tests in parallel within suite using Mac Mojave with Safari'
+desc 'Run tests using Mac Mojave with Safari'
 task :mac_mojave_safari do
   ENV['PLATFORM'] = 'mac_mojave_safari'
   system 'rspec spec/restricted_input_spec.rb'
