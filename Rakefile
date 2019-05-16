@@ -56,6 +56,8 @@ task :ie => [
   :windows_ie11
 ]
 
+@build_success = true
+
 desc "Run all browser tests"
 multitask test: [
   # :windows_ie9,
@@ -71,8 +73,5 @@ multitask test: [
     @build_success &= @result
   end
 end
-
-
-@build_success = true
 
 task :default => [:test]
