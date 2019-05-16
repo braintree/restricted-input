@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+* Fix bug where input would be formatted when using `setPattern` even if input is empty
+
 ## 2.0.0
 
 * Fix bug in iOS Chrome where autofill may not format correctly

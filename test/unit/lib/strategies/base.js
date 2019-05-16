@@ -60,12 +60,21 @@ describe('Base Strategy', function () {
       expect(strategy.formatter).to.not.equal(oldFormatter);
     });
 
-    it('reformats input', function () {
+    it('reformats input if it is not empty', function () {
       var strategy = new BaseStrategy(this.options);
 
       strategy.setPattern('{{aa}}x-1{{aa}}');
 
       expect(strategy.inputElement.value).to.equal('inx-1pu');
+    });
+
+    it('does not reformat input if it is empty', function () {
+      var strategy = new BaseStrategy(this.options);
+
+      strategy.inputElement.value = '';
+      strategy.setPattern('{{aa}}x-1{{aa}}');
+
+      expect(strategy.inputElement.value).to.equal('');
     });
   });
 });
