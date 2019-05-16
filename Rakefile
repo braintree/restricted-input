@@ -58,8 +58,8 @@ task :ie => [
 
 desc "Run all browser tests"
 task :test => [
-  :ie,
-  :windows_10_chrome,
+  # :ie,
+  # :windows_10_chrome,
   :windows_10_ff,
   :mac_mojave_safari
 ]
