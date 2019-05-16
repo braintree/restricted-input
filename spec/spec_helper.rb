@@ -111,7 +111,6 @@ RSpec.configure do |config|
     }
   end
 
-  #
   # Note that this build name is specifically for Travis CI execution
   # Most CI tools have ENV variables that can be structured to provide useful build names
   def build_name
