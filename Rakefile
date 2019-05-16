@@ -7,7 +7,10 @@ require 'rspec/core/rake_task'
 #
 ENV['SAUCE_START_TIME'] = "Restricted Input: Local-#{Time.now.to_i}"
 
-@success = true
+PORT = ENV['PORT'] || 3099
+SAUCE_CONNECT_PORT = 4445
+
+@build_success = true
 
 PLATFORMS = {
   "windows_ie9" => "Windows 7 IE9",
@@ -18,6 +21,26 @@ PLATFORMS = {
   "mac_mojave_safari" => "Mac OS 10.14 Safari"
 }
 
+$pids = []
+
+def spawn_until_port(cmd, port)
+  `lsof -i :#{port}`
+  if $? != 0
+    puts "[STARTING] #{cmd} on #{port}"
+    $pids.push spawn(cmd, :out => "/dev/null")
+    wait_port(port)
+  end
+  puts "[RUNNING] #{cmd} on #{port}"
+end
+
+def wait_port(port)
+  loop do
+    `lsof -i :#{port}`
+    sleep 2
+    break if $? == 0
+  end
+end
+
 PLATFORMS.each do |platform_key, browser_name|
   desc "Run tests using #{browser_name}"
   task platform_key do
@@ -25,18 +48,35 @@ PLATFORMS.each do |platform_key, browser_name|
     begin
       @result = system 'rspec spec/restricted_input_spec.rb'
     ensure
-      @success &= @result
+      @build_success &= @result
     end
   end
 end
 
+desc "before"
+task "before" do
+  spawn_until_port("npm run development", PORT)
+  spawn_until_port("npm run sauceconnect", SAUCE_CONNECT_PORT)
+end
+
+desc "after"
+task "after" do
+  $pids.each do |pid|
+    Process.kill("INT", pid)
+  end
+end
+
 desc "Run all browser tests"
-multitask test: PLATFORMS.keys do
+multitask "all_browsers": PLATFORMS.keys do
   begin
     raise StandardError, 'Tests failed!' unless @build_success
   ensure
     @build_success &= @result
   end
+end
+
+task "test" => ["before", "all_browsers", "after"] do
+  system 'echo "done"'
 end
 
 task :default => [:test]

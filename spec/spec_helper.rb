@@ -17,27 +17,6 @@ Capybara.default_max_wait_time = 20
 
 SauceWhisk.data_center = :US_WEST
 
-$pids = []
-
-def spawn_until_port(cmd, port)
-  sleep 2
-  `lsof -i :#{port}`
-  if $? != 0
-    puts "[STARTING] #{cmd} on #{port}"
-    $pids.push spawn(cmd, :out => "/dev/null")
-    wait_port(port)
-  end
-  puts "[RUNNING] #{cmd} on #{port}"
-end
-
-def wait_port(port)
-  loop do
-    `lsof -i :#{port}`
-    sleep 2
-    break if $? == 0
-  end
-end
-
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include Capybara::RSpecMatchers
@@ -48,21 +27,8 @@ RSpec.configure do |config|
   end
 
   if ParallelTests.first_process?
-    config.before(:suite) do
-      spawn_until_port("npm run development", PORT)
-      spawn_until_port("npm run sauceconnect", SAUCE_CONNECT_PORT)
-    end
-
     config.after(:suite) do
       ParallelTests.wait_for_other_processes_to_finish
-      $pids.each do |pid|
-        Process.kill("INT", pid)
-      end
-    end
-  else
-    config.before(:suite) do
-      wait_port PORT
-      wait_port SAUCE_CONNECT_PORT
     end
   end
 
