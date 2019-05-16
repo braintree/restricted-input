@@ -53,14 +53,14 @@ PLATFORMS.each do |platform_key, browser_name|
   end
 end
 
-desc "before"
-task "before" do
+desc "Starts up demo app and sauceconnect process"
+task "setup_tests" do
   spawn_until_port("npm run development", PORT)
   spawn_until_port("npm run sauceconnect", SAUCE_CONNECT_PORT)
 end
 
-desc "after"
-task "after" do
+desc "Kills app and sauceconnect process"
+task "teardown_tests" do
   $pids.each do |pid|
     Process.kill("INT", pid)
   end
@@ -75,8 +75,6 @@ multitask "all_browsers": PLATFORMS.keys do
   end
 end
 
-task "test" => ["before", "all_browsers", "after"] do
-  system 'echo "done"'
-end
+task "test" => ["setup_tests", "all_browsers", "teardown_tests"]
 
 task :default => [:test]

@@ -9,9 +9,6 @@ require 'sauce_whisk'
 
 Dotenv.load
 
-PORT = ENV['PORT'] || 3099
-SAUCE_CONNECT_PORT = 4445
-
 Capybara.default_driver = :selenium
 Capybara.default_max_wait_time = 20
 
