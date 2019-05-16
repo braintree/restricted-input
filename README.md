@@ -46,7 +46,7 @@ First, [sign up for a free open source Sauce Labs account](https://saucelabs.com
 Copy the `.env.example` file to `.env`
 
 ```sh
-touch .env
+cp .env.example .env
 ```
 
 Fill in the SAUCE_USERNAME and SAUCE_ACCESS_KEY environmental variables with your credentials:
