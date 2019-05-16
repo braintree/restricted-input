@@ -57,11 +57,22 @@ task :ie => [
 ]
 
 desc "Run all browser tests"
-task :test => [
-  # :ie,
+multitask test: [
+  # :windows_ie9,
+  # :windows_ie10,
+  # :windows_ie11
   # :windows_10_chrome,
   :windows_10_ff,
   :mac_mojave_safari
-]
+] do
+  begin
+    raise StandardError, 'Tests failed!' unless @build_success
+  ensure
+    @build_success &= @result
+  end
+end
+
+
+@build_success = true
 
 task :default => [:test]
