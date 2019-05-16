@@ -87,6 +87,14 @@ RSpec.configure do |config|
     Capybara.current_session.quit
   end
 
+	def chrome(name)
+    {
+      platform_name: 'Windows 10',
+      browser_name: 'chrome',
+      "goog:chromeOptions": {w3c: true},
+    }.merge(sauce_w3c(name))
+  end
+
   def platform(name)
     case ENV['PLATFORM']
     # when 'windows_10_edge'
@@ -113,11 +121,7 @@ RSpec.configure do |config|
       }.merge(sauce_w3c(name))
     when 'windows_10_chrome'
       # This is for running Chrome with w3c which is not yet the default
-      {
-        platform_name: 'Windows 10',
-        browser_name: 'chrome',
-        "goog:chromeOptions": {w3c: true},
-      }.merge(sauce_w3c(name))
+      chrome(name)
     when 'mac_mojave_safari'
       {
         platform_name: 'macOS 10.14',
@@ -129,13 +133,8 @@ RSpec.configure do |config|
         browser_name: 'firefox',
       }.merge(sauce_w3c(name))
     else
-      # Always specify a default;
-      # this doesn't force Chrome to w3c
-      {
-        platform: 'macOS 10.12',
-        browser_name: 'chrome',
-        version: '65.0'
-      }.merge(sauce_oss(name))
+      # Always specify a default
+      chrome(name)
     end
   end
 
