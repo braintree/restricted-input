@@ -41,10 +41,10 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include Capybara::RSpecMatchers
 
-  # config.verbose_retry = true
-  # config.around(:each) do |c|
-  #   c.run_with_retry(retry: 2)
-  # end
+  config.verbose_retry = true
+  config.around(:each) do |c|
+    c.run_with_retry(retry: 2)
+  end
 
   if ParallelTests.first_process?
     config.before(:suite) do
@@ -88,6 +88,7 @@ RSpec.configure do |config|
   end
 
 	def chrome(name)
+    # This is for running Chrome with w3c which is not yet the default
     {
       platform_name: 'Windows 10',
       browser_name: 'chrome',
@@ -97,10 +98,6 @@ RSpec.configure do |config|
 
   def platform(name)
     case ENV['PLATFORM']
-    # when 'windows_10_edge'
-    #   {platform_name: 'Windows 10',
-    #    browser_name: 'edge',
-    #    browser_version: '18.17763'}.merge(sauce_w3c(name))
     when 'windows_ie9'
       {
         platform: 'Windows 7',
@@ -120,7 +117,6 @@ RSpec.configure do |config|
         browser_version: '11.0'
       }.merge(sauce_w3c(name))
     when 'windows_10_chrome'
-      # This is for running Chrome with w3c which is not yet the default
       chrome(name)
     when 'mac_mojave_safari'
       {
@@ -139,26 +135,21 @@ RSpec.configure do |config|
   end
 
   def sauce_w3c(name)
-    {'sauce:options' => {name: name,
-                         build: build_name,
-                         username: ENV['SAUCE_USERNAME'],
-                         access_key: ENV['SAUCE_ACCESS_KEY'],
-                         iedriver_version: '3.141.59',
-                         selenium_version: '3.141.59'}}
-  end
-
-  def sauce_oss(name)
-    {name: name,
-     build: build_name,
-     username: ENV['SAUCE_USERNAME'],
-     access_key: ENV['SAUCE_ACCESS_KEY'],
-     selenium_version: '3.141.59'}
+    {
+      'sauce:options' => {
+        name: name,
+        build: build_name,
+        username: ENV['SAUCE_USERNAME'],
+        access_key: ENV['SAUCE_ACCESS_KEY'],
+        iedriver_version: '3.141.59',
+        selenium_version: '3.141.59'
+      }
+    }
   end
 
   #
   # Note that this build name is specifically for Travis CI execution
   # Most CI tools have ENV variables that can be structured to provide useful build names
-  #
   def build_name
     if ENV['TRAVIS_REPO_SLUG']
       "#{ENV['TRAVIS_REPO_SLUG'][%r{[^/]+$}]}: #{ENV['TRAVIS_JOB_NUMBER']}"
