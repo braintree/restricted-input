@@ -20,6 +20,7 @@ SauceWhisk.data_center = :US_WEST
 $pids = []
 
 def spawn_until_port(cmd, port)
+  sleep 2
   `lsof -i :#{port}`
   if $? != 0
     puts "[STARTING] #{cmd} on #{port}"
