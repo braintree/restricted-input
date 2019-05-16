@@ -106,6 +106,50 @@ Some example patterns with behavior are listed:
 
 Old versions of Samsung Android browsers are incompatible with formatting. These will not attempt to intercept the values and format the input.
 
+## Development
+
+### Running the demo app
+
+We use node 10 in development. To run a demo app on port 3099, run the following:
+
+```sh
+npm install
+npm run development
+```
+
+### Running unit tests
+
+The following command will run the linting task and the unit tests.
+
+```sh
+npm run test
+```
+
+### Running integration tests
+
+First, [sign up for a free open source Sauce Labs account](https://saucelabs.com/open-source).
+
+Then, create a .env file.
+
+```sh
+touch .env
+```
+
+Add the SAUCE_USERNAME and SAUCE_ACCESS_KEY environmental variables to it:
+
+```sh
+SAUCE_USERNAME=your-user-name
+SAUCE_ACCESS_KEY=your-access-key
+```
+
+Run the integration tests:
+
+```sh
+npm run test:integration
+```
+
+This will spin up the intgegration app, as well as open a sauce connect tunnel to forward the app to sauce labs so that the [Capybara](https://teamcapybara.github.io/capybara/) [integration tests](https://github.com/braintree/restricted-input/blob/master/spec/restricted_input_spec.rb) can run.
+
 ## TODO
 
 - [ ] Improve jsdoc
