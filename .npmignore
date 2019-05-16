@@ -1,3 +1,4 @@
+scripts/
 spec/
 test/
 config/
@@ -12,3 +13,8 @@ gulpfile.js
 .rvmrc
 bower.json
 .npmignore
+.env.example
+.ruby-version
+publish-gh-pages.sh
+.github/ISSUE_TEMPLATE.md
+
