@@ -26,7 +26,7 @@ npm i
 **Watch files and run demo server**
 
 ```bash
-$ npm run development
+npm run development
 ```
 
 This will start a server on port `3099` which can be overridden with the `PORT` env var.
