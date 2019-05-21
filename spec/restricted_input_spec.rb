@@ -35,6 +35,11 @@ describe 'Restricted Input' do
       expect(input.value).to eql('4111 1')
     end
 
+    it 'should correctly reformat the unformatted value set' do
+      input = find '#credit-card-number-with-unformated-value'
+      expect(input.value).to eql('4111 1111 1111 1111')
+    end
+
     it 'should keep the space when removing digit after gap' do
       input = find '#credit-card-number'
       input.send_keys '41115'
