@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## unreleased
+## 2.0.1
 
 * Fix bug where input would be formatted when using `setPattern` even if input is empty
 
