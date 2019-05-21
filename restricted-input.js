@@ -517,9 +517,7 @@ function BaseStrategy(options) {
 
   this._attachListeners();
 
-  if (this.inputElement.value) {
-    this._reformatInput();
-  }
+  this._formatIfNotEmpty();
 }
 
 function isSimulatedEvent(event) {
@@ -542,12 +540,18 @@ BaseStrategy.prototype.getUnformattedValue = function (forceUnformat) {
   return value;
 };
 
+BaseStrategy.prototype._formatIfNotEmpty = function () {
+  if (this.inputElement.value) {
+    this._reformatInput();
+  }
+};
+
 BaseStrategy.prototype.setPattern = function (pattern) {
   this._unformatInput();
 
   this.formatter = new Formatter(pattern);
 
-  this._reformatInput();
+  this._formatIfNotEmpty();
 };
 
 BaseStrategy.prototype._attachListeners = function () {
