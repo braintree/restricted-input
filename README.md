@@ -19,24 +19,50 @@ Try the latest version of Restricted Input [here](https://braintree.github.io/re
 **Install dependencies**
 
 ```bash
-$ npm i
+nvm use # if you have node version manager installed
+npm i
 ```
 
-**Watch files and run server**
+**Watch files and run demo server**
 
 ```bash
-$ npm run development
+npm run development
 ```
 
 This will start a server on port `3099` which can be overridden with the `PORT` env var.
 
-**Run tests**
+**Unit tests**
 
-There are unit tests:
+The following command will run the linting task and the unit tests.
 
-```bash
-$ npm t
+```sh
+npm test
 ```
+
+**Integration tests**
+
+First, [sign up for a free open source Sauce Labs account](https://saucelabs.com/open-source).
+
+Copy the `.env.example` file to `.env`
+
+```sh
+cp .env.example .env
+```
+
+Fill in the SAUCE_USERNAME and SAUCE_ACCESS_KEY environmental variables with your credentials:
+
+```sh
+SAUCE_USERNAME=your-user-name
+SAUCE_ACCESS_KEY=your-access-key
+```
+
+Run the integration tests:
+
+```sh
+npm run test:integration
+```
+
+This will spin up the demo app, as well as open a sauce connect tunnel to forward the app to sauce labs so that the [Capybara](https://teamcapybara.github.io/capybara/) [integration tests](https://github.com/braintree/restricted-input/blob/master/spec/restricted_input_spec.rb) can run.
 
 ## Usage
 
