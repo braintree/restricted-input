@@ -6,7 +6,6 @@ script: npm run $TEST
 addons:
   hosts:
     - restricted-input.bt.local
-  sauce_connect: true
 notifications:
   email: false
   slack:
