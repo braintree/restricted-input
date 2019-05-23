@@ -51,7 +51,7 @@ RSpec.configure do |config|
     Capybara.current_session.quit
   end
 
-	def chrome(name)
+  def chrome(name)
     # This is for running Chrome with w3c which is not yet the default
     {
       platform_name: 'Windows 10',
