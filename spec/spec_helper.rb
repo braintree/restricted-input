@@ -18,6 +18,8 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include Capybara::RSpecMatchers
 
+  config.filter_run_when_matching :only
+
   config.verbose_retry = true
   config.around(:each) do |c|
     c.run_with_retry(retry: 2)

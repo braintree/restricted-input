@@ -64,6 +64,12 @@ npm run test:integration
 
 This will spin up the demo app, as well as open a sauce connect tunnel to forward the app to sauce labs so that the [Capybara](https://teamcapybara.github.io/capybara/) [integration tests](https://github.com/braintree/restricted-input/blob/master/spec/restricted_input_spec.rb) can run.
 
+To run only certain tests, add the `:only` tag before running the test:
+
+```ruby
+it "does something", :only do
+```
+
 ## Usage
 
 ```javascript
