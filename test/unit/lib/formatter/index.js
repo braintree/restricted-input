@@ -219,7 +219,7 @@ describe('Formatter', function () {
       expect(reformatted).to.deep.equal(options);
     });
 
-    it('should return a unformatted value', function () {
+    it('should return an unformatted value', function () {
       var formatter = new Formatter('{{9999}} {{9999}}');
       var options = {
         selection: {start: 6, end: 6},
