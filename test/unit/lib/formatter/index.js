@@ -218,6 +218,16 @@ describe('Formatter', function () {
 
       expect(reformatted).to.deep.equal(options);
     });
+
+    it('should return an unformatted value', function () {
+      var formatter = new Formatter('{{9999}} {{9999}}');
+      var options = {
+        selection: {start: 6, end: 6},
+        value: '123456'
+      };
+
+      expect(formatter.unformat(options).value).to.equal('123456');
+    });
   });
 
   describe('setPattern()', function () {
