@@ -13,12 +13,12 @@ SAUCE_CONNECT_PORT = 4445
 @build_success = true
 
 PLATFORMS = {
-  "windows_ie9" => "Windows 7 IE9",
-  "windows_ie10" => "Windows 8.1 IE10",
-  "windows_ie11" => "Windows 10 IE11",
+  # "windows_ie9" => "Windows 7 IE9",
+  # "windows_ie10" => "Windows 8.1 IE10",
+  # "windows_ie11" => "Windows 10 IE11",
   "windows_10_chrome" => "Windows 10 Chrome",
-  "windows_10_ff" => "Windows 10 Firefox",
-  "mac_mojave_safari" => "Mac OS 10.14 Safari"
+  # "windows_10_ff" => "Windows 10 Firefox",
+  # "mac_mojave_safari" => "Mac OS 10.14 Safari"
 }
 
 $pids = []

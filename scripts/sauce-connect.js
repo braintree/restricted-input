@@ -4,8 +4,8 @@ var sauceConnectLauncher = require('sauce-connect-launcher');
 var config = dotenv.config();
 
 sauceConnectLauncher({
-  username: config.SAUCE_USERNAME,
-  accessKey: config.SAUCE_ACCESS_KEY
+  username: process.env.SAUCE_USERNAME,
+  accessKey: process.env.SAUCE_ACCESS_KEY
 }, function (err, sauceConnectProcess) {
   if (err) {
     console.error(err.message);

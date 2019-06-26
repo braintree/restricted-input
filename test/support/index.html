@@ -55,10 +55,10 @@
       <input id="prefilled-credit-card-number" type="tel" placeholder="4111 1111 1111 1111" data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}" name="prefilled-credit-card-number" value="4111111111111111" />
     </div>
 
-    <div class="input-wrapper">
-      <label for="credit-card-number-with-unformated-value">Card Number set unformated value and change pattern</label>
-      <input id="credit-card-number-with-unformated-value" type="tel" placeholder="4111111111111111" data-pattern="{{9999}} {{999999}} {{99999}}" />
-    </div>
+    <!-- <div class="input&#45;wrapper"> -->
+    <!--   <label for="credit&#45;card&#45;number&#45;with&#45;unformated&#45;value">Card Number set unformated value and change pattern</label> -->
+    <!--   <input id="credit&#45;card&#45;number&#45;with&#45;unformated&#45;value" type="tel" placeholder="4111111111111111" data&#45;pattern="{{9999}} {{999999}} {{99999}}" /> -->
+    <!-- </div> -->
 
     <div class="input-wrapper">
       <label for="credit-card-amex">Credit Card (amex)</label>
@@ -131,10 +131,10 @@
         pattern: input.getAttribute('data-pattern') || '{{9999}} {{9999}} {{9999}} {{9999}}'
       });
 
-      if (input.id === 'credit-card-number-with-unformated-value') {
-        input.value = '4111111111111111';
-        ri.setPattern('{{9999}} {{9999}} {{9999}} {{9999}}')
-      }
+      // if (input.id === 'credit-card-number-with-unformated-value') {
+      //   input.value = '4111111111111111';
+      //   ri.setPattern('{{9999}} {{9999}} {{9999}} {{9999}}')
+      // }
 
       var events = [
         'input',
