@@ -11,6 +11,9 @@ notifications:
   slack:
     on_success: change
     on_failure: always
+    on_pull_requests: false
+    rooms:
+      - secure: JI6B1G0O1/4gNucFWDzNJXO0HkzR9IGDZ010Lofs5ZQL/FKyTAQE/9qPjS29sumPzH3ePgsiUjddiDSn51GmmHtuxrZQD9ROT480InvDJwbs2JJfjofKFliBGoTit4tU7A8kqRNiyHYS8nmZOo/lWpAuZAp8f0zQfDOQL+G+SJFTDrHJVj3LDSbY9gLRomRn28KzZpm0vX5usQRZHpaL8LtGtq/18fOPajRHeUpZW9+ZtH3PBpcMSFFjM3QyBedKMI3i1T8Uf+FCFGifjqCoAUND6mrwOGIPcn1+RdGzFquJXKqzRu4K9HCAnjRYdbY3vqR2Ced3YzQu/UjyOuBLqpulPvpL/Y1V3SH3ufO9xUSVpyaYsfF9g+Ilzfvf2QADROl12InsdV45jB6EmVoUuGHUfFXn5jU0CqTmZ+DhOZbHU81eRXbDNnD/OPkBLzZ+x0O1t1Sv4LtE2Ha5/SSAekT5h0MQeEK5O5KffGD8V8BTm00jSxvCYxtcPMXhs9Y5HBi0oiFF37Jg1bX8ex+Ga3f81URQ4/yYKzQeDlS+TOmpk2/IevyuCbZC1A9j32NaNQxnXjSVnQ/0miINptto3hXJsq5rcGdoNDb294WMN2vb4Fx+CMLZ2++q0fvNSFWbMzSO3fp7kckDyYAsQupyc+nJlvmTMmuNpq6Uiby6ocQ=
 env:
   matrix:
     - TEST="lint"
