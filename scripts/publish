@@ -10,4 +10,4 @@ while IFS='' read -r line; do lineNos+=("$line"); done < <(echo "$headerLines")
 
 releaseNotes=$(sed -n -e "${lineNos[1]}",$((lineNos[2]-1))p CHANGELOG.md)
 
-hub release create -m "$releaseNotes" "$npm_package_version"
+hub release create -m "$releaseNotes" "v$npm_package_version"

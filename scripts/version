@@ -2,5 +2,5 @@
 
 releaseVersion="v${npm_package_version} ($(date +%Y-%m-%d))"
 
-sed -i "" "s/Unreleased/$releaseVersion/" CHANGELOG.md
+sed -i "" "s/[Uu]nreleased/$releaseVersion/" CHANGELOG.md
 git add CHANGELOG.md
