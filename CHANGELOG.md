@@ -1,5 +1,10 @@
 # Restricted Input - Release Notes
 
+## Unreleased
+
+* Update browser-detection dependency to 1.8.0
+* Add ChromeOS detection and treat it like Android
+
 ## 2.0.1
 
 * Fix bug where input would be formatted when using `setPattern` even if input is empty
@@ -18,7 +23,7 @@ _Breaking Changes_
 
 ## 1.2.6 (2017-08-31)
 
-* Add prebublish script to build file before publishing
+* Add prepublish script to build file before publishing
 
 ## 1.2.5 (2017-07-07)
 
