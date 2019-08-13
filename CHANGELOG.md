@@ -1,9 +1,9 @@
 # Restricted Input - Release Notes
 
-## Unreleased
+## 2.0.2
 
 * Update browser-detection dependency to 1.8.0
-* Add ChromeOS detection and treat it like Android
+* Add ChromeOS detection and treat it like Android (fixes issue with malformed formatting in chrome books with soft keyboards)
 
 ## 2.0.1
 
