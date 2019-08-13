@@ -15,6 +15,7 @@ module.exports = {
 var UA = global.navigator && global.navigator.userAgent;
 
 var isAndroid = require('@braintree/browser-detection/is-android');
+var isChromeOs = require('@braintree/browser-detection/is-chrome-os');
 var isChrome = require('@braintree/browser-detection/is-chrome');
 var isIos = require('@braintree/browser-detection/is-ios');
 var isIE9 = require('@braintree/browser-detection/is-ie9');
@@ -36,7 +37,7 @@ function isKitKatWebview(uaArg) {
 function isAndroidChrome(uaArg) {
   var ua = uaArg || UA;
 
-  return isAndroid(ua) && isChrome(ua);
+  return (isAndroid(ua) || isChromeOs(ua)) && isChrome(ua);
 }
 
 function isSamsungBrowser(ua) {
@@ -54,7 +55,7 @@ module.exports = {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"@braintree/browser-detection/is-android":18,"@braintree/browser-detection/is-chrome":19,"@braintree/browser-detection/is-ie9":21,"@braintree/browser-detection/is-ios":22}],3:[function(require,module,exports){
+},{"@braintree/browser-detection/is-android":18,"@braintree/browser-detection/is-chrome":20,"@braintree/browser-detection/is-chrome-os":19,"@braintree/browser-detection/is-ie9":22,"@braintree/browser-detection/is-ios":23}],3:[function(require,module,exports){
 'use strict';
 
 var parsePattern = require('./parse-pattern');
@@ -422,7 +423,7 @@ RestrictedInput.supportsFormatting = function () {
 
 module.exports = RestrictedInput;
 
-},{"../supports-input-formatting":24,"./constants":1,"./device":2,"./is-valid-element":8,"./strategies/android-chrome":11,"./strategies/base":12,"./strategies/ie9":13,"./strategies/ios":14,"./strategies/kitkat-chromium-based-webview":15,"./strategies/noop":16}],11:[function(require,module,exports){
+},{"../supports-input-formatting":25,"./constants":1,"./device":2,"./is-valid-element":8,"./strategies/android-chrome":11,"./strategies/base":12,"./strategies/ie9":13,"./strategies/ios":14,"./strategies/kitkat-chromium-based-webview":15,"./strategies/noop":16}],11:[function(require,module,exports){
 'use strict';
 
 var keyCannotMutateValue = require('../key-cannot-mutate-value');
@@ -933,11 +934,23 @@ module.exports = require('./lib/restricted-input');
 
 module.exports = function isAndroid(ua) {
   ua = ua || global.navigator.userAgent;
+
   return /Android/.test(ua);
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],19:[function(require,module,exports){
+(function (global){
+'use strict';
+
+module.exports = function isChromeOS(ua) {
+  ua = ua || global.navigator.userAgent;
+
+  return /CrOS/i.test(ua);
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var isEdge = require('./is-edge');
@@ -945,46 +958,51 @@ var isSamsung = require('./is-samsung');
 
 module.exports = function isChrome(ua) {
   ua = ua || navigator.userAgent;
+
   return (ua.indexOf('Chrome') !== -1 || ua.indexOf('CriOS') !== -1) && !isEdge(ua) && !isSamsung(ua);
 };
 
-},{"./is-edge":20,"./is-samsung":23}],20:[function(require,module,exports){
+},{"./is-edge":21,"./is-samsung":24}],21:[function(require,module,exports){
 'use strict';
 
 module.exports = function isEdge(ua) {
   ua = ua || navigator.userAgent;
+
   return ua.indexOf('Edge/') !== -1;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 module.exports = function isIe9(ua) {
   ua = ua || navigator.userAgent;
+
   return ua.indexOf('MSIE 9') !== -1;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (global){
 'use strict';
 
 module.exports = function isIos(ua) {
   ua = ua || global.navigator.userAgent;
+
   return /iPhone|iPod|iPad/i.test(ua);
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 (function (global){
 'use strict';
 
 module.exports = function isSamsungBrowser(ua) {
   ua = ua || global.navigator.userAgent;
+
   return /SamsungBrowser/i.test(ua);
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 var device = require('./lib/device');
