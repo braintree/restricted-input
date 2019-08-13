@@ -8,6 +8,7 @@ headerLines=$(grep -n "##" CHANGELOG.md | cut -f1 -d:)
 lineNos=()
 while IFS='' read -r line; do lineNos+=("$line"); done < <(echo "$headerLines")
 
-releaseNotes=$(sed -n -e "${lineNos[1]}",$((lineNos[2]-1))p CHANGELOG.md)
+releaseNotes=$(sed -n -e "${lineNos[0]}",$((lineNos[1]-1))p CHANGELOG.md)
 
-hub release create -m "$releaseNotes" "v$npm_package_version"
+# add GITHUB_HOST in case `hub` is configured to interact with github enterprise
+GITHUB_HOST=github.com hub release create -m "${releaseNotes//\#\#/}" "v$npm_package_version"
