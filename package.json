@@ -33,7 +33,7 @@
     "test:unit": "karma start config/karma.js --single-run",
     "test:integration": "bundle exec rake test",
     "test:all": "npm run test && npm run test:integration",
-    "publish:demo": "./publish-gh-pages.sh",
+    "publish:demo": "./scripts/publish-gh-pages.sh",
     "version": "./scripts/version",
     "postversion": "./scripts/postversion",
     "prepublish": "npm run build",
