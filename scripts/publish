@@ -1,5 +1,9 @@
 #!/bin/bash
 
+tagPushed=$(git ls-remote --tags origin | grep -c "$npm_package_version")
+
+if [ "$tagPushed" -eq "0" ]; then echo "Current version tag doesn't exist on remote." && exit 1; fi
+
 headerLines=$(grep -n "##" CHANGELOG.md | cut -f1 -d:)
 lineNos=()
 while IFS='' read -r line; do lineNos+=("$line"); done < <(echo "$headerLines")
