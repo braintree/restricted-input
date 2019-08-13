@@ -1,0 +1,9 @@
+#!/bin/bash
+
+headerLines=$(grep -n "##" CHANGELOG.md | cut -f1 -d:)
+lineNos=()
+while IFS='' read -r line; do lineNos+=("$line"); done < <(echo "$headerLines")
+
+releaseNotes=$(sed -n -e "${lineNos[1]}",$((lineNos[2]-1))p CHANGELOG.md)
+
+hub release create -m "$releaseNotes" "$npm_package_version"

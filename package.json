@@ -34,7 +34,8 @@
     "test:integration": "bundle exec rake test",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
-    "version": "./version",
+    "version": "./scripts/version",
+    "postversion": "./scripts/postversion",
     "prepublish": "npm run build",
     "postpublish": "npm run publish:demo"
   },
