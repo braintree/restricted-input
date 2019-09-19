@@ -1,27 +1,24 @@
 language: node_js
 before_install:
-# See https://github.com/travis-ci/travis-ci/issues/5092#issuecomment-171777646
-# Dirty hack for https://github.com/travis-ci/travis-ci/issues/5092
-- >
-  PATH=`echo $PATH | sed "s/\.\/node_modules\/\.bin//g"`;
-  export PATH=$PATH:./node_modules/.bin;
   touch .env;
   if [ $IS_INTEGRATION_TEST ]; then rvm install ruby-2.4.3 --binary && rvm use ruby-2.4.3 && bundle install; else echo "Not an integration test. Skipping Ruby setup"; fi
 script: npm run $TEST
 addons:
-  sauce_connect: true
+  hosts:
+    - restricted-input.bt.local
 notifications:
   email: false
   slack:
     on_success: change
     on_failure: always
+    on_pull_requests: false
+    rooms:
+      - secure: JI6B1G0O1/4gNucFWDzNJXO0HkzR9IGDZ010Lofs5ZQL/FKyTAQE/9qPjS29sumPzH3ePgsiUjddiDSn51GmmHtuxrZQD9ROT480InvDJwbs2JJfjofKFliBGoTit4tU7A8kqRNiyHYS8nmZOo/lWpAuZAp8f0zQfDOQL+G+SJFTDrHJVj3LDSbY9gLRomRn28KzZpm0vX5usQRZHpaL8LtGtq/18fOPajRHeUpZW9+ZtH3PBpcMSFFjM3QyBedKMI3i1T8Uf+FCFGifjqCoAUND6mrwOGIPcn1+RdGzFquJXKqzRu4K9HCAnjRYdbY3vqR2Ced3YzQu/UjyOuBLqpulPvpL/Y1V3SH3ufO9xUSVpyaYsfF9g+Ilzfvf2QADROl12InsdV45jB6EmVoUuGHUfFXn5jU0CqTmZ+DhOZbHU81eRXbDNnD/OPkBLzZ+x0O1t1Sv4LtE2Ha5/SSAekT5h0MQeEK5O5KffGD8V8BTm00jSxvCYxtcPMXhs9Y5HBi0oiFF37Jg1bX8ex+Ga3f81URQ4/yYKzQeDlS+TOmpk2/IevyuCbZC1A9j32NaNQxnXjSVnQ/0miINptto3hXJsq5rcGdoNDb294WMN2vb4Fx+CMLZ2++q0fvNSFWbMzSO3fp7kckDyYAsQupyc+nJlvmTMmuNpq6Uiby6ocQ=
 env:
   matrix:
     - TEST="lint"
     - TEST="test:unit"
-    - TEST="test:integration" PLATFORM="desktop" IS_INTEGRATION_TEST=true
-    # iOS tests on Travis are flaky. Run these manually before merging something in
-    # - TEST="test:integration" PLATFORM="ios" IS_INTEGRATION_TEST=true
+    - TEST="test:integration" IS_INTEGRATION_TEST=true HOSTNAME=restricted-input.bt.local
   global:
-  - secure: SvjZyrdqFJBWCgduVObookkrTLIer/OF4yILB5uy5DuzDT52vmUGLKWj1Zjevy6PKdoZ3QPdrbrEn8tIRuiiTCbBTi9X3X8cQjVHN1Jxq1w/TIUiCxg1Wt+M+FnS2EamLMo2BFEsCM5qXrLwUd23uLXxMRJKDikBvaq1Lgib+S3CDhROORgEtnZeXXd328NiUNriDadhnC7kTACZ16Urt9ZrTJrXwQLujNJlO/zVxB0dBTV8Hzjp/Qce/D3XFg943xeHj7UuffF9ntcJqGEImY226VVWwk3D78j9zpfOXCIBJD/h/uls77eZzSi/9o2voVqfWHGuuKoRfVC8772kuWoe95Fm8ntFUbEWutDnfhs7aMqSW4rYMbFUSMqf6qBGWse07clk6zx0cZpsC1vscf3QSDQu/joj8ohX6+1Qn4gd+1/Rp3WjLBdWUcTfcODLspahwXZ5xnkzU04m46eO23E++U6WYD22xJnHZVsWHM+aGcDRQYFg07mnzOQwSUs66qXpMLCiL4vFiZ4tTehzTD3iMNF+3cr8WDlgFUH9rNBJjzYJeCOycdxwQg9f7orh/Iwm8TdcWQAxpXaWdfa6KidY/4fDi7gCCoxePjuDHnDXt8e+xlMYIM3fy+xfHb7GWCyGnHdQRxLEPFSTPnTDyWVcg7CSbGl9YmqMRa7SMus=
-  - secure: u5obPww8nFh3zcov6B9jBj/7LldTT+jOWOUQv/MxE65G6dFWhyJIiNSG/f7HtYr/ziY77B5a+SIoYd097G5lqrtMj128cCGvamdXye0d3YzrbtVGiN7wS3cXPlRPORcaPhQkRl4tQPsElj742f9FRWXsXLdGDzmpPAJDO0lBk9SZuRfdNvw9nTvoHHZgQxu2/lHaMie6v2B3iXSgmgtTN5r6qXXlDoCxZlCB+4cVY2SVNAwXoNk3DDBYsWdOAzVWaOO28l1NaH5CAoKHpz9x1YjjOdHBER5mG2EogQ5Mo4/CAsO9VuEL5Mp0sfhEG7tPXdM0GktFxiRSGfYGIbaMkRUA2npwhj0cWBPdPGaMTQHZI/anr8VHaxUlEP84gXw8VvavttBpaDS/Wdz5dIy5cbqB2q3xhE0VGaR2fG39O/MA+Oq89ZUhThgS8YqltMOKe5AYM3nIeQje61NUpb7FC5q6VLuIKVfSyak2r+TFSVdI27DwU8/QrTIItl1yYJh9eASMX2VIudUahxz0twK7jXuLc9zYtOHgH4bty997G1Z/sr7vu6upyz6081p2tdPDWXzSVIU0HfLj8wRCFnvI8rkKOWfJUGg8ikKJcWoJON3Q59LiuqnEafDiehUnnuueHw5FRi8gcmw82PvFxtoQLzIxfPPNy8k7P2ghsormLjU=
+  - secure: v655z9rG83zEh+3DRS4ck0GidJAj2nkR4k1xOf+eCQYgdjNna+0PW6niL1+FefIxipe424XKMO4dULRRHMT2HvQP8gW+5ob7XZRZuqVl0nkRLtV7kx8QyIUi3zuN+SsEgUO/un0js+buu27pB6rK+KTSY24XRunKhrZku49KG+KUyVsTF51CLq9n4hCzXoZBOED41tGANMM0jFoNNhEyu5uAYcoudfUmiJsNsLNBs+iC/V2y8/PuW9CGTCd5zvFI2ONHGuwH3lfkWamy3nDNAjbzIJbDeLEO8FPSAtpUkS/qQrz3OICsse0OyZYnDTS++LryPTAFkKKwxwNpBPpy9k2BOm16Ix2wL/YXD7Oq+LhG0T+ERJZNkNY1LuBZHEEVnp7s/8/ep6I/o/NFUaKg0Nl3LZHUxpTe5LgI24mO7uZaclRH99ZJefCE/k46tZgeqqZHdUtAOE754MqtN+5ElY8oI7mbQLk8nJ4cMx/dTTOQyzhvsDBMHx/bdBccLKMJPfX5fYh0BucRUICY28ufJJ5vzleAW140+21ZqVtlnJSCoCzBuVSjGhj1CMeCd4TCfCJg6zgVx7SBn7lWzPgYNkFdwNvjwQn0YTy6ezOoIBFo08ecfygalXOmSjx7GbBoJS3DrSDh/aso2X52kIxvgf+qvu4fvfzqTbnqqMG34Q8=
+  - secure: e44/E5GacLPnV+HkK7YeugyKVwi3F/Ek0gi2BAP2HI7FrjNa546ita1Oh+zEEbRapfJrLSzXbiYFx5uOyEsOvRNKVP9p/u7ggLFCldvUG4O/Dq2uSG+S1Wjd/nTmL/spdsgQP/rC3lBRBc2tdTViutidMLm+TUCBvez974ibhtBEdG5op4n4HxdR1LxWbRAn8P9fdyb/2WBBy/4LmbjKk0Z9vkVErCJwEPaBLRQSXt5+i2MTbcrr0tmGbcEzSwst0F5DjJTR5IeaxabOKkQnjvFKxMucc/VxnojZeTWMWUdqKfCu/lq8uB+5mUEd+VR5GbsnoDR0yyj6TV9x2BELeqg38ImkTwX051lTZD+0eIVKrY0qPJV8hehg9P6cf45KCyxJl5Muwaj0KgpCPDqiEmQJ3aj5B1SAbChkeUPpB4cDFiOnqMF49yQg8eWAlyv/IO8I2+iVji1X1AJodboPUUbwAf7XuoHCtvlmC08Xjp45708qPPqPHSEKAtn1d4H8J/+CUAUHZr9txNZdQFSIU6qL9WGpAWJOaUGFNUPxgDNcGPF9M/+3T/Jm+oE09EWWpRaDBqLV4UmwRxhNDCtk/beqx5TLiiZd0s1+DWGysFX4gBs2b0o5c6/8y2e5NgMCAfG1o7bymPV2jePnZ8PYQI1wRx9N3Sgr/Is2+qezUxg=

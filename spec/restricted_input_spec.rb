@@ -3,6 +3,8 @@ require_relative './browserstack.rb'
 PORT = ENV['PORT'] || 3099
 
 describe 'Restricted Input' do
+  include Browser
+
   before :each do
     @driver.navigate.to "http://bs-local.com:#{PORT}"
   end
@@ -115,6 +117,8 @@ describe 'Restricted Input' do
     end
 
     it 'can delete after a gap' do
+      browser_pend("firefox", "Firefox 68 can not delete properly in restricted input. Contacting Mozilla team about it")
+
       input = @driver.find_element(:id, 'credit-card-number')
       input.send_keys '123456'
       expect(input[:value]).to eql('1234 56')
@@ -129,6 +133,8 @@ describe 'Restricted Input' do
     end
 
     it 'can delete before a gap' do
+      browser_pend("firefox", "Firefox 68 can not delete properly in restricted input. Contacting Mozilla team about it")
+
       input = @driver.find_element(:id, 'credit-card-number')
       input.send_keys '12345'
       expect(input[:value]).to eql('1234 5')
@@ -270,6 +276,8 @@ describe 'Restricted Input' do
     end
 
     it 'can delete after a gap' do
+      browser_pend("firefox", "Firefox 68 can not delete properly in restricted input. Contacting Mozilla team about it")
+
       input = @driver.find_element(:id, 'credit-card-amex')
       input.send_keys '123456'
       expect(input[:value]).to eql('1234 56')
@@ -284,6 +292,8 @@ describe 'Restricted Input' do
     end
 
     it 'can delete before a gap' do
+      browser_pend("firefox", "Firefox 68 can not delete properly in restricted input. Contacting Mozilla team about it")
+
       input = @driver.find_element(:id, 'credit-card-amex')
       input.send_keys '12345'
       expect(input[:value]).to eql('1234 5')

@@ -29,7 +29,7 @@ RSpec.configure do |config|
     end
 
     @driver = Selenium::WebDriver.for(:remote,
-      :url => "http://#{CONFIG['user']}:#{CONFIG['key']}@#{CONFIG['server']}/wd/hub",
+      :url => "https://#{CONFIG['user']}:#{CONFIG['key']}@#{CONFIG['server']}/wd/hub",
       :desired_capabilities => @caps)
 
     begin
