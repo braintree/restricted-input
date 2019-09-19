@@ -10,6 +10,7 @@ var AGENTS = {
   androidWebviewOld: 'Mozilla/5.0 (Linux; U; Android 4.1.1; en-gb; Build/KLP) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30',
   androidWebviewKitKatLollipop: 'Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36',
   androidWebviewLollipopAndAbove: 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36',
+  chromeOsChrome: 'Mozilla/5.0 (X11; CrOS x86_64 12105.100.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.144 Safari/537.36',
   ie7: 'Mozilla/4.0(compatible; MSIE 7.0b; Windows NT 6.0)',
   ie8: 'Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)',
   ie9: 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
@@ -50,6 +51,10 @@ describe('device', function () {
       expect(device.isAndroidChrome(AGENTS.pcChrome_27)).to.equal(false);
       expect(device.isAndroidChrome(AGENTS.pcChrome_41)).to.equal(false);
       expect(device.isAndroidChrome(AGENTS.iPhoneChrome)).to.equal(false);
+    });
+
+    it('returns true for ChromeOS Chrome', function () {
+      expect(device.isAndroidChrome(AGENTS.chromeOsChrome)).to.equal(true);
     });
   });
 

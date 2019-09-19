@@ -1,6 +1,15 @@
 # Restricted Input - Release Notes
 
-## unreleased
+## 2.0.2
+
+* Update browser-detection dependency to 1.8.0
+* Add ChromeOS detection and treat it like Android (fixes issue with malformed formatting in chrome books with soft keyboards)
+
+## 2.0.1
+
+* Fix bug where input would be formatted when using `setPattern` even if input is empty
+
+## 2.0.0
 
 * Fix bug in iOS Chrome where autofill may not format correctly
 
@@ -14,7 +23,7 @@ _Breaking Changes_
 
 ## 1.2.6 (2017-08-31)
 
-* Add prebublish script to build file before publishing
+* Add prepublish script to build file before publishing
 
 ## 1.2.5 (2017-07-07)
 

@@ -19,7 +19,7 @@ global.getCleanInstance = function (optionsArg) {
 };
 
 before(function () {
-  global.sandbox = sinon.sandbox.create();
+  global.sandbox = sinon.createSandbox();
   document.body.innerHTML = '';
 });
 
