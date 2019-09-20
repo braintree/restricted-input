@@ -1,10 +1,12 @@
 'use strict';
 
-describe('Restricted Input', function () {
-  this.retries(2);
+var expect = require('chai').expect;
 
-  beforeEach(function () {
-    browser.url('http://bs-local.com:3099');
+describe('Restricted Input', function () {
+  before(function () {
+    this.browserName = function () {
+      return browser.capabilities.browserName.toUpperCase();
+    };
 
     this.repeat = function (action, numberOfTimes) {
       var count = 0;
@@ -15,6 +17,7 @@ describe('Restricted Input', function () {
         count++;
       }
     };
+
     this.getSelectionRange = function (id) {
       return browser.execute(function (nodeId) {
         var el = document.getElementById(nodeId);
@@ -25,13 +28,20 @@ describe('Restricted Input', function () {
         };
       }, id);
     };
+
     this.sendKeys = function (keys) {
+      var i;
+
       // Safari has trouble if you send more than a key at once :/
       // also, it doesn't like using `split` to make this an array and call forEach on it???? :dazed:
-      for (var i = 0; i < keys.length; i++) {
+      for (i = 0; i < keys.length; i++) {
         browser.keys(keys[i]);
-      };
-    }
+      }
+    };
+  });
+
+  beforeEach(function () {
+    browser.url('http://bs-local.com:3099');
   });
 
   describe('for number', function () {
@@ -50,9 +60,7 @@ describe('Restricted Input', function () {
 
       input.click();
 
-      this.sendKeys('abc');
-      this.sendKeys('defghhijklmnopqrstuvwxyz !@#$%^&*()_=+');
-      this.sendKeys('1234567890123456');
+      this.sendKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56');
 
       expect(input.getValue()).to.equal('1234 5678 9012 3456');
     });
@@ -90,7 +98,7 @@ describe('Restricted Input', function () {
 
       expect(input.getValue()).to.equal('4111 5');
 
-      this.sendKeys('Backspace');
+      browser.keys('Backspace');
 
       expect(input.getValue()).to.equal('4111 ');
     });
@@ -215,7 +223,13 @@ describe('Restricted Input', function () {
       expect(input.getValue()).to.equal('1234 5689 0123 456');
     });
 
-    it.only('can delete after a gap', function () {
+    it('can delete after a gap', function () {
+      if (this.browserName() === 'FIREFOX') {
+        this.skip('Firefox driver has a bug where the delete does not work');
+
+        return;
+      }
+
       var selection;
       var input = $('#credit-card-number');
 
@@ -241,6 +255,11 @@ describe('Restricted Input', function () {
     });
 
     it('can delete before a gap', function () {
+      if (this.browserName() === 'FIREFOX') {
+        this.skip('Firefox driver has a bug where the delete does not work');
+
+        return;
+      }
       var selection;
       var input = $('#credit-card-number');
 
@@ -344,9 +363,7 @@ describe('Restricted Input', function () {
 
       input.click();
 
-      this.sendKeys('abc');
-      this.sendKeys('defghhijklmnopqrstuvwxyz !@#$%^&*()_=+');
-      this.sendKeys('1234567890123456');
+      this.sendKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5');
 
       expect(input.getValue()).to.equal('1234 567890 12345');
     });
@@ -479,6 +496,11 @@ describe('Restricted Input', function () {
     });
 
     it('can delete after a gap', function () {
+      if (this.browserName() === 'FIREFOX') {
+        this.skip('Firefox driver has a bug where the delete does not work');
+
+        return;
+      }
       var selection;
       var input = $('#credit-card-amex');
 
@@ -503,6 +525,11 @@ describe('Restricted Input', function () {
     });
 
     it('can delete before a gap', function () {
+      if (this.browserName() === 'FIREFOX') {
+        this.skip('Firefox driver has a bug where the delete does not work');
+
+        return;
+      }
       var selection;
       var input = $('#credit-card-amex');
 
@@ -595,11 +622,7 @@ describe('Restricted Input', function () {
 
       input.click();
 
-      this.sendKeys('abc');
-
-      this.sendKeys('defghhijklmnopqrstuvwxyz !@#$%^&*()_=+');
-
-      this.sendKeys('1234567890123456');
+      this.sendKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56');
 
       expect(input.getValue()).to.equal('1234567890123456');
     });
