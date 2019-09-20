@@ -224,14 +224,15 @@ describe('Restricted Input', function () {
     });
 
     it('can delete after a gap', function () {
+      var selection, input;
+
       if (this.browserName() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
       }
 
-      var selection;
-      var input = $('#credit-card-number');
+      input = $('#credit-card-number');
 
       input.click();
 
@@ -255,13 +256,15 @@ describe('Restricted Input', function () {
     });
 
     it('can delete before a gap', function () {
+      var selection, input;
+
       if (this.browserName() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
       }
-      var selection;
-      var input = $('#credit-card-number');
+
+      input = $('#credit-card-number');
 
       input.click();
 
@@ -496,13 +499,15 @@ describe('Restricted Input', function () {
     });
 
     it('can delete after a gap', function () {
+      var selection, input;
+
       if (this.browserName() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
       }
-      var selection;
-      var input = $('#credit-card-amex');
+
+      input = $('#credit-card-amex');
 
       input.click();
 
@@ -525,13 +530,15 @@ describe('Restricted Input', function () {
     });
 
     it('can delete before a gap', function () {
+      var selection, input;
+
       if (this.browserName() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
       }
-      var selection;
-      var input = $('#credit-card-amex');
+
+      input = $('#credit-card-amex');
 
       input.click();
 
