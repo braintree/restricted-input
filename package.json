@@ -37,7 +37,7 @@
     "postpublish": "npm run publish:demo"
   },
   "dependencies": {
-    "@braintree/browser-detection": "^1.8.0"
+    "@braintree/browser-detection": "^1.9.0"
   },
   "devDependencies": {
     "@wdio/browserstack-service": "^5.8.0",
@@ -51,7 +51,7 @@
     "chai": "^4.2.0",
     "chokidar-cli": "^2.0.0",
     "dotenv": "^8.1.0",
-    "eslint": "^6.2.2",
+    "eslint": "^6.4.0",
     "eslint-config-braintree": "^4.0.0",
     "express": "^4.17.1",
     "jsdoc": "^3.6.3",
@@ -64,7 +64,7 @@
     "lodash.assign": "^4.2.0",
     "mocha": "^6.2.0",
     "phantomjs-prebuilt": "^2.1.16",
-    "sinon": "^7.4.1",
+    "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
     "watchify": "^3.7.0",
     "webdriverio": "^5.8.3"

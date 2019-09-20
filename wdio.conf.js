@@ -128,7 +128,7 @@ exports.config = {
   services: ["browserstack"],
   framework: "mocha",
   mochaOpts: {
-    timeout: 30000
+    timeout: 60000
   },
   reporters: ["spec"],
   reportOptions: {
