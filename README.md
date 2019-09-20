@@ -49,7 +49,7 @@ Copy the `.env.example` file to `.env`
 cp .env.example .env
 ```
 
-Fill in the SAUCE_USERNAME and SAUCE_ACCESS_KEY environmental variables with your credentials:
+Fill in the BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY environmental variables with your credentials:
 
 ```sh
 BROWSERSTACK_USERNAME=username
