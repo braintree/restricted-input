@@ -168,8 +168,7 @@ exports.config = {
   before(capabilities) {
     // Mobile devices/selenium don't support the following APIs yet
     if (!capabilities.real_mobile) {
-      browser.maximizeWindow(); // eslint-disable-line no-undef
-      // eslint-disable-next-line no-undef
+      browser.maximizeWindow();
       browser.setTimeout({
         pageLoad: 10000,
         script: 5 * 60 * 1000

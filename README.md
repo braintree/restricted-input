@@ -67,19 +67,19 @@ To run tests in only one browser, prefix the test command with an `ONLY_BROWSER`
 
 ```sh
 # run only in edge browser
-ONLY_BROWSR=edge npm run test:integration
+ONLY_BROWSER=edge npm run test:integration
 
 # run only in chrome browser
-ONLY_BROWSR=chrome npm run test:integration
+ONLY_BROWSER=chrome npm run test:integration
 
 # run only in ie 11 browser
-ONLY_BROWSR=ie npm run test:integration
+ONLY_BROWSER=ie npm run test:integration
 
 # run only in safari browser
-ONLY_BROWSR=safari npm run test:integration
+ONLY_BROWSER=safari npm run test:integration
 
 # run only in firefox browser
-ONLY_BROWSR=firefox npm run test:integration
+ONLY_BROWSER=firefox npm run test:integration
 ```
 
 
