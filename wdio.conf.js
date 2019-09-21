@@ -5,6 +5,7 @@ const browserstack = require('browserstack-local');
 require('events').defaultMaxListeners = 20;
 require('dotenv').config();
 
+const ONLY_BROWSERS = process.env.ONLY_BROWSERS;
 const localIdentifier = uuid();
 const screenResolution = '1920x1080';
 
@@ -84,13 +85,11 @@ let capabilities = [
   }
 ];
 
-if (process.env.ONLY_BROWSER) {
-  capabilities = [
-    capabilities.find(config => config.browser === process.env.ONLY_BROWSER)
-  ]
+if (ONLY_BROWSERS) {
+  capabilities = ONLY_BROWSERS.split(',').map(browser => capabilities.find(config => config.browser.toLowerCase() === browser.toLowerCase()))
 
-  if (!capabilities[0]) {
-    throw new Error(`Could not find browser ${process.env.ONLY_BROWSER} in config`);
+  if (capabilities.length === 0) {
+    throw new Error(`Could not find browsers ${ONLY_BROWSERS} in config`);
   }
 }
 

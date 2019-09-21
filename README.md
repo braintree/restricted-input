@@ -63,25 +63,31 @@ npm run development # in another terminal window
 npm run test:integration
 ```
 
-To run tests in only one browser, prefix the test command with an `ONLY_BROWSER` env variable:
+To run tests in only one browser, prefix the test command with an `ONLY_BROWSERS` env variable:
 
 ```sh
 # run only in edge browser
-ONLY_BROWSER=edge npm run test:integration
+ONLY_BROWSERS=edge npm run test:integration
 
 # run only in chrome browser
-ONLY_BROWSER=chrome npm run test:integration
+ONLY_BROWSERS=chrome npm run test:integration
 
 # run only in ie 11 browser
-ONLY_BROWSER=ie npm run test:integration
+ONLY_BROWSERS=ie npm run test:integration
 
 # run only in safari browser
-ONLY_BROWSER=safari npm run test:integration
+ONLY_BROWSERS=safari npm run test:integration
 
 # run only in firefox browser
-ONLY_BROWSER=firefox npm run test:integration
+ONLY_BROWSERS=firefox npm run test:integration
 ```
 
+To run tests in certain browsers, prefix the test command with an `ONLY_BROWSERS` env variable, with each browser comma separated:
+
+```sh
+# run only in edge and chrome browsers
+ONLY_BROWSERS=edge,chrome npm run test:integration
+```
 
 To run only certain tests, add the `.only` property before running the test:
 
