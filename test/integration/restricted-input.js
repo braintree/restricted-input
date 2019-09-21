@@ -212,7 +212,7 @@ describe('Restricted Input', function () {
       var selection, input;
 
       if (browser.name() === 'FIREFOX') {
-        this.skip('Firefox driver has a bug where the delete does not work');
+        this.skip('Firefox driver has a bug where the delete key does not work');
 
         return;
       }
@@ -242,7 +242,7 @@ describe('Restricted Input', function () {
       var selection, input;
 
       if (browser.name() === 'FIREFOX') {
-        this.skip('Firefox driver has a bug where the delete does not work');
+        this.skip('Firefox driver has a bug where the delete key does not work');
 
         return;
       }
@@ -527,7 +527,7 @@ describe('Restricted Input', function () {
       expect(selection.end).to.equal(5);
     });
 
-    it('doesnt overwrite when more digits can fit in the field', function () {
+    it('does not overwrite when more digits can fit in the field', function () {
       var selection;
       var input = $('#credit-card-amex');
 
