@@ -3,22 +3,32 @@
 var expect = require('chai').expect;
 
 describe('Restricted Input', function () {
-  before(function () {
-    this.browserName = function () {
-      return browser.capabilities.browserName.toUpperCase();
-    };
+  this.retries(3);
 
-    this.repeat = function (action, numberOfTimes) {
+  before(function () {
+    browser.addCommand('start', function (url) {
+      if (browser.getUrl() === url) {
+        browser.refresh();
+      } else {
+        browser.url(url);
+      }
+    });
+
+    browser.addCommand('name', function () {
+      return browser.capabilities.browserName.toUpperCase();
+    });
+
+    browser.addCommand('repeatKeys', function (key, numberOfTimes) {
       var count = 0;
 
       while (count < numberOfTimes) {
-        action();
+        this.keys(key);
 
         count++;
       }
-    };
+    }, true);
 
-    this.getSelectionRange = function (id) {
+    browser.addCommand('getSelectionRange', function () {
       return browser.execute(function (nodeId) {
         var el = document.getElementById(nodeId);
 
@@ -26,31 +36,33 @@ describe('Restricted Input', function () {
           start: el.selectionStart,
           end: el.selectionEnd
         };
-      }, id);
-    };
+      }, this.getProperty('id'));
+    }, true);
 
-    this.sendKeys = function (keys) {
+    browser.addCommand('typeKeys', function (keys) {
       var i;
 
-      // Safari has trouble if you send more than a key at once :/
-      // also, it doesn't like using `split` to make this an array and call forEach on it???? :dazed:
-      for (i = 0; i < keys.length; i++) {
-        browser.keys(keys[i]);
+      if (browser.name() !== 'IE 11') {
+        this.addValue(keys);
+
+        return;
       }
-    };
+
+      for (i = 0; i < keys.length; i++) {
+        this.keys(keys[i]);
+      }
+    }, true);
   });
 
   beforeEach(function () {
-    browser.url('http://bs-local.com:3099');
+    browser.start('http://bs-local.com:3099');
   });
 
   describe('for number', function () {
     it('enters a credit card', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('4111111111111111');
+      input.typeKeys('4111111111111111');
 
       expect(input.getValue()).to.equal('4111 1111 1111 1111');
     });
@@ -58,9 +70,7 @@ describe('Restricted Input', function () {
     it('only allows digits', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56');
+      input.typeKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56');
 
       expect(input.getValue()).to.equal('1234 5678 9012 3456');
     });
@@ -68,9 +78,7 @@ describe('Restricted Input', function () {
     it('limits input size', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('41111111111111111234567890123456');
+      input.typeKeys('41111111111111111234567890123456');
 
       expect(input.getValue()).to.equal('4111 1111 1111 1111');
     });
@@ -78,13 +86,11 @@ describe('Restricted Input', function () {
     it('should enter a space when expected gap', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('4111');
+      input.typeKeys('4111');
 
       expect(input.getValue()).to.equal('4111 ');
 
-      this.sendKeys('1');
+      input.typeKeys('1');
 
       expect(input.getValue()).to.equal('4111 1');
     });
@@ -92,9 +98,7 @@ describe('Restricted Input', function () {
     it('should keep the space when removing digit after gap', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('41115');
+      input.typeKeys('41115');
 
       expect(input.getValue()).to.equal('4111 5');
 
@@ -106,9 +110,7 @@ describe('Restricted Input', function () {
     it('backspacing after a gap should change the value', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('41115');
+      input.typeKeys('41115');
 
       browser.keys('ArrowLeft');
       browser.keys('Backspace');
@@ -119,9 +121,7 @@ describe('Restricted Input', function () {
     it('backspacing before a gap backspaces a character', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('41115');
+      input.typeKeys('41115');
 
       expect(input.getValue()).to.equal('4111 5');
 
@@ -136,9 +136,7 @@ describe('Restricted Input', function () {
       var selection;
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('411156');
+      input.typeKeys('411156');
 
       expect(input.getValue()).to.equal('4111 56');
 
@@ -147,7 +145,7 @@ describe('Restricted Input', function () {
 
       expect(input.getValue()).to.equal('4111 6');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -156,9 +154,7 @@ describe('Restricted Input', function () {
       var selection;
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('411156');
+      input.typeKeys('411156');
 
       expect(input.getValue()).to.equal('4111 56');
 
@@ -169,7 +165,7 @@ describe('Restricted Input', function () {
 
       expect(input.getValue()).to.equal('4115 6');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(3);
       expect(selection.end).to.equal(3);
     });
@@ -177,17 +173,13 @@ describe('Restricted Input', function () {
     it('field overwrites', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('1111111111111111');
+      input.typeKeys('1111111111111111');
 
       expect(input.getValue()).to.equal('1111 1111 1111 1111');
 
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, 19);
+      input.repeatKeys('ArrowLeft', 19);
 
-      this.sendKeys('2222222222222222');
+      input.typeKeys('2222222222222222');
 
       expect(input.getValue()).to.equal('2222 2222 2222 2222');
     });
@@ -195,29 +187,22 @@ describe('Restricted Input', function () {
     it('can backspace a whole field', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('1111111111111111');
+      input.typeKeys('1111111111111111');
       expect(input.getValue()).to.equal('1111 1111 1111 1111');
 
-      this.repeat(function () {
-        browser.keys('Backspace');
-      }, 16);
+      input.repeatKeys('Backspace', 16);
+
       expect(input.getValue()).to.equal('');
     });
 
     it('can backspace in the middle', function () {
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('1234567890123456');
+      input.typeKeys('1234567890123456');
 
       expect(input.getValue()).to.equal('1234 5678 9012 3456');
 
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, 11);
+      input.repeatKeys('ArrowLeft', 11);
 
       browser.keys('Backspace');
       expect(input.getValue()).to.equal('1234 5689 0123 456');
@@ -226,7 +211,7 @@ describe('Restricted Input', function () {
     it('can delete after a gap', function () {
       var selection, input;
 
-      if (this.browserName() === 'FIREFOX') {
+      if (browser.name() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
@@ -234,15 +219,13 @@ describe('Restricted Input', function () {
 
       input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('123456');
+      input.typeKeys('123456');
 
       expect(input.getValue()).to.equal('1234 56');
       browser.keys('ArrowLeft');
       browser.keys('ArrowLeft');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
 
@@ -250,7 +233,7 @@ describe('Restricted Input', function () {
 
       expect(input.getValue()).to.equal('1234 6');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -258,7 +241,7 @@ describe('Restricted Input', function () {
     it('can delete before a gap', function () {
       var selection, input;
 
-      if (this.browserName() === 'FIREFOX') {
+      if (browser.name() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
@@ -266,23 +249,21 @@ describe('Restricted Input', function () {
 
       input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('12345');
+      input.typeKeys('12345');
 
       expect(input.getValue()).to.equal('1234 5');
 
       browser.keys('ArrowLeft');
       browser.keys('ArrowLeft');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(4);
       expect(selection.end).to.equal(4);
 
       browser.keys('Delete');
       expect(input.getValue()).to.equal('1234 ');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -291,60 +272,50 @@ describe('Restricted Input', function () {
       var selection;
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('412345678');
+      input.typeKeys('412345678');
 
       expect(input.getValue()).to.equal('4123 4567 8');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(11);
       expect(selection.end).to.equal(11);
 
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, input.getValue().length);
+      input.repeatKeys('ArrowLeft', input.getValue().length);
 
-      this.sendKeys('0000');
+      input.typeKeys('0000');
 
       expect(input.getValue()).to.equal('0000 4123 4567 8');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
 
-    it('doesnt overwrite when more digits can fit in the field', function () {
+    it('does not overwrite when more digits can fit in the field', function () {
       var selection;
       var input = $('#credit-card-number');
 
-      input.click();
-
-      this.sendKeys('1234567');
+      input.typeKeys('1234567');
 
       expect(input.getValue()).to.equal('1234 567');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(8);
       expect(selection.end).to.equal(8);
 
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, input.getValue().length);
+      input.repeatKeys('ArrowLeft', input.getValue().length);
 
-      this.sendKeys('0000');
+      input.typeKeys('0000');
 
       expect(input.getValue()).to.equal('0000 1234 567');
 
-      selection = this.getSelectionRange('credit-card-number');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
 
     it('pre-formats on initialization', function () {
       var input = $('#prefilled-credit-card-number');
-
-      input.click();
 
       expect(input.getValue()).to.equal('4111 1111 1111 1111');
     });
@@ -354,9 +325,7 @@ describe('Restricted Input', function () {
     it('enters a credit card', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('378211111111111');
+      input.typeKeys('378211111111111');
 
       expect(input.getValue()).to.equal('3782 111111 11111');
     });
@@ -364,9 +333,7 @@ describe('Restricted Input', function () {
     it('only allows digits', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5');
+      input.typeKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5');
 
       expect(input.getValue()).to.equal('1234 567890 12345');
     });
@@ -374,9 +341,7 @@ describe('Restricted Input', function () {
     it('limits input size', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('3782111111111111234567890123456');
+      input.typeKeys('3782111111111111234567890123456');
 
       expect(input.getValue()).to.equal('3782 111111 11111');
     });
@@ -384,12 +349,10 @@ describe('Restricted Input', function () {
     it('should enter a space for expected gap', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('3782');
+      input.typeKeys('3782');
 
       expect(input.getValue()).to.equal('3782 ');
-      this.sendKeys('1');
+      input.typeKeys('1');
 
       expect(input.getValue()).to.equal('3782 1');
     });
@@ -397,9 +360,7 @@ describe('Restricted Input', function () {
     it('should keep the space when removing digit after gap', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('37825');
+      input.typeKeys('37825');
 
       expect(input.getValue()).to.equal('3782 5');
       browser.keys('Backspace');
@@ -409,9 +370,7 @@ describe('Restricted Input', function () {
     it('backspacing after a gap should change the value', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('37828');
+      input.typeKeys('37828');
 
       expect(input.getValue()).to.equal('3782 8');
       browser.keys('ArrowLeft');
@@ -422,9 +381,7 @@ describe('Restricted Input', function () {
     it('backspacing before a gap backspaces a character and fills the gap', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('37825');
+      input.typeKeys('37825');
 
       expect(input.getValue()).to.equal('3782 5');
       browser.keys('ArrowLeft');
@@ -437,9 +394,7 @@ describe('Restricted Input', function () {
       var selection;
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('378256');
+      input.typeKeys('378256');
 
       expect(input.getValue()).to.equal('3782 56');
       browser.keys('ArrowLeft');
@@ -448,7 +403,7 @@ describe('Restricted Input', function () {
       browser.keys('Backspace');
       expect(input.getValue()).to.equal('3785 6');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(3);
       expect(selection.end).to.equal(3);
     });
@@ -456,15 +411,13 @@ describe('Restricted Input', function () {
     it('field overwrites', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('111111111111111');
+      input.typeKeys('111111111111111');
 
       expect(input.getValue()).to.equal('1111 111111 11111');
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, 17);
-      this.sendKeys('2222222222222222');
+
+      input.repeatKeys('ArrowLeft', 17);
+
+      input.typeKeys('2222222222222222');
 
       expect(input.getValue()).to.equal('2222 222222 22222');
     });
@@ -472,28 +425,23 @@ describe('Restricted Input', function () {
     it('can backspace a whole field', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('111111111111111');
+      input.typeKeys('111111111111111');
 
       expect(input.getValue()).to.equal('1111 111111 11111');
-      this.repeat(function () {
-        browser.keys('Backspace');
-      }, 15);
+      input.repeatKeys('Backspace', 15);
+
       expect(input.getValue()).to.equal('');
     });
 
     it('can backspace in the middle', function () {
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('123456789012345');
+      input.typeKeys('123456789012345');
 
       expect(input.getValue()).to.equal('1234 567890 12345');
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, 10);
+
+      input.repeatKeys('ArrowLeft', 10);
+
       browser.keys('Backspace');
       expect(input.getValue()).to.equal('1234 578901 2345');
     });
@@ -501,7 +449,7 @@ describe('Restricted Input', function () {
     it('can delete after a gap', function () {
       var selection, input;
 
-      if (this.browserName() === 'FIREFOX') {
+      if (browser.name() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
@@ -509,22 +457,20 @@ describe('Restricted Input', function () {
 
       input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('123456');
+      input.typeKeys('123456');
 
       expect(input.getValue()).to.equal('1234 56');
       browser.keys('ArrowLeft');
       browser.keys('ArrowLeft');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
 
       browser.keys('Delete');
       expect(input.getValue()).to.equal('1234 6');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -532,7 +478,7 @@ describe('Restricted Input', function () {
     it('can delete before a gap', function () {
       var selection, input;
 
-      if (this.browserName() === 'FIREFOX') {
+      if (browser.name() === 'FIREFOX') {
         this.skip('Firefox driver has a bug where the delete does not work');
 
         return;
@@ -540,22 +486,20 @@ describe('Restricted Input', function () {
 
       input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('12345');
+      input.typeKeys('12345');
 
       expect(input.getValue()).to.equal('1234 5');
       browser.keys('ArrowLeft');
       browser.keys('ArrowLeft');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(4);
       expect(selection.end).to.equal(4);
 
       browser.keys('Delete');
       expect(input.getValue()).to.equal('1234 ');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -564,24 +508,21 @@ describe('Restricted Input', function () {
       var input = $('#credit-card-amex');
       var selection;
 
-      input.click();
-
-      this.sendKeys('412345678');
+      input.typeKeys('412345678');
 
       expect(input.getValue()).to.equal('4123 45678');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(10);
       expect(selection.end).to.equal(10);
 
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, input.getValue().length);
-      this.sendKeys('0000');
+      input.repeatKeys('ArrowLeft', input.getValue().length);
+
+      input.typeKeys('0000');
 
       expect(input.getValue()).to.equal('0000 412345 678');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -590,24 +531,21 @@ describe('Restricted Input', function () {
       var selection;
       var input = $('#credit-card-amex');
 
-      input.click();
-
-      this.sendKeys('1234567');
+      input.typeKeys('1234567');
 
       expect(input.getValue()).to.equal('1234 567');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(8);
       expect(selection.end).to.equal(8);
 
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, input.getValue().length);
-      this.sendKeys('0000');
+      input.repeatKeys('ArrowLeft', input.getValue().length);
+
+      input.typeKeys('0000');
 
       expect(input.getValue()).to.equal('0000 123456 7');
 
-      selection = this.getSelectionRange('credit-card-amex');
+      selection = input.getSelectionRange();
       expect(selection.start).to.equal(5);
       expect(selection.end).to.equal(5);
     });
@@ -617,9 +555,7 @@ describe('Restricted Input', function () {
     it('enters a credit card', function () {
       var input = $('#credit-card-unformatted');
 
-      input.click();
-
-      this.sendKeys('4111111111111111');
+      input.typeKeys('4111111111111111');
 
       expect(input.getValue()).to.equal('4111111111111111');
     });
@@ -627,9 +563,7 @@ describe('Restricted Input', function () {
     it('only allows digits', function () {
       var input = $('#credit-card-unformatted');
 
-      input.click();
-
-      this.sendKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56');
+      input.typeKeys('a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56');
 
       expect(input.getValue()).to.equal('1234567890123456');
     });
@@ -637,9 +571,7 @@ describe('Restricted Input', function () {
     it('limits input size', function () {
       var input = $('#credit-card-unformatted');
 
-      input.click();
-
-      this.sendKeys('41111111111111111234567890123456');
+      input.typeKeys('41111111111111111234567890123456');
 
       expect(input.getValue()).to.equal('4111111111111111');
     });
@@ -647,15 +579,13 @@ describe('Restricted Input', function () {
     it('field overwrites', function () {
       var input = $('#credit-card-unformatted');
 
-      input.click();
-
-      this.sendKeys('1111111111111111');
+      input.typeKeys('1111111111111111');
 
       expect(input.getValue()).to.equal('1111111111111111');
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, 16);
-      this.sendKeys('2222222222222222');
+
+      input.repeatKeys('ArrowLeft', 16);
+
+      input.typeKeys('2222222222222222');
 
       expect(input.getValue()).to.equal('2222222222222222');
     });
@@ -663,28 +593,23 @@ describe('Restricted Input', function () {
     it('can backspace a whole field', function () {
       var input = $('#credit-card-unformatted');
 
-      input.click();
-
-      this.sendKeys('1111111111111111');
+      input.typeKeys('1111111111111111');
 
       expect(input.getValue()).to.equal('1111111111111111');
-      this.repeat(function () {
-        browser.keys('Backspace');
-      }, 16);
+
+      input.repeatKeys('Backspace', 16);
+
       expect(input.getValue()).to.equal('');
     });
 
     it('can backspace in the middle', function () {
       var input = $('#credit-card-unformatted');
 
-      input.click();
-
-      this.sendKeys('1234567890123456');
+      input.typeKeys('1234567890123456');
 
       expect(input.getValue()).to.equal('1234567890123456');
-      this.repeat(function () {
-        browser.keys('ArrowLeft');
-      }, 9);
+
+      input.repeatKeys('ArrowLeft', 9);
 
       browser.keys('Backspace');
       expect(input.getValue()).to.equal('123456890123456');
@@ -696,9 +621,7 @@ describe('Restricted Input', function () {
       var input = $('#credit-card-toggle-able');
       var button = $('#credit-card-toggle-able-btn');
 
-      input.click();
-
-      this.sendKeys('4111111111111111');
+      input.typeKeys('4111111111111111');
 
       expect(input.getValue()).to.equal('4111 1111 1111 1111');
 
@@ -712,9 +635,7 @@ describe('Restricted Input', function () {
     it('accepts digits', function () {
       var input = $('#wildcard');
 
-      input.click();
-
-      this.sendKeys('3333');
+      input.typeKeys('3333');
 
       expect(input.getValue()).to.equal('*A*3 3');
     });
@@ -722,9 +643,7 @@ describe('Restricted Input', function () {
     it('accepts lowercase alpha', function () {
       var input = $('#wildcard');
 
-      input.click();
-
-      this.sendKeys('jjjj');
+      input.typeKeys('jjjj');
 
       expect(input.getValue()).to.equal('*A*3 jjj');
     });
@@ -732,9 +651,7 @@ describe('Restricted Input', function () {
     it('accepts uppercase alpha', function () {
       var input = $('#wildcard');
 
-      input.click();
-
-      this.sendKeys('NNNN');
+      input.typeKeys('NNNN');
 
       expect(input.getValue()).to.equal('*A*3 NNN');
     });
@@ -742,9 +659,7 @@ describe('Restricted Input', function () {
     it('accepts mixed alphanumeric', function () {
       var input = $('#wildcard');
 
-      input.click();
-
-      this.sendKeys('aZ54');
+      input.typeKeys('aZ54');
 
       expect(input.getValue()).to.equal('*A*3 aZ54');
     });
