@@ -1,0 +1,7 @@
+---
+  extends: eslint-config-braintree/es6
+
+  globals:
+    expect: false
+    $: false
+    browser: false

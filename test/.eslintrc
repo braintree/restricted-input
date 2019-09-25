@@ -5,8 +5,6 @@
   globals:
     expect: false
     sinon: false
-    $: false
-    browser: false
 
   rules:
     no-invalid-this: 0
