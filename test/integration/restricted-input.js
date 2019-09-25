@@ -28,7 +28,8 @@ describe('Restricted Input', function () {
 
     browser.addCommand('getSelectionRange', function () {
       return browser.execute(nodeId => {
-        const el = document.getElementById(nodeId);
+        // executed in browser, so it must be es5 compliant
+        var el = document.getElementById(nodeId);
 
         return {
           start: el.selectionStart,
