@@ -27,25 +27,31 @@
     "start": "node ./test/support/server.js",
     "development": "npm start & chokidar 'lib/**/*.js' -c 'npm run build; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
     "lint": "eslint lib test",
-    "sauceconnect": "node scripts/sauce-connect.js",
     "test": "npm run lint && npm run test:unit",
     "test:watch": "karma start config/karma.js",
     "test:unit": "karma start config/karma.js --single-run",
-    "test:integration": "bundle exec rake test",
+    "test:integration": "wdio wdio.conf.js",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
     "prepublish": "npm run build",
     "postpublish": "npm run publish:demo"
   },
   "dependencies": {
-    "@braintree/browser-detection": "^1.8.0"
+    "@braintree/browser-detection": "^1.9.0"
   },
   "devDependencies": {
+    "@wdio/browserstack-service": "^5.8.0",
+    "@wdio/cli": "^5.8.3",
+    "@wdio/local-runner": "^5.8.3",
+    "@wdio/mocha-framework": "^5.8.1",
+    "@wdio/spec-reporter": "^5.8.0",
+    "@wdio/sync": "^5.8.1",
     "browserify": "^16.5.0",
+    "browserstack-local": "^1.4.0",
     "chai": "^4.2.0",
     "chokidar-cli": "^2.0.0",
     "dotenv": "^8.1.0",
-    "eslint": "^6.2.2",
+    "eslint": "^6.4.0",
     "eslint-config-braintree": "^4.0.0",
     "express": "^4.17.1",
     "jsdoc": "^3.6.3",
@@ -58,9 +64,10 @@
     "lodash.assign": "^4.2.0",
     "mocha": "^6.2.0",
     "phantomjs-prebuilt": "^2.1.16",
-    "sauce-connect-launcher": "^1.2.7",
-    "sinon": "^7.4.1",
+    "sinon": "^7.4.2",
     "sinon-chai": "^3.3.0",
-    "watchify": "^3.7.0"
+    "uuid": "^3.3.3",
+    "watchify": "^3.7.0",
+    "webdriverio": "^5.8.3"
   }
 }

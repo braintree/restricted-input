@@ -9,10 +9,10 @@ Try the latest version of Restricted Input [here](https://braintree.github.io/re
 
 ## Features
 
-- Disallow arbitrary chars based on patterns
+- Disallow arbitrary characters based on patterns
 - Maintains caret position
 - Format/Update on paste
-- Works in IE9+
+- Works in IE11+
 
 ## Development
 
@@ -41,7 +41,7 @@ npm test
 
 **Integration tests**
 
-First, [sign up for a free open source Sauce Labs account](https://saucelabs.com/open-source).
+First, [sign up for a free open source Browserstack account](https://www.browserstack.com/open-source?ref=pricing).
 
 Copy the `.env.example` file to `.env`
 
@@ -49,25 +49,50 @@ Copy the `.env.example` file to `.env`
 cp .env.example .env
 ```
 
-Fill in the SAUCE_USERNAME and SAUCE_ACCESS_KEY environmental variables with your credentials:
+Fill in the BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY environmental variables with your credentials:
 
 ```sh
-SAUCE_USERNAME=your-user-name
-SAUCE_ACCESS_KEY=your-access-key
+BROWSERSTACK_USERNAME=username
+BROWSERSTACK_ACCESS_KEY=access_key
 ```
 
-Run the integration tests:
+To run the integration tests in Safari, Google Chrome, Firefox, IE11 and Microsoft Edge:
 
 ```sh
+npm run development # in another terminal window
 npm run test:integration
 ```
 
-This will spin up the demo app, as well as open a sauce connect tunnel to forward the app to sauce labs so that the [Capybara](https://teamcapybara.github.io/capybara/) [integration tests](https://github.com/braintree/restricted-input/blob/master/spec/restricted_input_spec.rb) can run.
+To run tests in only one browser, prefix the test command with an `ONLY_BROWSERS` env variable:
 
-To run only certain tests, add the `:only` tag before running the test:
+```sh
+# run only in edge browser
+ONLY_BROWSERS=edge npm run test:integration
 
-```ruby
-it "does something", :only do
+# run only in chrome browser
+ONLY_BROWSERS=chrome npm run test:integration
+
+# run only in ie 11 browser
+ONLY_BROWSERS=ie npm run test:integration
+
+# run only in safari browser
+ONLY_BROWSERS=safari npm run test:integration
+
+# run only in firefox browser
+ONLY_BROWSERS=firefox npm run test:integration
+```
+
+To run tests in certain browsers, prefix the test command with an `ONLY_BROWSERS` env variable, with each browser comma separated:
+
+```sh
+# run only in edge and chrome browsers
+ONLY_BROWSERS=edge,chrome npm run test:integration
+```
+
+To run only certain tests, add the `.only` property before running the test:
+
+```js
+it.only('does something', function () {
 ```
 
 ## Usage
