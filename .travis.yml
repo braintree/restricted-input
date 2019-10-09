@@ -1,7 +1,6 @@
 language: node_js
 before_script:
   if [ $IS_INTEGRATION_TEST ]; then npm run development & echo "Starting App for Integration Tests"; else echo "Not an integration test. Skipping app setup"; fi
-  fi
 script: npm run $TEST
 addons:
   hosts:
