@@ -114,7 +114,7 @@ exports.config = {
   specs: require('fs')
     .readdirSync('./test/integration')
     .map(f => `./test/integration/${f}`),
-  maxInstances: 6,
+  maxInstances: 4,
   capabilities,
   sync: true,
   logLevel: 'error',
