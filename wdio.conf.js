@@ -9,7 +9,16 @@ const ONLY_BROWSERS = process.env.ONLY_BROWSERS;
 const localIdentifier = uuid();
 const screenResolution = '1920x1080';
 
+let projectName = 'Restricted Input';
+
+if (!process.env.TRAVIS_BRANCH) {
+  projectName += ' - Local';
+} else if (process.env.TRAVIS_BRANCH !== 'master') {
+  projectName += ' - PR';
+}
+
 const defaultCapabilities = {
+  project: projectName,
   'browserstack.debug': true,
   'browserstack.local': true,
   'browserstack.networkLogs': true,
