@@ -1,6 +1,8 @@
 Restricted Input
 ================
 
+[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=UUlSMGtaQWNkL3lEdlZ2NmFzcnh4OWcvNGFkQjZjcExhQmFPb1cydlJEOD0tLVNlQ3JSUDgzR20ySUs4SFc4L2x1TXc9PQ==--7e53bf426e69647ff4cda6a50460759494986d49)](https://automate.browserstack.com/public-build/UUlSMGtaQWNkL3lEdlZ2NmFzcnh4OWcvNGFkQjZjcExhQmFPb1cydlJEOD0tLVNlQ3JSUDgzR20ySUs4SFc4L2x1TXc9PQ==--7e53bf426e69647ff4cda6a50460759494986d49)
+
 Allow restricted character sets in `input` elements.
 
 ## Demo
@@ -40,6 +42,8 @@ npm test
 ```
 
 **Integration tests**
+
+We use [Browserstack](https://www.browserstack.com) to automate end to end testing on Google Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11.
 
 First, [sign up for a free open source Browserstack account](https://www.browserstack.com/open-source?ref=pricing).
 

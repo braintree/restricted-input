@@ -4,14 +4,6 @@ describe('Restricted Input', function () {
   this.retries(3);
 
   before(() => {
-    browser.addCommand('start', url => {
-      if (browser.getUrl() === url) {
-        browser.refresh();
-      } else {
-        browser.url(url);
-      }
-    });
-
     browser.addCommand('name', () => {
       return browser.capabilities.browserName.toUpperCase();
     });
@@ -39,22 +31,12 @@ describe('Restricted Input', function () {
     }, true);
 
     browser.addCommand('typeKeys', function (keys) {
-      let i;
-
-      if (browser.name() !== 'IE 11') {
-        this.addValue(keys);
-
-        return;
-      }
-
-      for (i = 0; i < keys.length; i++) {
-        this.keys(keys[i]);
-      }
+      this.addValue(keys);
     }, true);
   });
 
   beforeEach(() => {
-    browser.start('http://bs-local.com:3099');
+    browser.url('http://bs-local.com:3099');
   });
 
   describe('for number', () => {
