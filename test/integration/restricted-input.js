@@ -33,9 +33,18 @@ describe('Restricted Input', function () {
     browser.addCommand('typeKeys', function (keys) {
       this.addValue(keys);
     }, true);
+
+    browser.addCommand('reloadSessionOnRetry', () => {
+      if (this.sessionId === browser.sessionId) {
+        browser.reloadSession();
+      } else {
+        this.sessionId = browser.sessionId;
+      }
+    });
   });
 
   beforeEach(() => {
+    browser.reloadSessionOnRetry();
     browser.url('http://bs-local.com:3099');
   });
 
