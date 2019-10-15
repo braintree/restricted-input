@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+* Add option to include a hook for the unformatted value of the input after pasting
+
 ## 2.0.2
 
 * Update browser-detection dependency to 1.8.0
