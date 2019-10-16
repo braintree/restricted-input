@@ -71,7 +71,10 @@ let capabilities = [
     browser: 'IE',
     browserName: 'IE 11',
     browser_version: '11.0',
-    'browserstack.selenium_version' : '3.5.2'
+    'browserstack.selenium_version' : '3.141.5',
+    // https://stackoverflow.com/a/42340325/7851516
+    'browserstack.bfcache': '0',
+    'browserstack.ie.arch' : 'x32'
   },
   {
     ...desktopCapabilities,
