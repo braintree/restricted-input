@@ -515,6 +515,7 @@ function BaseStrategy(options) {
   this.isFormatted = false;
   this.inputElement = options.element;
   this.formatter = new Formatter(options.pattern);
+  this._onPasteEvent = options.onPasteEvent;
 
   this._attachListeners();
 
@@ -666,6 +667,12 @@ BaseStrategy.prototype._pasteEventHandler = function (event) {
 
   splicedEntry.splice(selection.start, selection.end - selection.start, entryValue);
   splicedEntry = splicedEntry.join('');
+
+  if (this._onPasteEvent) {
+    this._onPasteEvent({
+      unformattedInputValue: splicedEntry
+    });
+  }
 
   this.inputElement.value = splicedEntry;
   setSelection(this.inputElement, selection.start + entryValue.length, selection.start + entryValue.length);
