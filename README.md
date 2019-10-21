@@ -143,14 +143,35 @@ Some example patterns with behavior are listed:
    - Waits for a single alpha from the user.
    - Inserts `E`.
 
+## Paste Event
+
+If an input is changed via a paste event, you may want to adjust the pattern before input formatting occurs. In this case, pass an `onPasteEvent` callback:
+
+```js
+const formattedCreditCardInput = new RestrictedInput({
+  element: document.querySelector('#credit-card'),
+  pattern: '{{9999}} {{9999}} {{9999}} {{9999}}',
+  onPasteEvent: function (payload) {
+    var value = payload.unformattedInputValue;
+
+    if (requiresAmexPattern(value)) {
+      formattedCreditCardInput.setPattern('{{9999}} {{999999}} {{99999}}')
+    } else {
+      formattedCreditCardInput.setPattern('{{9999}} {{9999}} {{9999}} {{9999}}')
+    }
+  })
+});
+```
+
 ## API
 
 ### options
 
-| Key | Type | Description |
-| --- | ---- | ----------- |
-| element | `HTMLInputElement` or `HTMLTextAreaElement` | A valid reference to an `input` or `textarea` DOM node |
-| pattern | `String` | Pattern describing the allowed character set you wish for entry into corresponding field. See [Patterns](#patterns).|
+| Key          | Type                                        | Description                                                                                                              |
+| ------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| element      | `HTMLInputElement` or `HTMLTextAreaElement` | A valid reference to an `input` or `textarea` DOM node                                                                   |
+| pattern      | `String`                                    | Pattern describing the allowed character set you wish for entry into corresponding field. See [Patterns](#patterns).     |
+| onPasteEvent | `Function` (optional)                       | A callback function to inspect the unformatted value of the input during a paste event. See [Paste Event](#paste-event). |
 
 ## Browser Support
 
