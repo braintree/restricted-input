@@ -1,8 +1,6 @@
 const expect = require('chai').expect;
 
 describe('Restricted Input', function () {
-  this.retries(3);
-
   before(() => {
     browser.addCommand('name', () => {
       return browser.capabilities.browserName.toUpperCase();
@@ -45,6 +43,7 @@ describe('Restricted Input', function () {
 
   beforeEach(() => {
     browser.reloadSessionOnRetry();
+
     browser.url('http://bs-local.com:3099');
   });
 
