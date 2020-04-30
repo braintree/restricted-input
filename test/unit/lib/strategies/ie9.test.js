@@ -4,11 +4,13 @@ var IE9Strategy = require('../../../../lib/strategies/ie9');
 var BaseStrategy = require('../../../../lib/strategies/base');
 
 describe('IE9 Strategy', function () {
+  var options;
+
   beforeEach(function () {
-    this.options = {
+    options = {
       element: {
         value: 'input value',
-        addEventListener: global.sandbox.stub()
+        addEventListener: jest.fn()
       },
       pattern: '{{9}}'
     };
@@ -16,27 +18,27 @@ describe('IE9 Strategy', function () {
 
   describe('constructor()', function () {
     it('is an instance of BaseStrategy', function () {
-      var strategy = new IE9Strategy(this.options);
+      var strategy = new IE9Strategy(options);
 
-      expect(strategy).to.be.an.instanceof(BaseStrategy);
+      expect(strategy).toBeInstanceOf(BaseStrategy);
     });
 
     it('adds IE9 specific listeners', function () {
-      var strategy = new IE9Strategy(this.options);
+      var strategy = new IE9Strategy(options);
 
       ['keydown', 'paste', 'focus'].forEach(function (event) {
-        expect(strategy.inputElement.addEventListener).to.be.calledWith(event, global.sandbox.match.func);
+        expect(strategy.inputElement.addEventListener).toBeCalledWith(event, expect.any(Function));
       });
     });
   });
 
   describe('getUnformattedValue', function () {
     it('always returns the unformatted value', function () {
-      var strategy = new IE9Strategy(this.options);
+      var strategy = new IE9Strategy(options);
 
-      global.sandbox.stub(strategy.formatter, 'unformat').returns({value: 'unformatted value'});
+      jest.spyOn(strategy.formatter, 'unformat').mockReturnValue({value: 'unformatted value'});
 
-      expect(strategy.getUnformattedValue()).to.equal('unformatted value');
+      expect(strategy.getUnformattedValue()).toBe('unformatted value');
     });
   });
 });

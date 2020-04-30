@@ -4,7 +4,7 @@ var isValidElement = require('../../../lib/is-valid-element');
 
 describe('isValidElement', function () {
   it('returns false if no element is given', function () {
-    expect(isValidElement()).to.equal(false);
+    expect(isValidElement()).toBe(false);
   });
 
   [
@@ -23,7 +23,7 @@ describe('isValidElement', function () {
     {nodeType: 'textarea', expectation: true}
   ].forEach(function (el) {
     it('returns ' + el.expectation + ' for ' + el.nodeType, function () {
-      expect(isValidElement(document.createElement(el.nodeType))).to.equal(el.expectation);
+      expect(isValidElement(document.createElement(el.nodeType))).toBe(el.expectation);
     });
   });
 });

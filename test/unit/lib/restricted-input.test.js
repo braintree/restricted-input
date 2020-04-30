@@ -16,7 +16,6 @@ describe('RestrictedInput', function () {
 
   afterEach(function () {
     global.inputNode = null;
-    global.sandbox.restore();
   });
 
   describe('constructor()', function () {
@@ -28,7 +27,7 @@ describe('RestrictedInput', function () {
         });
       }
 
-      expect(fn).to.throw('A valid HTML input or textarea element must be provided');
+      expect(fn).toThrowError('A valid HTML input or textarea element must be provided');
     });
 
     it('defaults to BaseStrategy', function () {
@@ -37,9 +36,9 @@ describe('RestrictedInput', function () {
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(BaseStrategy);
-      expect(ri.strategy).to.not.be.an.instanceof(IosStrategy);
-      expect(ri.strategy).to.not.be.an.instanceof(AndroidChromeStrategy);
+      expect(ri.strategy).toBeInstanceOf(BaseStrategy);
+      expect(ri.strategy).not.toBeInstanceOf(IosStrategy);
+      expect(ri.strategy).not.toBeInstanceOf(AndroidChromeStrategy);
     });
 
     it('sets isFormatted to `true` on initialization if input element has a value', function () {
@@ -52,8 +51,8 @@ describe('RestrictedInput', function () {
         pattern: '{{9999}} {{9999}}'
       });
 
-      expect(ri.strategy.inputElement.value).to.equal('4111 1111');
-      expect(ri.strategy.isFormatted).to.equal(true);
+      expect(ri.strategy.inputElement.value).toBe('4111 1111');
+      expect(ri.strategy.isFormatted).toBe(true);
     });
 
     it('sets isFormatted to `false` on initialization if input element has no value', function () {
@@ -66,73 +65,73 @@ describe('RestrictedInput', function () {
         pattern: '{{9999}} {{9999}}'
       });
 
-      expect(ri.strategy.inputElement.value).to.equal('');
-      expect(ri.strategy.isFormatted).to.equal(false);
+      expect(ri.strategy.inputElement.value).toBe('');
+      expect(ri.strategy.isFormatted).toBe(false);
     });
 
     it('uses IosStrategy for ios devices', function () {
       var ri;
 
-      global.sandbox.stub(device, 'isIos').returns(true);
+      jest.spyOn(device, 'isIos').mockReturnValue(true);
 
       ri = new RestrictedInput({
         element: document.createElement('input'),
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(IosStrategy);
+      expect(ri.strategy).toBeInstanceOf(IosStrategy);
     });
 
     it('uses KitKatChromiumBasedWebViewStrategy for Android KitKiat webvies', function () {
       var ri;
 
-      global.sandbox.stub(device, 'isKitKatWebview').returns(true);
+      jest.spyOn(device, 'isKitKatWebview').mockReturnValue(true);
 
       ri = new RestrictedInput({
         element: document.createElement('input'),
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(KitKatChromiumBasedWebViewStrategy);
+      expect(ri.strategy).toBeInstanceOf(KitKatChromiumBasedWebViewStrategy);
     });
 
     it('uses AndroidChromeStrategy for android chrome devices', function () {
       var ri;
 
-      global.sandbox.stub(device, 'isAndroidChrome').returns(true);
+      jest.spyOn(device, 'isAndroidChrome').mockReturnValue(true);
 
       ri = new RestrictedInput({
         element: document.createElement('input'),
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(AndroidChromeStrategy);
+      expect(ri.strategy).toBeInstanceOf(AndroidChromeStrategy);
     });
 
     it('uses IE9Strategy for IE9 browser', function () {
       var ri;
 
-      global.sandbox.stub(device, 'isIE9').returns(true);
+      jest.spyOn(device, 'isIE9').mockReturnValue(true);
 
       ri = new RestrictedInput({
         element: document.createElement('input'),
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(IE9Strategy);
+      expect(ri.strategy).toBeInstanceOf(IE9Strategy);
     });
 
     it('uses NoopStrategy for Samsung browser', function () {
       var ri;
 
-      global.sandbox.stub(device, 'isSamsungBrowser').returns(true);
+      jest.spyOn(device, 'isSamsungBrowser').mockReturnValue(true);
 
       ri = new RestrictedInput({
         element: document.createElement('input'),
         pattern: '{{a}}'
       });
 
-      expect(ri.strategy).to.be.an.instanceof(NoopStrategy);
+      expect(ri.strategy).toBeInstanceOf(NoopStrategy);
     });
   });
 
@@ -143,11 +142,11 @@ describe('RestrictedInput', function () {
         pattern: '{{a}}'
       });
 
-      global.sandbox.stub(ri.strategy, 'getUnformattedValue');
+      jest.spyOn(ri.strategy, 'getUnformattedValue');
 
       ri.getUnformattedValue();
 
-      expect(ri.strategy.getUnformattedValue).to.be.calledOnce;
+      expect(ri.strategy.getUnformattedValue).toBeCalledTimes(1);
     });
   });
 
@@ -158,26 +157,26 @@ describe('RestrictedInput', function () {
         pattern: '{{a}}'
       });
 
-      global.sandbox.stub(ri.strategy, 'setPattern');
+      jest.spyOn(ri.strategy, 'setPattern');
 
       ri.setPattern('{{1}}');
 
-      expect(ri.strategy.setPattern).to.be.calledOnce;
-      expect(ri.strategy.setPattern).to.be.calledWith('{{1}}');
+      expect(ri.strategy.setPattern).toBeCalledTimes(1);
+      expect(ri.strategy.setPattern).toBeCalledWith('{{1}}');
     });
   });
 
   describe('supportsFormatting', function () {
     it('returns false if device is a samsung browser', function () {
-      global.sandbox.stub(device, 'isSamsungBrowser').returns(true);
+      jest.spyOn(device, 'isSamsungBrowser').mockReturnValue(true);
 
-      expect(RestrictedInput.supportsFormatting()).to.equal(false);
+      expect(RestrictedInput.supportsFormatting()).toBe(false);
     });
 
     it('returns true if device is not a Samsung browser', function () {
-      global.sandbox.stub(device, 'isSamsungBrowser').returns(false);
+      jest.spyOn(device, 'isSamsungBrowser').mockReturnValue(false);
 
-      expect(RestrictedInput.supportsFormatting()).to.equal(true);
+      expect(RestrictedInput.supportsFormatting()).toBe(true);
     });
   });
 });
