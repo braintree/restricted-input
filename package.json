@@ -28,8 +28,8 @@
     "development": "npm start & chokidar 'lib/**/*.js' -c 'npm run build; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
     "lint": "eslint lib test",
     "test": "npm run lint && npm run test:unit",
-    "test:watch": "karma start config/karma.js",
-    "test:unit": "karma start config/karma.js --single-run",
+    "test:watch": "jest --watchAll",
+    "test:unit": "jest test/unit",
     "test:integration": "wdio wdio.conf.js",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
@@ -54,20 +54,15 @@
     "eslint": "^6.8.0",
     "eslint-config-braintree": "^4.0.0",
     "express": "^4.17.1",
+    "jest": "^25.5.2",
     "jsdoc": "^3.6.4",
-    "karma": "^5.0.4",
-    "karma-browserify": "^7.0.0",
-    "karma-chai-sinon": "0.1.5",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-phantomjs-launcher": "^1.0.4",
     "lodash.assign": "^4.2.0",
-    "mocha": "^7.1.2",
-    "phantomjs-prebuilt": "^2.1.16",
-    "sinon": "^9.0.2",
-    "sinon-chai": "^3.5.0",
     "uuid": "^8.0.0",
-    "watchify": "^3.7.0",
     "webdriverio": "^6.1.5"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./test/unit/global.js"
+    ]
   }
 }
