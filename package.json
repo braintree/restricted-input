@@ -56,7 +56,6 @@
     "express": "^4.17.1",
     "jest": "^25.5.2",
     "jsdoc": "^3.6.4",
-    "lodash.assign": "^4.2.0",
     "uuid": "^8.0.0",
     "webdriverio": "^6.1.5"
   },

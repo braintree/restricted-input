@@ -1,7 +1,6 @@
 'use strict';
 
 var RestrictedInput = require('../../lib/restricted-input');
-var assign = require('lodash.assign');
 
 global.defaultPattern = '{{9999}} {{9999}} {{9999}} {{9999}}';
 
@@ -12,17 +11,16 @@ global.getInputNode = function () {
 global.getCleanInstance = function (optionsArg) {
   var options = optionsArg || {};
 
-  return new RestrictedInput(assign({}, {
+  return new RestrictedInput(Object.assign({}, {
     element: global.getInputNode(),
     pattern: global.defaultPattern
   }, options));
 };
 
-before(function () {
-  global.sandbox = sinon.createSandbox();
+beforeEach(function () {
   document.body.innerHTML = '';
 });
 
-after(function () {
-  global.sandbox.restore();
+afterEach(function () {
+  jest.restoreAllMocks();
 });

@@ -12,10 +12,10 @@ describe('Noop Strategy', function () {
       return typeof BaseStrategy.prototype[property] === 'function' && property[0] !== '_';
     });
 
-    expect(noopPublicMethods.length > 0).to.equal(true);
-    expect(noopPublicMethods.length).to.equal(basePublicMethods.length);
+    expect(noopPublicMethods.length > 0).toBe(true);
+    expect(noopPublicMethods.length).toBe(basePublicMethods.length);
     basePublicMethods.forEach(function (method) {
-      expect(noopPublicMethods).to.contain(method);
+      expect(noopPublicMethods).toEqual(expect.arrayContaining([method]));
     });
   });
 });

@@ -4,21 +4,18 @@ var AndroidChromeStrategy = require('../../../../lib/strategies/android-chrome')
 var BaseStrategy = require('../../../../lib/strategies/base');
 
 describe('Android Chrome Strategy', function () {
-  beforeEach(function () {
-    this.options = {
-      element: {
-        value: 'input value',
-        addEventListener: global.sandbox.stub()
-      },
-      pattern: '{{9}}'
-    };
-  });
-
   describe('constructor()', function () {
     it('is an instance of BaseStrategy', function () {
-      var strategy = new AndroidChromeStrategy(this.options);
+      var options = {
+        element: {
+          value: 'input value',
+          addEventListener: jest.fn()
+        },
+        pattern: '{{9}}'
+      };
+      var strategy = new AndroidChromeStrategy(options);
 
-      expect(strategy).to.be.an.instanceof(BaseStrategy);
+      expect(strategy).toBeInstanceOf(BaseStrategy);
     });
   });
 });

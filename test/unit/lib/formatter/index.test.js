@@ -19,12 +19,12 @@ describe('Formatter', function () {
       it('throws if ' + test + ' is passed as pattern', function () {
         expect(function () {
           return new Formatter(test);
-        }).to.throw('A valid pattern string is required');
+        }).toThrowError('A valid pattern string is required');
       });
     });
 
     it('sets a pattern', function () {
-      expect(new Formatter('{{9}}').pattern).to.deep.equal([{
+      expect(new Formatter('{{9}}').pattern).toEqual([{
         value: /\d/,
         isPermaChar: false,
         index: 0
@@ -41,9 +41,9 @@ describe('Formatter', function () {
       };
       var result = formatter.format(options);
 
-      expect(result.value).to.equal('--8xbz');
-      expect(result.selection.start).to.equal(6);
-      expect(result.selection.end).to.equal(6);
+      expect(result.value).toBe('--8xbz');
+      expect(result.selection.start).toBe(6);
+      expect(result.selection.end).toBe(6);
     });
 
     it('can move selection across permaChars', function () {
@@ -53,8 +53,8 @@ describe('Formatter', function () {
         value: '102'
       };
 
-      expect(formatter.format(options).value).to.equal('10 / 2');
-      expect(formatter.format(options).selection).to.deep.equal({
+      expect(formatter.format(options).value).toBe('10 / 2');
+      expect(formatter.format(options).selection).toEqual({
         start: 6,
         end: 6
       });
@@ -67,8 +67,8 @@ describe('Formatter', function () {
         value: '102'
       };
 
-      expect(formatter.format(options).value).to.equal('10 / 2');
-      expect(formatter.format(options).selection).to.deep.equal({
+      expect(formatter.format(options).value).toBe('10 / 2');
+      expect(formatter.format(options).selection).toEqual({
         start: 1,
         end: 1
       });
@@ -84,7 +84,7 @@ describe('Formatter', function () {
       var formatted = formatter.format(options);
       var reunformatted = formatter.unformat(formatted);
 
-      expect(reunformatted).to.deep.equal(options);
+      expect(reunformatted).toEqual(options);
     });
 
     describe('formatting', function () {
@@ -131,7 +131,7 @@ describe('Formatter', function () {
             value: test.input
           };
 
-          expect(formatter.format(options).value).to.equal(test.output);
+          expect(formatter.format(options).value).toBe(test.output);
         });
       });
     });
@@ -153,7 +153,7 @@ describe('Formatter', function () {
           value: input
         };
 
-        expect(formatter.format(options).selection).to.deep.equal(outputSelection);
+        expect(formatter.format(options).selection).toEqual(outputSelection);
       });
 
       it('updates selection with multiple permaChars', function () {
@@ -172,7 +172,7 @@ describe('Formatter', function () {
           value: input
         };
 
-        expect(formatter.format(options).selection).to.deep.equal(outputSelection);
+        expect(formatter.format(options).selection).toEqual(outputSelection);
       });
     });
   });
@@ -185,8 +185,8 @@ describe('Formatter', function () {
         value: '--8x9z'
       };
 
-      expect(formatter.unformat(options).value).to.equal('89');
-      expect(formatter.unformat(options).selection).to.deep.equal({
+      expect(formatter.unformat(options).value).toBe('89');
+      expect(formatter.unformat(options).selection).toEqual({
         start: 1,
         end: 1
       });
@@ -199,8 +199,8 @@ describe('Formatter', function () {
         value: '--8xbz'
       };
 
-      expect(formatter.unformat(options).value).to.equal('8b');
-      expect(formatter.unformat(options).selection).to.deep.equal({
+      expect(formatter.unformat(options).value).toBe('8b');
+      expect(formatter.unformat(options).selection).toEqual({
         start: 0,
         end: 0
       });
@@ -216,7 +216,7 @@ describe('Formatter', function () {
       var unformatted = formatter.unformat(options);
       var reformatted = formatter.format(unformatted);
 
-      expect(reformatted).to.deep.equal(options);
+      expect(reformatted).toEqual(options);
     });
   });
 
@@ -226,7 +226,7 @@ describe('Formatter', function () {
 
       formatter.setPattern('{{A}} {{9}}');
 
-      expect(formatter.pattern).to.deep.equal([{
+      expect(formatter.pattern).toEqual([{
         value: /[A-Za-z]/,
         isPermaChar: false,
         index: 0
@@ -243,19 +243,21 @@ describe('Formatter', function () {
   });
 
   describe('simulateDeletion()', function () {
+    var formatter, options;
+
     beforeEach(function () {
-      this.formatter = new Formatter('{{a}}');
-      this.options = {
+      formatter = new Formatter('{{a}}');
+      options = {
         event: {}
       };
 
-      global.sandbox.stub(this.formatter, 'unformat');
+      jest.spyOn(formatter, 'unformat');
     });
 
     it('deletes all characters in selection if there is a delta in the selection start and end', function () {
       var result;
 
-      this.formatter.unformat.returns({
+      formatter.unformat.mockReturnValue({
         selection: {
           start: 1,
           end: 6
@@ -263,9 +265,9 @@ describe('Formatter', function () {
         value: 'abcdefghijk'
       });
 
-      result = this.formatter.simulateDeletion(this.options);
+      result = formatter.simulateDeletion(options);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         selection: {
           start: 1,
           end: 1
@@ -277,9 +279,9 @@ describe('Formatter', function () {
     it('deletes one character back from the cursor start if no selection and key was backspace', function () {
       var result;
 
-      this.options.event.key = 'Backspace';
+      options.event.key = 'Backspace';
 
-      this.formatter.unformat.returns({
+      formatter.unformat.mockReturnValue({
         selection: {
           start: 3,
           end: 3
@@ -287,9 +289,9 @@ describe('Formatter', function () {
         value: 'abcdefghijk'
       });
 
-      result = this.formatter.simulateDeletion(this.options);
+      result = formatter.simulateDeletion(options);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         selection: {
           start: 2,
           end: 2
@@ -301,9 +303,9 @@ describe('Formatter', function () {
     it('deletes one character forward from the cursor start if no selection and key was not backspace', function () {
       var result;
 
-      this.options.event.key = 'Delete';
+      options.event.key = 'Delete';
 
-      this.formatter.unformat.returns({
+      formatter.unformat.mockReturnValue({
         selection: {
           start: 3,
           end: 3
@@ -311,9 +313,9 @@ describe('Formatter', function () {
         value: 'abcdefghijk'
       });
 
-      result = this.formatter.simulateDeletion(this.options);
+      result = formatter.simulateDeletion(options);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         selection: {
           start: 3,
           end: 3

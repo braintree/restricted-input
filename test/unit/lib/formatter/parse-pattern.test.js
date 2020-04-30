@@ -6,14 +6,13 @@ describe('parsePattern', function () {
   it('returns a collection of objects', function () {
     var parsed = parsePattern('{{9999}} {{9999}}');
 
-    expect(parsed).to.be.an.array;
-    expect(parsed).to.have.length(9);
-    expect(parsed[0]).to.deep.equal({
+    expect(parsed).toHaveLength(9);
+    expect(parsed[0]).toEqual({
       value: /\d/,
       isPermaChar: false,
       index: 0
     });
-    expect(parsed[4]).to.deep.equal({
+    expect(parsed[4]).toEqual({
       value: ' ',
       isPermaChar: true,
       index: 4
@@ -22,14 +21,14 @@ describe('parsePattern', function () {
 
   describe('wildcard pattern', function () {
     it('takes a wildcard pattern', function () {
-      expect(parsePattern('{{*}}')[0].value).to.deep.equal(/./);
+      expect(parsePattern('{{*}}')[0].value).toEqual(/./);
     });
   });
 
   describe('digit patterns', function () {
     '0123456789'.split('').forEach(function (test) {
       it('creates a regex for digits with ' + test, function () {
-        expect(parsePattern('{{' + test + '}}')[0].value).to.deep.equal(/\d/);
+        expect(parsePattern('{{' + test + '}}')[0].value).toEqual(/\d/);
       });
     });
   });
@@ -37,7 +36,7 @@ describe('parsePattern', function () {
   describe('non-digit patterns', function () {
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('').forEach(function (test) {
       it('creates a regex for non-digits with ' + test, function () {
-        expect(parsePattern('{{' + test + '}}')[0].value).to.deep.equal(/[A-Za-z]/);
+        expect(parsePattern('{{' + test + '}}')[0].value).toEqual(/[A-Za-z]/);
       });
     });
   });
@@ -71,7 +70,7 @@ describe('parsePattern', function () {
       it('throws for ' + test, function () {
         expect(function () {
           parsePattern(test);
-        }).to.throw('Only alphanumeric or wildcard pattern matchers are allowed');
+        }).toThrowError('Only alphanumeric or wildcard pattern matchers are allowed');
       });
     });
   });
