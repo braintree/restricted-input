@@ -1,8 +1,6 @@
-"use strict";
+import device from "./lib/device";
 
-var device = require("./lib/device");
-
-module.exports = function () {
+export = function (): boolean {
   // Digits get dropped in samsung browser
   return !device.isSamsungBrowser();
 };

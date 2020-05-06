@@ -1,13 +1,13 @@
-function NoopStrategy(options) {
-  this.inputElement = options.element;
+import StrategyInterface from "./strategy-interface";
+
+class NoopKeyboardStrategy extends StrategyInterface {
+  getUnformattedValue() {
+    return this.inputElement.value;
+  }
+
+  setPattern() {
+    // noop
+  }
 }
 
-NoopStrategy.prototype.getUnformattedValue = function () {
-  return this.inputElement.value;
-};
-
-NoopStrategy.prototype.setPattern = function () {
-  // noop
-};
-
-module.exports = NoopStrategy;
+export default NoopKeyboardStrategy;

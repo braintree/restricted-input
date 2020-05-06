@@ -1,15 +1,15 @@
-const IE9Strategy = require("../../../../lib/strategies/ie9");
-const BaseStrategy = require("../../../../lib/strategies/base");
+import IE9Strategy from "../../../../src/lib/strategies/ie9";
+import BaseStrategy from "../../../../src/lib/strategies/base";
+import { StrategyOptions } from "../../../../src/lib/strategies/strategy-interface";
 
 describe("IE9 Strategy", function () {
-  let options;
+  let options: StrategyOptions;
 
   beforeEach(function () {
+    const input = document.createElement("input");
+    jest.spyOn(input, "addEventListener");
     options = {
-      element: {
-        value: "input value",
-        addEventListener: jest.fn(),
-      },
+      element: input,
       pattern: "{{9}}",
     };
   });
@@ -37,9 +37,10 @@ describe("IE9 Strategy", function () {
     it("always returns the unformatted value", function () {
       const strategy = new IE9Strategy(options);
 
-      jest
-        .spyOn(strategy.formatter, "unformat")
-        .mockReturnValue({ value: "unformatted value" });
+      jest.spyOn(strategy.formatter, "unformat").mockReturnValue({
+        selection: { start: 0, end: 0 },
+        value: "unformatted value",
+      });
 
       expect(strategy.getUnformattedValue()).toBe("unformatted value");
     });

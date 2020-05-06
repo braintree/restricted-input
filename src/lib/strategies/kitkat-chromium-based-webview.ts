@@ -5,33 +5,20 @@
 // problem. This causes other problems in non-webviews, so we give it
 // its own strategy.
 
-var AndroidChromeStrategy = require("./android-chrome");
+import AndroidChromeStrategy from "./android-chrome";
 
-function KitKatChromiumBasedWebViewStrategy(options) {
-  AndroidChromeStrategy.call(this, options);
+class KitKatChromiumBasedWebViewStrategy extends AndroidChromeStrategy {
+  _reformatInput() {
+    setTimeout(() => {
+      super._reformatInput();
+    }, 0);
+  }
+
+  _unformatInput() {
+    setTimeout(() => {
+      super._unformatInput();
+    }, 0);
+  }
 }
 
-KitKatChromiumBasedWebViewStrategy.prototype = Object.create(
-  AndroidChromeStrategy.prototype
-);
-KitKatChromiumBasedWebViewStrategy.prototype.constructor = KitKatChromiumBasedWebViewStrategy;
-
-KitKatChromiumBasedWebViewStrategy.prototype._reformatInput = function () {
-  setTimeout(
-    function () {
-      AndroidChromeStrategy.prototype._reformatInput.call(this);
-    }.bind(this),
-    0
-  );
-};
-
-KitKatChromiumBasedWebViewStrategy.prototype._unformatInput = function () {
-  setTimeout(
-    function () {
-      AndroidChromeStrategy.prototype._unformatInput.call(this);
-    }.bind(this),
-    0
-  );
-};
-
-module.exports = KitKatChromiumBasedWebViewStrategy;
+export default KitKatChromiumBasedWebViewStrategy;

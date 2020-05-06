@@ -1,14 +1,16 @@
-const BaseStrategy = require("../../../../lib/strategies/base");
+import BaseStrategy from "../../../../src/lib/strategies/base";
+import { StrategyOptions } from "../../../../src/lib/strategies/strategy-interface";
 
 describe("Base Strategy", function () {
-  let options;
+  let options: StrategyOptions;
 
   beforeEach(function () {
+    const input = document.createElement("input");
+    input.value = "input value";
+    jest.spyOn(input, "addEventListener").mockImplementation();
+
     options = {
-      element: {
-        value: "input value",
-        addEventListener: jest.fn(),
-      },
+      element: input,
       pattern: "{{CCCCC}} {{CCCCC}}",
     };
   });
@@ -40,9 +42,10 @@ describe("Base Strategy", function () {
       const strategy = new BaseStrategy(options);
 
       strategy.isFormatted = true;
-      jest
-        .spyOn(strategy.formatter, "unformat")
-        .mockReturnValue({ value: "unformatted value" });
+      jest.spyOn(strategy.formatter, "unformat").mockReturnValue({
+        selection: { start: 0, end: 0 },
+        value: "unformatted value",
+      });
 
       expect(strategy.getUnformattedValue()).toBe("unformatted value");
     });
@@ -51,9 +54,10 @@ describe("Base Strategy", function () {
       const strategy = new BaseStrategy(options);
 
       strategy.isFormatted = false;
-      jest
-        .spyOn(strategy.formatter, "unformat")
-        .mockReturnValue({ value: "unformatted value" });
+      jest.spyOn(strategy.formatter, "unformat").mockReturnValue({
+        selection: { start: 0, end: 0 },
+        value: "unformatted value",
+      });
 
       expect(strategy.getUnformattedValue(true)).toBe("unformatted value");
     });

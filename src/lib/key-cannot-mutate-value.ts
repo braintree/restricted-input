@@ -1,11 +1,11 @@
-var getCurrentSelection = require("./input-selection").get;
+import { get as getCurrentSelection } from "./input-selection";
 
-module.exports = function (event) {
-  var input = event.currentTarget || event.srcElement;
-  var selection = getCurrentSelection(input);
-  var isAtBeginning = selection.start === 0;
-  var isAtEnd = selection.start === input.value.length;
-  var isShifted = event.shiftKey === true;
+export default function (event: KeyboardEvent) {
+  const input = (event.currentTarget || event.srcElement) as HTMLInputElement;
+  const selection = getCurrentSelection(input);
+  const isAtBeginning = selection.start === 0;
+  const isAtEnd = selection.start === input.value.length;
+  const isShifted = event.shiftKey === true;
 
   // https://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-key
   switch (event.key) {
@@ -46,4 +46,4 @@ module.exports = function (event) {
     default:
       return false;
   }
-};
+}

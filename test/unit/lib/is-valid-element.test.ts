@@ -1,10 +1,6 @@
-const isValidElement = require("../../../lib/is-valid-element");
+import isValidElement from "../../../src/lib/is-valid-element";
 
 describe("isValidElement", function () {
-  it("returns false if no element is given", function () {
-    expect(isValidElement()).toBe(false);
-  });
-
   [
     { nodeType: "div", expectation: false },
     { nodeType: "span", expectation: false },

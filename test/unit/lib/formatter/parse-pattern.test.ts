@@ -1,4 +1,4 @@
-const parsePattern = require("../../../../lib/formatter/parse-pattern");
+import parsePattern from "../../../../src/lib/formatter/parse-pattern";
 
 describe("parsePattern", function () {
   it("returns a collection of objects", function () {

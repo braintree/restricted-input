@@ -1,15 +1,15 @@
-const IosStrategy = require("../../../../lib/strategies/ios");
-const BaseStrategy = require("../../../../lib/strategies/base");
+import IosStrategy from "../../../../src/lib/strategies/ios";
+import BaseStrategy from "../../../../src/lib/strategies/base";
+import { StrategyOptions } from "../../../../src/lib/strategies/strategy-interface";
 
 describe("iOS Strategy", function () {
-  let options;
+  let options: StrategyOptions;
 
   beforeEach(function () {
+    const input = document.createElement("input");
+    jest.spyOn(input, "addEventListener");
     options = {
-      element: {
-        value: "input value",
-        addEventListener: jest.fn(),
-      },
+      element: input,
       pattern: "{{9}}",
     };
   });
@@ -37,9 +37,10 @@ describe("iOS Strategy", function () {
     it("always returns the unformatted value", function () {
       const strategy = new IosStrategy(options);
 
-      jest
-        .spyOn(strategy.formatter, "unformat")
-        .mockReturnValue({ value: "unformatted value" });
+      jest.spyOn(strategy.formatter, "unformat").mockReturnValue({
+        selection: { start: 0, end: 0 },
+        value: "unformatted value",
+      });
 
       expect(strategy.getUnformattedValue()).toBe("unformatted value");
     });

@@ -1,7 +1,6 @@
-module.exports = function (element) {
+export default function (element: HTMLElement) {
   return (
-    Boolean(element) &&
-    (element instanceof HTMLInputElement ||
-      element instanceof HTMLTextAreaElement)
+    element instanceof HTMLInputElement ||
+    element instanceof HTMLTextAreaElement
   );
-};
+}

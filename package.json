@@ -31,7 +31,7 @@
     "prestart": "npm run build:app",
     "start": "node ./test/support/server.js",
     "development": "npm start & chokidar 'lib/**/*.js' -c 'npm run build:app; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
-    "lint": "eslint --ext js,ts lib test",
+    "lint": "eslint --ext js,ts src test",
     "posttest": "npm run lint",
     "test": "npm run test:unit",
     "test:watch": "jest --watchAll",

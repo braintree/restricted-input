@@ -1,27 +1,14 @@
-const RestrictedInput = require("../../../lib/restricted-input");
-const BaseStrategy = require("../../../lib/strategies/base");
-const IosStrategy = require("../../../lib/strategies/ios");
-const IE9Strategy = require("../../../lib/strategies/ie9");
-const AndroidChromeStrategy = require("../../../lib/strategies/android-chrome");
-const KitKatChromiumBasedWebViewStrategy = require("../../../lib/strategies/kitkat-chromium-based-webview");
-const NoopStrategy = require("../../../lib/strategies/noop");
-const device = require("../../../lib/device");
+import RestrictedInput from "../../../src/lib/restricted-input";
+import BaseStrategy from "../../../src/lib/strategies/base";
+import IosStrategy from "../../../src/lib/strategies/ios";
+import IE9Strategy from "../../../src/lib/strategies/ie9";
+import AndroidChromeStrategy from "../../../src/lib/strategies/android-chrome";
+import KitKatChromiumBasedWebViewStrategy from "../../../src/lib/strategies/kitkat-chromium-based-webview";
+import NoopStrategy from "../../../src/lib/strategies/noop";
+import device from "../../../src/lib/device";
 
 describe("RestrictedInput", function () {
   describe("constructor()", function () {
-    it("throws an error if an input or textarea is not provided", function () {
-      function fn() {
-        return new RestrictedInput({
-          element: document.createElement("div"),
-          pattern: /^/g,
-        });
-      }
-
-      expect(fn).toThrowError(
-        "A valid HTML input or textarea element must be provided"
-      );
-    });
-
     it("defaults to BaseStrategy", function () {
       const ri = new RestrictedInput({
         element: document.createElement("input"),

@@ -1,4 +1,7 @@
-const Formatter = require("../../../../lib/formatter");
+import Formatter, {
+  SimulateDeleteOptions,
+} from "../../../../src/lib/formatter";
+
 const NON_AMEX_CARD_PATTERN = "{{9999}} {{9999}} {{9999}} {{9999}}";
 const FAKE_PATTERN = "{{99}}-{{99}}";
 
@@ -8,21 +11,6 @@ function noop() {
 
 describe("Formatter", function () {
   describe("constructor()", function () {
-    [
-      undefined, // eslint-disable-line
-      null,
-      1,
-      true,
-      {},
-      noop,
-    ].forEach(function (test) {
-      it("throws if " + test + " is passed as pattern", function () {
-        expect(function () {
-          return new Formatter(test);
-        }).toThrowError("A valid pattern string is required");
-      });
-    });
-
     it("sets a pattern", function () {
       expect(new Formatter("{{9}}").pattern).toEqual([
         {
@@ -268,19 +256,22 @@ describe("Formatter", function () {
   });
 
   describe("simulateDeletion()", function () {
-    let formatter, options;
+    let formatter: Formatter, options: SimulateDeleteOptions;
+    let unformatSpy: jest.SpyInstance;
 
     beforeEach(function () {
       formatter = new Formatter("{{a}}");
       options = {
-        event: {},
+        event: new KeyboardEvent("keyup"),
+        selection: { start: 0, end: 0 },
+        value: "",
       };
 
-      jest.spyOn(formatter, "unformat");
+      unformatSpy = jest.spyOn(formatter, "unformat");
     });
 
     it("deletes all characters in selection if there is a delta in the selection start and end", function () {
-      formatter.unformat.mockReturnValue({
+      unformatSpy.mockReturnValue({
         selection: {
           start: 1,
           end: 6,
@@ -300,9 +291,11 @@ describe("Formatter", function () {
     });
 
     it("deletes one character back from the cursor start if no selection and key was backspace", function () {
-      options.event.key = "Backspace";
+      options.event = new KeyboardEvent("keyup", {
+        key: "Backspace",
+      });
 
-      formatter.unformat.mockReturnValue({
+      unformatSpy.mockReturnValue({
         selection: {
           start: 3,
           end: 3,
@@ -322,9 +315,11 @@ describe("Formatter", function () {
     });
 
     it("deletes one character forward from the cursor start if no selection and key was not backspace", function () {
-      options.event.key = "Delete";
+      options.event = new KeyboardEvent("keyup", {
+        key: "Delete",
+      });
 
-      formatter.unformat.mockReturnValue({
+      unformatSpy.mockReturnValue({
         selection: {
           start: 3,
           end: 3,

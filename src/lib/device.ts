@@ -1,38 +1,40 @@
-var UA = global.navigator && global.navigator.userAgent;
+const UA = window.navigator && window.navigator.userAgent;
 
-var isAndroid = require("@braintree/browser-detection/is-android");
-var isChromeOs = require("@braintree/browser-detection/is-chrome-os");
-var isChrome = require("@braintree/browser-detection/is-chrome");
-var isIos = require("@braintree/browser-detection/is-ios");
-var isIE9 = require("@braintree/browser-detection/is-ie9");
+// TODO remove this when browser detection is converted to typescript
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+// @ts-ignore
+import isAndroid = require("@braintree/browser-detection/is-android");
+// @ts-ignore
+import isChromeOs = require("@braintree/browser-detection/is-chrome-os");
+// @ts-ignore
+import isChrome = require("@braintree/browser-detection/is-chrome");
+// @ts-ignore
+import isIos = require("@braintree/browser-detection/is-ios");
+// @ts-ignore
+import isIE9 = require("@braintree/browser-detection/is-ie9");
+/* eslint-enable @typescript-eslint/ban-ts-ignore */
 
 // Old Android Webviews used specific versions of Chrome with 0.0.0 as their version suffix
 // https://developer.chrome.com/multidevice/user-agent#webview_user_agent
-var KITKAT_WEBVIEW_REGEX = /Version\/\d\.\d* Chrome\/\d*\.0\.0\.0/;
+const KITKAT_WEBVIEW_REGEX = /Version\/\d\.\d* Chrome\/\d*\.0\.0\.0/;
 
-function _isOldSamsungBrowserOrSamsungWebview(ua) {
+function _isOldSamsungBrowserOrSamsungWebview(ua: string) {
   return !isChrome(ua) && ua.indexOf("Samsung") > -1;
 }
 
-function isKitKatWebview(uaArg) {
-  var ua = uaArg || UA;
-
+export function isKitKatWebview(ua: string = UA) {
   return isAndroid(ua) && KITKAT_WEBVIEW_REGEX.test(ua);
 }
 
-function isAndroidChrome(uaArg) {
-  var ua = uaArg || UA;
-
+export function isAndroidChrome(ua: string = UA) {
   return (isAndroid(ua) || isChromeOs(ua)) && isChrome(ua);
 }
 
-function isSamsungBrowser(ua) {
-  ua = ua || UA;
-
+export function isSamsungBrowser(ua: string = UA) {
   return /SamsungBrowser/.test(ua) || _isOldSamsungBrowserOrSamsungWebview(ua);
 }
 
-module.exports = {
+export default {
   isIE9: isIE9,
   isAndroidChrome: isAndroidChrome,
   isIos: isIos,

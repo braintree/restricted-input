@@ -1,28 +1,18 @@
-var BaseStrategy = require("./base");
-var keyCannotMutateValue = require("../key-cannot-mutate-value");
-var getSelection = require("../input-selection").get;
-var setSelection = require("../input-selection").set;
+import BaseStrategy from "./base";
+import keyCannotMutateValue from "../key-cannot-mutate-value";
+import { get as getSelection, set as setSelection } from "../input-selection";
 
-function IosStrategy(options) {
-  BaseStrategy.call(this, options);
-}
+class IosStrategy extends BaseStrategy {
+  getUnformattedValue() {
+    return BaseStrategy.prototype.getUnformattedValue.call(this, true);
+  }
 
-IosStrategy.prototype = Object.create(BaseStrategy.prototype);
-IosStrategy.prototype.constructor = IosStrategy;
-
-IosStrategy.prototype.getUnformattedValue = function () {
-  return BaseStrategy.prototype.getUnformattedValue.call(this, true);
-};
-
-IosStrategy.prototype._attachListeners = function () {
-  this.inputElement.addEventListener(
-    "keydown",
-    this._keydownListener.bind(this)
-  );
-  this.inputElement.addEventListener(
-    "input",
-    function (event) {
-      var isCustomEvent = event instanceof CustomEvent;
+  _attachListeners() {
+    this.inputElement.addEventListener("keydown", (event) => {
+      this._keydownListener(event as KeyboardEvent);
+    });
+    this.inputElement.addEventListener("input", (event) => {
+      const isCustomEvent = event instanceof CustomEvent;
 
       // Safari AutoFill fires CustomEvents
       // Set state to format before calling format listener
@@ -38,52 +28,53 @@ IosStrategy.prototype._attachListeners = function () {
       if (!isCustomEvent) {
         this._fixLeadingBlankSpaceOnIos();
       }
-    }.bind(this)
-  );
-  this.inputElement.addEventListener("focus", this._formatListener.bind(this));
-  this.inputElement.addEventListener(
-    "paste",
-    this._pasteEventHandler.bind(this)
-  );
-};
-
-// When deleting the last character on iOS, the cursor
-// is positioned as if there is a blank space when there
-// is not, setting it to '' in a setTimeout fixes it ¯\_(ツ)_/¯
-IosStrategy.prototype._fixLeadingBlankSpaceOnIos = function () {
-  var input = this.inputElement;
-
-  if (input.value === "") {
-    setTimeout(function () {
-      input.value = "";
-    }, 0);
-  }
-};
-
-IosStrategy.prototype._formatListener = function () {
-  var input = this.inputElement;
-  var stateToFormat = this._getStateToFormat();
-  var formattedState = this.formatter.format(stateToFormat);
-
-  input.value = formattedState.value;
-  setSelection(
-    input,
-    formattedState.selection.start,
-    formattedState.selection.end
-  );
-};
-
-IosStrategy.prototype._keydownListener = function (event) {
-  if (keyCannotMutateValue(event)) {
-    return;
-  }
-  if (this._isDeletion(event)) {
-    this._stateToFormat = this.formatter.simulateDeletion({
-      event: event,
-      selection: getSelection(this.inputElement),
-      value: this.inputElement.value,
+    });
+    this.inputElement.addEventListener("focus", () => {
+      this._formatListener();
+    });
+    this.inputElement.addEventListener("paste", (event) => {
+      this._pasteEventHandler(event as ClipboardEvent);
     });
   }
-};
 
-module.exports = IosStrategy;
+  // When deleting the last character on iOS, the cursor
+  // is positioned as if there is a blank space when there
+  // is not, setting it to '' in a setTimeout fixes it ¯\_(ツ)_/¯
+  _fixLeadingBlankSpaceOnIos() {
+    const input = this.inputElement;
+
+    if (input.value === "") {
+      setTimeout(function () {
+        input.value = "";
+      }, 0);
+    }
+  }
+
+  _formatListener() {
+    const input = this.inputElement;
+    const stateToFormat = this._getStateToFormat();
+    const formattedState = this.formatter.format(stateToFormat);
+
+    input.value = formattedState.value;
+    setSelection(
+      input,
+      formattedState.selection.start,
+      formattedState.selection.end
+    );
+  }
+
+  _keydownListener(event: KeyboardEvent) {
+    if (keyCannotMutateValue(event)) {
+      return;
+    }
+    if (this._isDeletion(event)) {
+      this._stateToFormat = this.formatter.simulateDeletion({
+        event: event,
+        selection: getSelection(this.inputElement),
+        value: this.inputElement.value,
+      });
+    }
+  }
+}
+
+export default IosStrategy;
