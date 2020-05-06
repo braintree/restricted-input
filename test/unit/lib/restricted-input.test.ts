@@ -8,14 +8,6 @@ const NoopStrategy = require("../../../lib/strategies/noop");
 const device = require("../../../lib/device");
 
 describe("RestrictedInput", function () {
-  beforeEach(function () {
-    global.defaultState = { value: "", caretIndex: 0 };
-  });
-
-  afterEach(function () {
-    global.inputNode = null;
-  });
-
   describe("constructor()", function () {
     it("throws an error if an input or textarea is not provided", function () {
       function fn() {

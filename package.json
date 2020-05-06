@@ -64,14 +64,16 @@
     "jest": "^26.0.1",
     "jsdoc": "^3.6.4",
     "prettier": "^2.0.5",
+    "ts-jest": "^25.5.0",
     "tsify": "^4.0.1",
     "typescript": "^3.8.3",
     "uuid": "^8.0.0",
     "webdriverio": "^6.1.8"
   },
   "jest": {
+     "preset": "ts-jest",
     "setupFilesAfterEnv": [
-      "./test/unit/global.js"
+      "./test/unit/global.ts"
     ]
   }
 }
