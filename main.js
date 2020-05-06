@@ -1,1 +1,1 @@
-module.exports = require('./lib/restricted-input');
+module.exports = require("./lib/restricted-input");

@@ -1,19 +1,17 @@
-'use strict';
+const AndroidChromeStrategy = require("../../../../lib/strategies/android-chrome");
+const BaseStrategy = require("../../../../lib/strategies/base");
 
-var AndroidChromeStrategy = require('../../../../lib/strategies/android-chrome');
-var BaseStrategy = require('../../../../lib/strategies/base');
-
-describe('Android Chrome Strategy', function () {
-  describe('constructor()', function () {
-    it('is an instance of BaseStrategy', function () {
-      var options = {
+describe("Android Chrome Strategy", function () {
+  describe("constructor()", function () {
+    it("is an instance of BaseStrategy", function () {
+      const options = {
         element: {
-          value: 'input value',
-          addEventListener: jest.fn()
+          value: "input value",
+          addEventListener: jest.fn(),
         },
-        pattern: '{{9}}'
+        pattern: "{{9}}",
       };
-      var strategy = new AndroidChromeStrategy(options);
+      const strategy = new AndroidChromeStrategy(options);
 
       expect(strategy).toBeInstanceOf(BaseStrategy);
     });

@@ -1,19 +1,17 @@
-'use strict';
+const AndroidChromeStrategy = require("../../../../lib/strategies/android-chrome");
+const KitKatChromiumBasedWebViewStrategy = require("../../../../lib/strategies/kitkat-chromium-based-webview");
 
-var AndroidChromeStrategy = require('../../../../lib/strategies/android-chrome');
-var KitKatChromiumBasedWebViewStrategy = require('../../../../lib/strategies/kitkat-chromium-based-webview');
-
-describe('Old Android Chrome Based Webview Strategy', function () {
-  describe('constructor()', function () {
-    it('is an instance of AndroidChromeStrategy', function () {
-      var options = {
+describe("Old Android Chrome Based Webview Strategy", function () {
+  describe("constructor()", function () {
+    it("is an instance of AndroidChromeStrategy", function () {
+      const options = {
         element: {
-          value: 'input value',
-          addEventListener: jest.fn()
+          value: "input value",
+          addEventListener: jest.fn(),
         },
-        pattern: '{{9}}'
+        pattern: "{{9}}",
       };
-      var strategy = new KitKatChromiumBasedWebViewStrategy(options);
+      const strategy = new KitKatChromiumBasedWebViewStrategy(options);
 
       expect(strategy).toBeInstanceOf(AndroidChromeStrategy);
     });

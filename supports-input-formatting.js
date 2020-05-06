@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-var device = require('./lib/device');
+var device = require("./lib/device");
 
 module.exports = function () {
   // Digits get dropped in samsung browser

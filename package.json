@@ -4,7 +4,10 @@
   "description": "Restrict inputs to certain valid characters (e.g. formatting phone or card numbers)",
   "author": "Braintree <code@getbraintree.com> (https://www.braintreepayments.com/)",
   "license": "MIT",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/braintree/restricted-input",
   "repository": {
     "type": "git",
@@ -20,26 +23,30 @@
     "restrict"
   ],
   "scripts": {
-    "build": "mkdir -p dist; browserify ./main.js -o dist/restricted-input.js -s RestrictedInput -v",
+    "prebuild": "prettier --write .",
+    "build": "tsc --declaration",
+    "build:app": "mkdir -p dist-app; browserify ./main.js -p [ tsify --strict ] -o dist-app/restricted-input.js -s RestrictedInput -v",
     "doc": "jsdoc -r -R README.md -d jsdoc lib/",
     "doc:watch": "npm run doc && chokidar 'lib/**/*.js' -c 'npm run doc'",
-    "prestart": "npm run build",
+    "prestart": "npm run build:app",
     "start": "node ./test/support/server.js",
-    "development": "npm start & chokidar 'lib/**/*.js' -c 'npm run build; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
-    "lint": "eslint lib test",
-    "test": "npm run lint && npm run test:unit",
+    "development": "npm start & chokidar 'lib/**/*.js' -c 'npm run build:app; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
+    "lint": "eslint --ext js,ts lib test",
+    "posttest": "npm run lint",
+    "test": "npm run test:unit",
     "test:watch": "jest --watchAll",
     "test:unit": "jest test/unit",
     "test:integration": "wdio wdio.conf.js",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:app",
     "postpublish": "npm run publish:demo"
   },
   "dependencies": {
     "@braintree/browser-detection": "^1.9.0"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "@wdio/browserstack-service": "^6.1.4",
     "@wdio/cli": "^6.1.8",
     "@wdio/local-runner": "^6.1.8",
@@ -52,10 +59,13 @@
     "chokidar-cli": "^2.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
-    "eslint-config-braintree": "^4.0.0",
+    "eslint-config-braintree": "^5.0.0-typescript-prep-rc.17",
     "express": "^4.17.1",
     "jest": "^26.0.1",
     "jsdoc": "^3.6.4",
+    "prettier": "^2.0.5",
+    "tsify": "^4.0.1",
+    "typescript": "^3.8.3",
     "uuid": "^8.0.0",
     "webdriverio": "^6.1.8"
   },

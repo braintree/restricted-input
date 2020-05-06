@@ -1,8 +1,10 @@
----
-  env:
-    mocha: true
-    jest: true
-
-  rules:
-    no-invalid-this: 0
-    no-unused-expressions: 0
+{
+  "env": {
+    "mocha": true,
+    "jest": true
+  },
+  "rules": {
+    "no-invalid-this": 0,
+    "no-unused-expressions": 0
+  }
+}

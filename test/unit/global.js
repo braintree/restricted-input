@@ -1,24 +1,28 @@
-'use strict';
+const RestrictedInput = require("../../lib/restricted-input");
 
-var RestrictedInput = require('../../lib/restricted-input');
-
-global.defaultPattern = '{{9999}} {{9999}} {{9999}} {{9999}}';
+global.defaultPattern = "{{9999}} {{9999}} {{9999}} {{9999}}";
 
 global.getInputNode = function () {
-  return document.createElement('input');
+  return document.createElement("input");
 };
 
 global.getCleanInstance = function (optionsArg) {
-  var options = optionsArg || {};
+  const options = optionsArg || {};
 
-  return new RestrictedInput(Object.assign({}, {
-    element: global.getInputNode(),
-    pattern: global.defaultPattern
-  }, options));
+  return new RestrictedInput(
+    Object.assign(
+      {},
+      {
+        element: global.getInputNode(),
+        pattern: global.defaultPattern,
+      },
+      options
+    )
+  );
 };
 
 beforeEach(function () {
-  document.body.innerHTML = '';
+  document.body.innerHTML = "";
 });
 
 afterEach(function () {
