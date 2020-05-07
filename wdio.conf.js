@@ -23,6 +23,7 @@ const build = `${projectName} - ${type} ${Date.now()}`;
 
 const defaultCapabilities = {
   project: projectName,
+  build,
   "browserstack.debug": true,
   "browserstack.local": true,
   "browserstack.networkLogs": true,
