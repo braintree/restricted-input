@@ -8,13 +8,13 @@
 import AndroidChromeStrategy from "./android-chrome";
 
 class KitKatChromiumBasedWebViewStrategy extends AndroidChromeStrategy {
-  _reformatInput() {
+  _reformatInput(): void {
     setTimeout(() => {
       super._reformatInput();
     }, 0);
   }
 
-  _unformatInput() {
+  _unformatInput(): void {
     setTimeout(() => {
       super._unformatInput();
     }, 0);

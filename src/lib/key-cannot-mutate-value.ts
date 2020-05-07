@@ -1,6 +1,7 @@
 import { get as getCurrentSelection } from "./input-selection";
 
-export default function (event: KeyboardEvent) {
+// eslint-disable-next-line complexity
+export default function (event: KeyboardEvent): boolean {
   const input = (event.currentTarget || event.srcElement) as HTMLInputElement;
   const selection = getCurrentSelection(input);
   const isAtBeginning = selection.start === 0;

@@ -18,19 +18,19 @@ import isIE9 = require("@braintree/browser-detection/is-ie9");
 // https://developer.chrome.com/multidevice/user-agent#webview_user_agent
 const KITKAT_WEBVIEW_REGEX = /Version\/\d\.\d* Chrome\/\d*\.0\.0\.0/;
 
-function _isOldSamsungBrowserOrSamsungWebview(ua: string) {
+function _isOldSamsungBrowserOrSamsungWebview(ua: string): boolean {
   return !isChrome(ua) && ua.indexOf("Samsung") > -1;
 }
 
-export function isKitKatWebview(ua: string = UA) {
+export function isKitKatWebview(ua: string = UA): boolean {
   return isAndroid(ua) && KITKAT_WEBVIEW_REGEX.test(ua);
 }
 
-export function isAndroidChrome(ua: string = UA) {
+export function isAndroidChrome(ua: string = UA): boolean {
   return (isAndroid(ua) || isChromeOs(ua)) && isChrome(ua);
 }
 
-export function isSamsungBrowser(ua: string = UA) {
+export function isSamsungBrowser(ua: string = UA): boolean {
   return /SamsungBrowser/.test(ua) || _isOldSamsungBrowserOrSamsungWebview(ua);
 }
 

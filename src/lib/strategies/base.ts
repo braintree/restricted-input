@@ -1,12 +1,12 @@
 import StrategyInterface, {
-  Input,
   StrategyOptions,
+  OnPasteEventMethod,
 } from "./strategy-interface";
 import keyCannotMutateValue from "../key-cannot-mutate-value";
 import { get as getSelection, set as setSelection } from "../input-selection";
 import isBackspace from "../is-backspace";
 import isDelete from "../is-delete";
-import Formatter, { Formatted } from "../formatter";
+import Formatter, { FormatMetadata } from "../formatter";
 
 declare global {
   interface Window {
@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-function isSimulatedEvent(event: KeyboardEvent) {
+function isSimulatedEvent(event: KeyboardEvent): boolean {
   // 1Password sets input.value then fires keyboard events. Dependent on browser
   // here might be falsy values (key = '', keyCode = 0) or these keys might be omitted
   // Chrome autofill inserts keys all at once and fires a single event without key info
@@ -25,8 +25,8 @@ function isSimulatedEvent(event: KeyboardEvent) {
 
 class BaseStrategy extends StrategyInterface {
   formatter: Formatter;
-  _onPasteEvent?: Function; // TODO
-  _stateToFormat?: Formatted;
+  _onPasteEvent?: OnPasteEventMethod;
+  _stateToFormat?: FormatMetadata;
 
   constructor(options: StrategyOptions) {
     super(options);
@@ -39,8 +39,8 @@ class BaseStrategy extends StrategyInterface {
     this._formatIfNotEmpty();
   }
 
-  getUnformattedValue(forceUnformat?: boolean) {
-    const value = this.inputElement.value;
+  getUnformattedValue(forceUnformat?: boolean): string {
+    let value = this.inputElement.value;
 
     if (forceUnformat || this.isFormatted) {
       value = this.formatter.unformat({
@@ -52,7 +52,7 @@ class BaseStrategy extends StrategyInterface {
     return value;
   }
 
-  _formatIfNotEmpty() {
+  _formatIfNotEmpty(): void {
     if (this.inputElement.value) {
       this._reformatInput();
     }
@@ -66,7 +66,7 @@ class BaseStrategy extends StrategyInterface {
     this._formatIfNotEmpty();
   }
 
-  _attachListeners() {
+  _attachListeners(): void {
     this.inputElement.addEventListener("keydown", (e) => {
       const event = e as KeyboardEvent;
 
@@ -94,7 +94,7 @@ class BaseStrategy extends StrategyInterface {
       }
       this._unformatInput();
     });
-    this.inputElement.addEventListener("keyup", (event) => {
+    this.inputElement.addEventListener("keyup", () => {
       this._reformatInput();
     });
     this.inputElement.addEventListener("input", (event) => {
@@ -112,11 +112,11 @@ class BaseStrategy extends StrategyInterface {
     });
   }
 
-  _isDeletion(event: KeyboardEvent) {
+  _isDeletion(event: KeyboardEvent): boolean {
     return isDelete(event) || isBackspace(event);
   }
 
-  _reformatInput() {
+  _reformatInput(): void {
     if (this.isFormatted) {
       return;
     }
@@ -141,11 +141,12 @@ class BaseStrategy extends StrategyInterface {
   // If a strategy needs to impliment specific behavior
   // after reformatting has happend, the strategy just
   // overwrites this method on their own prototype
-  _afterReformatInput(formattedState: Formatted) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _afterReformatInput(formattedState: FormatMetadata): void {
     // noop
   }
 
-  _unformatInput() {
+  _unformatInput(): void {
     if (!this.isFormatted) {
       return;
     }
@@ -167,18 +168,18 @@ class BaseStrategy extends StrategyInterface {
     );
   }
 
-  _prePasteEventHandler(event: ClipboardEvent) {
+  _prePasteEventHandler(event: ClipboardEvent): void {
     // without this, the paste event is called twice
     // so if you were pasting abc it would result in
     // abcabc
     event.preventDefault();
   }
 
-  _postPasteEventHandler() {
+  _postPasteEventHandler(): void {
     this._reformatAfterPaste();
   }
 
-  _pasteEventHandler(event: ClipboardEvent) {
+  _pasteEventHandler(event: ClipboardEvent): void {
     let splicedEntry;
     let entryValue = "";
 
@@ -218,7 +219,7 @@ class BaseStrategy extends StrategyInterface {
     this._postPasteEventHandler();
   }
 
-  _reformatAfterPaste() {
+  _reformatAfterPaste(): void {
     const event = document.createEvent("Event");
 
     this._reformatInput();
@@ -227,7 +228,7 @@ class BaseStrategy extends StrategyInterface {
     this.inputElement.dispatchEvent(event);
   }
 
-  _getStateToFormat() {
+  _getStateToFormat(): FormatMetadata {
     const input = this.inputElement;
     const selection = getSelection(input);
     let stateToFormat = {

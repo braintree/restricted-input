@@ -1,5 +1,4 @@
 import NoopStrategy from "../../../../src/lib/strategies/noop";
-import BaseStrategy from "../../../../src/lib/strategies/base";
 
 describe("Noop Strategy", function () {
   it("returns raw input value for getUnformattedValue", function () {

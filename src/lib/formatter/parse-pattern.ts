@@ -17,15 +17,15 @@ export type Pattern = {
   index: number;
 };
 
-function isDigit(char: string) {
+function isDigit(char: string): boolean {
   return DIGIT_REGEX.test(char);
 }
 
-function isAlpha(char: string) {
+function isAlpha(char: string): boolean {
   return ALPHA_REGEX.test(char);
 }
 
-function createRegexForChar(char: string) {
+function createRegexForChar(char: string): RegExp {
   if (isDigit(char)) {
     return DIGIT_REGEX;
   } else if (isAlpha(char)) {
@@ -35,11 +35,11 @@ function createRegexForChar(char: string) {
   return WILD_REGEX;
 }
 
-function isPlaceholder(char: string) {
+function isPlaceholder(char: string): boolean {
   return PLACEHOLDER_REGEX.test(char);
 }
 
-function isPlaceholderPattern(str: string) {
+function isPlaceholderPattern(str: string): boolean {
   return PLACEHOLDER_PATTERN_REGEX.test(str);
 }
 

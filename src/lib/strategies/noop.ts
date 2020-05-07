@@ -1,11 +1,11 @@
 import StrategyInterface from "./strategy-interface";
 
 class NoopKeyboardStrategy extends StrategyInterface {
-  getUnformattedValue() {
+  getUnformattedValue(): string {
     return this.inputElement.value;
   }
 
-  setPattern() {
+  setPattern(): void {
     // noop
   }
 }

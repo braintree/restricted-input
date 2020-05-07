@@ -2,30 +2,23 @@ import parsePattern, { Pattern } from "./parse-pattern";
 import isBackspace from "../is-backspace";
 import type { Selection } from "../input-selection";
 
-// TODO better name
-export type Formatted = {
+export type FormatMetadata = {
   value: string;
   selection: Selection;
 };
 
-export interface SimulateDeleteOptions extends Formatted {
+export interface SimulateDeleteOptions extends FormatMetadata {
   event: KeyboardEvent;
 }
 
 class PatternFormatter {
-  pattern: Pattern[]; // TODO
+  pattern: Pattern[];
 
   constructor(pattern: string) {
-    // TODO ask talk-javascript about why we can't use setPattern here instead
     this.pattern = parsePattern(pattern);
   }
 
-  // TODO we can possibly remove this since it's not used outside the class
-  setPattern(pattern: string) {
-    this.pattern = parsePattern(pattern);
-  }
-
-  format(options: Formatted): Formatted {
+  format(options: FormatMetadata): FormatMetadata {
     const originalString = options.value;
     let originalStringIndex = 0;
     let formattedString = "";
@@ -83,7 +76,7 @@ class PatternFormatter {
     };
   }
 
-  unformat(options: Formatted) {
+  unformat(options: FormatMetadata): FormatMetadata {
     let start = options.selection.start;
     let end = options.selection.end;
     let unformattedString = "";
@@ -120,7 +113,7 @@ class PatternFormatter {
     };
   }
 
-  simulateDeletion(options: SimulateDeleteOptions) {
+  simulateDeletion(options: SimulateDeleteOptions): FormatMetadata {
     let deletionStart, deletionEnd;
     const state = this.unformat(options);
     const value = state.value;

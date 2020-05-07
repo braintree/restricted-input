@@ -20,6 +20,7 @@ describe("isBackspace()", function () {
     expect(
       isBackspace(new KeyboardEvent("keyup", { key: "Not Backspace" }))
     ).toBe(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect(isBackspace(new KeyboardEvent("keyup", { keyCode: 0 } as any))).toBe(
       false
     );

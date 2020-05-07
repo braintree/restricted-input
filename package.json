@@ -48,10 +48,10 @@
   "devDependencies": {
     "@types/jest": "^25.2.1",
     "@wdio/browserstack-service": "^6.1.4",
-    "@wdio/cli": "^6.1.8",
-    "@wdio/local-runner": "^6.1.8",
+    "@wdio/cli": "^6.1.9",
+    "@wdio/local-runner": "^6.1.9",
     "@wdio/mocha-framework": "^6.1.8",
-    "@wdio/spec-reporter": "^6.1.5",
+    "@wdio/spec-reporter": "^6.1.9",
     "@wdio/sync": "^6.1.8",
     "browserify": "^16.5.0",
     "browserstack-local": "^1.4.5",
@@ -68,10 +68,10 @@
     "tsify": "^4.0.1",
     "typescript": "^3.8.3",
     "uuid": "^8.0.0",
-    "webdriverio": "^6.1.8"
+    "webdriverio": "^6.1.9"
   },
   "jest": {
-     "preset": "ts-jest",
+    "preset": "ts-jest",
     "setupFilesAfterEnv": [
       "./test/unit/global.ts"
     ]

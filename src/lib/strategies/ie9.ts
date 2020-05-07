@@ -1,9 +1,12 @@
 import BaseStrategy from "./base";
 import keyCannotMutateValue from "../key-cannot-mutate-value";
-import { get as getSelection, set as setSelection } from "../input-selection";
+import {
+  get as getSelection,
+  set as setSelection,
+  Selection,
+} from "../input-selection";
 
-function padSelection(selection: any, pad: number) {
-  // TODO: Fix selection an
+function padSelection(selection: Selection, pad: number): Selection {
   return {
     start: selection.start + pad,
     end: selection.end + pad,
@@ -11,11 +14,11 @@ function padSelection(selection: any, pad: number) {
 }
 
 class IE9Strategy extends BaseStrategy {
-  getUnformattedValue() {
+  getUnformattedValue(): string {
     return BaseStrategy.prototype.getUnformattedValue.call(this, true);
   }
 
-  _attachListeners() {
+  _attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
       this._keydownListener(event as KeyboardEvent);
     });
@@ -27,7 +30,7 @@ class IE9Strategy extends BaseStrategy {
     });
   }
 
-  _format() {
+  _format(): void {
     const input = this.inputElement;
     const stateToFormat = this._getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
@@ -40,7 +43,7 @@ class IE9Strategy extends BaseStrategy {
     );
   }
 
-  _keydownListener(event: KeyboardEvent) {
+  _keydownListener(event: KeyboardEvent): void {
     if (keyCannotMutateValue(event)) {
       return;
     }
@@ -78,7 +81,7 @@ class IE9Strategy extends BaseStrategy {
     this._format();
   }
 
-  _reformatAfterPaste() {
+  _reformatAfterPaste(): void {
     const input = this.inputElement;
     let selection = getSelection(this.inputElement);
     const value = this.formatter.format({

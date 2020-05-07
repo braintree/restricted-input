@@ -1,7 +1,5 @@
 import device from "./device";
 import supportsInputFormatting from "../supports-input-formatting";
-import constants from "./constants";
-import isValidElement from "./is-valid-element";
 import IosStrategy from "./strategies/ios";
 import AndroidChromeStrategy from "./strategies/android-chrome";
 import KitKatChromiumBasedWebViewStrategy from "./strategies/kitkat-chromium-based-webview";
@@ -42,7 +40,7 @@ class RestrictedInput {
    * @public
    * @returns {string} the unformatted value of the element
    */
-  getUnformattedValue() {
+  getUnformattedValue(): string {
     return this.strategy.getUnformattedValue();
   }
 
@@ -51,11 +49,11 @@ class RestrictedInput {
    * @param {string} pattern - the pattern to enforce on the element
    * @return {void}
    */
-  setPattern(pattern: string) {
+  setPattern(pattern: string): void {
     this.strategy.setPattern(pattern);
   }
 
-  static supportsFormatting() {
+  static supportsFormatting(): boolean {
     return supportsInputFormatting();
   }
 }

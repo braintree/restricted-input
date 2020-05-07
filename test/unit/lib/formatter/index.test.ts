@@ -5,10 +5,6 @@ import Formatter, {
 const NON_AMEX_CARD_PATTERN = "{{9999}} {{9999}} {{9999}} {{9999}}";
 const FAKE_PATTERN = "{{99}}-{{99}}";
 
-function noop() {
-  // noop
-}
-
 describe("Formatter", function () {
   describe("constructor()", function () {
     it("sets a pattern", function () {
@@ -226,32 +222,6 @@ describe("Formatter", function () {
       const reformatted = formatter.format(unformatted);
 
       expect(reformatted).toEqual(options);
-    });
-  });
-
-  describe("setPattern()", function () {
-    it("updates instance pattern", function () {
-      const formatter = new Formatter("{{9}}");
-
-      formatter.setPattern("{{A}} {{9}}");
-
-      expect(formatter.pattern).toEqual([
-        {
-          value: /[A-Za-z]/,
-          isPermaChar: false,
-          index: 0,
-        },
-        {
-          value: " ",
-          isPermaChar: true,
-          index: 1,
-        },
-        {
-          value: /\d/,
-          isPermaChar: false,
-          index: 2,
-        },
-      ]);
     });
   });
 

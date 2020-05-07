@@ -17,7 +17,7 @@ export function get(element: Input): Selection {
   };
 }
 
-export function set(element: Input, start: number, end: number) {
+export function set(element: Input, start: number, end: number): void {
   // Some browsers explode if you use setSelectionRange
   // on a non-focused element
   if (document.activeElement === element && element.setSelectionRange) {

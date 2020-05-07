@@ -1,8 +1,11 @@
 export type Input = HTMLInputElement | HTMLTextAreaElement;
+export type OnPasteEventMethod = (options: {
+  unformattedInputValue: string;
+}) => void;
 export type StrategyOptions = {
   element: Input;
   pattern: string;
-  onPasteEvent?: Function; // TODO configure shape of function
+  onPasteEvent?: OnPasteEventMethod;
 };
 
 export default abstract class StrategyInterface {
