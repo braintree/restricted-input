@@ -47,10 +47,6 @@ describe("Restricted Input", function () {
     browser.url("http://bs-local.com:3099");
   });
 
-  afterEach(() => {
-    browser.reloadSession();
-  });
-
   describe("for number", () => {
     it("enters a credit card", () => {
       const input = $("#credit-card-number");
