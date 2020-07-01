@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+* convert global to window (closes braintree-web#401)
+
 ## 2.1.0
 
 - Add option to include a hook for the unformatted value of the input after pasting
