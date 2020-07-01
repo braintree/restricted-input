@@ -1,8 +1,8 @@
-import BaseStrategy from "./base";
-import keyCannotMutateValue from "../key-cannot-mutate-value";
+import { BaseStrategy } from "./base";
+import { keyCannotMutateValue } from "../key-cannot-mutate-value";
 import { get as getSelection, set as setSelection } from "../input-selection";
 
-class IosStrategy extends BaseStrategy {
+export class IosStrategy extends BaseStrategy {
   getUnformattedValue(): string {
     return BaseStrategy.prototype.getUnformattedValue.call(this, true);
   }
@@ -76,5 +76,3 @@ class IosStrategy extends BaseStrategy {
     }
   }
 }
-
-export default IosStrategy;

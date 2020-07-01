@@ -1,5 +1,5 @@
-import parsePattern, { Pattern } from "./parse-pattern";
-import isBackspace from "../is-backspace";
+import { parsePattern, Pattern } from "./parse-pattern";
+import { isBackspace } from "../is-backspace";
 import type { Selection } from "../input-selection";
 
 export type FormatMetadata = {
@@ -11,7 +11,7 @@ export interface SimulateDeleteOptions extends FormatMetadata {
   event: KeyboardEvent;
 }
 
-class PatternFormatter {
+export class PatternFormatter {
   pattern: Pattern[];
 
   constructor(pattern: string) {
@@ -141,5 +141,3 @@ class PatternFormatter {
     };
   }
 }
-
-export default PatternFormatter;

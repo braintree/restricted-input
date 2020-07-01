@@ -1,3 +1,3 @@
-import RestrictedInput from "./lib/restricted-input";
+import RestrictedInput = require("./lib/restricted-input");
 
 export = RestrictedInput;

@@ -1,5 +1,5 @@
-import AndroidChromeStrategy from "../../../../src/lib/strategies/android-chrome";
-import BaseStrategy from "../../../../src/lib/strategies/base";
+import { AndroidChromeStrategy } from "../../../../src/lib/strategies/android-chrome";
+import { BaseStrategy } from "../../../../src/lib/strategies/base";
 
 describe("Android Chrome Strategy", function () {
   describe("constructor()", function () {

@@ -1,4 +1,4 @@
-import isBackspace from "../../../src/lib/is-backspace";
+import { isBackspace } from "../../../src/lib/is-backspace";
 
 describe("isBackspace()", function () {
   it('returns true if key is "Backspace"', function () {

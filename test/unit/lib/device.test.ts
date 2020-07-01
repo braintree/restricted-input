@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import device from "../../../src/lib/device";
+import {
+  isKitKatWebview,
+  isAndroidChrome,
+  isSamsungBrowser,
+  isIE9,
+  isIos,
+} from "../../../src/lib/device";
 const AGENTS: Record<string, string> = {
   androidOperaMini:
     "Opera/9.80 (Android; Opera Mini/7.6.35766/35.5706; U; en) Presto/2.8.119 Version/11.10",
@@ -77,38 +83,38 @@ const AGENTS: Record<string, string> = {
 describe("device", function () {
   describe("isAndroidChrome()", function () {
     it("returns true if user agent is Chrome for Android", function () {
-      expect(device.isAndroidChrome(AGENTS.androidPhoneChrome)).toBe(true);
+      expect(isAndroidChrome(AGENTS.androidPhoneChrome)).toBe(true);
     });
 
     it("returns false for Chrome desktop", function () {
-      expect(device.isAndroidChrome(AGENTS.pcChrome_27)).toBe(false);
-      expect(device.isAndroidChrome(AGENTS.pcChrome_41)).toBe(false);
-      expect(device.isAndroidChrome(AGENTS.iPhoneChrome)).toBe(false);
+      expect(isAndroidChrome(AGENTS.pcChrome_27)).toBe(false);
+      expect(isAndroidChrome(AGENTS.pcChrome_41)).toBe(false);
+      expect(isAndroidChrome(AGENTS.iPhoneChrome)).toBe(false);
     });
 
     it("returns true for ChromeOS Chrome", function () {
-      expect(device.isAndroidChrome(AGENTS.chromeOsChrome)).toBe(true);
+      expect(isAndroidChrome(AGENTS.chromeOsChrome)).toBe(true);
     });
   });
 
   describe("isIos", function () {
     it("returns true for an iPad", function () {
-      expect(device.isIos(AGENTS.iPad3_2Safari)).toBe(true);
-      expect(device.isIos(AGENTS.iPad5_1Safari)).toBe(true);
-      expect(device.isIos(AGENTS.iPad9_3Safari)).toBe(true);
+      expect(isIos(AGENTS.iPad3_2Safari)).toBe(true);
+      expect(isIos(AGENTS.iPad5_1Safari)).toBe(true);
+      expect(isIos(AGENTS.iPad9_3Safari)).toBe(true);
     });
 
     it("returns true for an iPod", function () {
-      expect(device.isIos(AGENTS.iPodSafari)).toBe(true);
+      expect(isIos(AGENTS.iPodSafari)).toBe(true);
     });
 
     it("returns true for an iPhone", function () {
-      expect(device.isIos(AGENTS.iPhone_3_2Safari)).toBe(true);
-      expect(device.isIos(AGENTS.iPhone_9_3_1Safari)).toBe(true);
+      expect(isIos(AGENTS.iPhone_3_2Safari)).toBe(true);
+      expect(isIos(AGENTS.iPhone_9_3_1Safari)).toBe(true);
     });
 
     it("returns true for iOS Chrome", function () {
-      expect(device.isIos(AGENTS.iPhoneChrome)).toBe(true);
+      expect(isIos(AGENTS.iPhoneChrome)).toBe(true);
     });
 
     it("returns false for non-iOS browsers", function () {
@@ -120,7 +126,7 @@ describe("device", function () {
         }
         if (!/iPhone|iPad|iPod/.test(key)) {
           ua = AGENTS[key];
-          expect(device.isIos(ua)).toBe(false);
+          expect(isIos(ua)).toBe(false);
         }
       }
     });
@@ -128,44 +134,42 @@ describe("device", function () {
 
   describe("isKitKatWebview()", function () {
     it("returns true if user agent is Android 4 Webview with Chrome in useragent", function () {
-      expect(device.isKitKatWebview(AGENTS.androidWebviewKitKatLollipop)).toBe(
-        true
-      );
+      expect(isKitKatWebview(AGENTS.androidWebviewKitKatLollipop)).toBe(true);
     });
 
     it("returns false for Android webviews without chrome in user agent", function () {
-      expect(device.isKitKatWebview(AGENTS.androidWebviewOld)).toBe(false);
+      expect(isKitKatWebview(AGENTS.androidWebviewOld)).toBe(false);
     });
 
     it("returns false for Android webviews with newer builds of Chrome", function () {
-      expect(
-        device.isKitKatWebview(AGENTS.androidWebviewLollipopAndAbove)
-      ).toBe(false);
+      expect(isKitKatWebview(AGENTS.androidWebviewLollipopAndAbove)).toBe(
+        false
+      );
     });
 
     it("returns false for Android Chrome", function () {
-      expect(device.isKitKatWebview(AGENTS.androidPhoneChrome)).toBe(false);
+      expect(isKitKatWebview(AGENTS.androidPhoneChrome)).toBe(false);
     });
   });
 
   describe("isIE9", function () {
     it("returns true for IE9", function () {
-      expect(device.isIE9(AGENTS.ie9)).toBe(true);
+      expect(isIE9(AGENTS.ie9)).toBe(true);
     });
 
     it("returns false for non-IE9", function () {
-      expect(device.isIE9(AGENTS.ie10)).toBe(false);
-      expect(device.isIE9(AGENTS.ie11)).toBe(false);
+      expect(isIE9(AGENTS.ie10)).toBe(false);
+      expect(isIE9(AGENTS.ie11)).toBe(false);
     });
   });
 
   describe("isSamsungBrowser", function () {
     it("returns true for current Samsung Browser", function () {
-      expect(device.isSamsungBrowser(AGENTS.samsungBrowser2_1)).toBe(true);
+      expect(isSamsungBrowser(AGENTS.samsungBrowser2_1)).toBe(true);
     });
 
     it("returns true for old Samsung Browser and webviews", function () {
-      expect(device.isSamsungBrowser(AGENTS.samsungBrowserWebview)).toBe(true);
+      expect(isSamsungBrowser(AGENTS.samsungBrowserWebview)).toBe(true);
     });
 
     it("returns false when not Samsung Browser", function () {
@@ -177,7 +181,7 @@ describe("device", function () {
         }
         if (!/samsungBrowser/.test(key)) {
           ua = AGENTS[key];
-          expect(device.isSamsungBrowser(ua)).toBe(false);
+          expect(isSamsungBrowser(ua)).toBe(false);
         }
       }
     });

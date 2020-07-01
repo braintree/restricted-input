@@ -1,13 +1,32 @@
-import RestrictedInput from "../../../src/lib/restricted-input";
-import BaseStrategy from "../../../src/lib/strategies/base";
-import IosStrategy from "../../../src/lib/strategies/ios";
-import IE9Strategy from "../../../src/lib/strategies/ie9";
-import AndroidChromeStrategy from "../../../src/lib/strategies/android-chrome";
-import KitKatChromiumBasedWebViewStrategy from "../../../src/lib/strategies/kitkat-chromium-based-webview";
-import NoopStrategy from "../../../src/lib/strategies/noop";
-import device from "../../../src/lib/device";
+import RestrictedInput = require("../../../src/lib/restricted-input");
+import { BaseStrategy } from "../../../src/lib/strategies/base";
+import { IosStrategy } from "../../../src/lib/strategies/ios";
+import { IE9Strategy } from "../../../src/lib/strategies/ie9";
+import { AndroidChromeStrategy } from "../../../src/lib/strategies/android-chrome";
+import { KitKatChromiumBasedWebViewStrategy } from "../../../src/lib/strategies/kitkat-chromium-based-webview";
+import { NoopKeyboardStrategy as NoopStrategy } from "../../../src/lib/strategies/noop";
+import {
+  isIE9,
+  isIos,
+  isKitKatWebview,
+  isAndroidChrome,
+  isSamsungBrowser,
+} from "../../../src/lib/device";
+
+import { mocked } from "ts-jest/utils";
+
+jest.mock("../../../src/lib/device");
 
 describe("RestrictedInput", function () {
+  afterEach(() => {
+    // reset these back to their default mocked values
+    mocked(isIE9).mockReturnValue(false);
+    mocked(isIos).mockReturnValue(false);
+    mocked(isKitKatWebview).mockReturnValue(false);
+    mocked(isAndroidChrome).mockReturnValue(false);
+    mocked(isSamsungBrowser).mockReturnValue(false);
+  });
+
   describe("constructor()", function () {
     it("defaults to BaseStrategy", function () {
       const ri = new RestrictedInput({
@@ -47,7 +66,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses IosStrategy for ios devices", function () {
-      jest.spyOn(device, "isIos").mockReturnValue(true);
+      mocked(isIos).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -58,7 +77,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses KitKatChromiumBasedWebViewStrategy for Android KitKiat webvies", function () {
-      jest.spyOn(device, "isKitKatWebview").mockReturnValue(true);
+      mocked(isKitKatWebview).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -69,7 +88,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses AndroidChromeStrategy for android chrome devices", function () {
-      jest.spyOn(device, "isAndroidChrome").mockReturnValue(true);
+      mocked(isAndroidChrome).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -80,7 +99,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses IE9Strategy for IE9 browser", function () {
-      jest.spyOn(device, "isIE9").mockReturnValue(true);
+      mocked(isIE9).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -91,7 +110,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses NoopStrategy for Samsung browser", function () {
-      jest.spyOn(device, "isSamsungBrowser").mockReturnValue(true);
+      mocked(isSamsungBrowser).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -135,13 +154,13 @@ describe("RestrictedInput", function () {
 
   describe("supportsFormatting", function () {
     it("returns false if device is a samsung browser", function () {
-      jest.spyOn(device, "isSamsungBrowser").mockReturnValue(true);
+      mocked(isSamsungBrowser).mockReturnValue(true);
 
       expect(RestrictedInput.supportsFormatting()).toBe(false);
     });
 
     it("returns true if device is not a Samsung browser", function () {
-      jest.spyOn(device, "isSamsungBrowser").mockReturnValue(false);
+      mocked(isSamsungBrowser).mockReturnValue(false);
 
       expect(RestrictedInput.supportsFormatting()).toBe(true);
     });

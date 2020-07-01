@@ -1,4 +1,5 @@
-import Formatter, {
+import {
+  PatternFormatter as Formatter,
   SimulateDeleteOptions,
 } from "../../../../src/lib/formatter";
 

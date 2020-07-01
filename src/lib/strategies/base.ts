@@ -1,12 +1,13 @@
-import StrategyInterface, {
+import {
+  StrategyInterface,
   StrategyOptions,
   OnPasteEventMethod,
 } from "./strategy-interface";
-import keyCannotMutateValue from "../key-cannot-mutate-value";
+import { keyCannotMutateValue } from "../key-cannot-mutate-value";
 import { get as getSelection, set as setSelection } from "../input-selection";
-import isBackspace from "../is-backspace";
-import isDelete from "../is-delete";
-import Formatter, { FormatMetadata } from "../formatter";
+import { isBackspace } from "../is-backspace";
+import { isDelete } from "../is-delete";
+import { PatternFormatter as Formatter, FormatMetadata } from "../formatter";
 
 declare global {
   interface Window {
@@ -23,7 +24,7 @@ function isSimulatedEvent(event: KeyboardEvent): boolean {
   return !event.key && !event.keyCode;
 }
 
-class BaseStrategy extends StrategyInterface {
+export class BaseStrategy extends StrategyInterface {
   formatter: Formatter;
   _onPasteEvent?: OnPasteEventMethod;
   _stateToFormat?: FormatMetadata;
@@ -246,5 +247,3 @@ class BaseStrategy extends StrategyInterface {
     return stateToFormat;
   }
 }
-
-export default BaseStrategy;

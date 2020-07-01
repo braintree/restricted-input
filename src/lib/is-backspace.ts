@@ -1,3 +1,3 @@
-export default function (event: KeyboardEvent): boolean {
+export function isBackspace(event: KeyboardEvent): boolean {
   return event.key === "Backspace" || event.keyCode === 8;
 }

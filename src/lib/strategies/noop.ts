@@ -1,6 +1,6 @@
-import StrategyInterface from "./strategy-interface";
+import { StrategyInterface } from "./strategy-interface";
 
-class NoopKeyboardStrategy extends StrategyInterface {
+export class NoopKeyboardStrategy extends StrategyInterface {
   getUnformattedValue(): string {
     return this.inputElement.value;
   }
@@ -9,5 +9,3 @@ class NoopKeyboardStrategy extends StrategyInterface {
     // noop
   }
 }
-
-export default NoopKeyboardStrategy;

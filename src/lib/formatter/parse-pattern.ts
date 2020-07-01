@@ -43,7 +43,7 @@ function isPlaceholderPattern(str: string): boolean {
   return PLACEHOLDER_PATTERN_REGEX.test(str);
 }
 
-export default function parsePattern(patternString: string): Pattern[] {
+export function parsePattern(patternString: string): Pattern[] {
   const patternArray: Pattern[] = [];
   const patternParts = patternString.match(PATTERN_REGEX);
 

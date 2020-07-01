@@ -1,4 +1,4 @@
-import NoopStrategy from "../../../../src/lib/strategies/noop";
+import { NoopKeyboardStrategy as NoopStrategy } from "../../../../src/lib/strategies/noop";
 
 describe("Noop Strategy", function () {
   it("returns raw input value for getUnformattedValue", function () {

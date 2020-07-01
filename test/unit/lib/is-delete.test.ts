@@ -1,4 +1,4 @@
-import isDelete from "../../../src/lib/is-delete";
+import { isDelete } from "../../../src/lib/is-delete";
 
 describe("isDelete()", function () {
   it('returns true if key is "Delete"', function () {

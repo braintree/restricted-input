@@ -1,9 +1,9 @@
-import keyCannotMutateValue from "../key-cannot-mutate-value";
-import BaseStrategy from "./base";
+import { keyCannotMutateValue } from "../key-cannot-mutate-value";
+import { BaseStrategy } from "./base";
 import { FormatMetadata } from "../formatter";
 import { set as setSelection } from "../input-selection";
 
-class AndroidChromeStrategy extends BaseStrategy {
+export class AndroidChromeStrategy extends BaseStrategy {
   _attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
       if (keyCannotMutateValue(event as KeyboardEvent)) {
@@ -71,5 +71,3 @@ class AndroidChromeStrategy extends BaseStrategy {
     }, 0);
   }
 }
-
-export default AndroidChromeStrategy;

@@ -1,6 +1,6 @@
-import device from "./lib/device";
+import { isSamsungBrowser } from "./lib/device";
 
-export = function (): boolean {
+export = function supportsInputFormatting(): boolean {
   // Digits get dropped in samsung browser
-  return !device.isSamsungBrowser();
+  return !isSamsungBrowser();
 };

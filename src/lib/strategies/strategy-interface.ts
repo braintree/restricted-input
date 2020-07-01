@@ -8,7 +8,7 @@ export type StrategyOptions = {
   onPasteEvent?: OnPasteEventMethod;
 };
 
-export default abstract class StrategyInterface {
+export abstract class StrategyInterface {
   inputElement: Input;
   isFormatted: boolean;
 

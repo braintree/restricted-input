@@ -1,5 +1,5 @@
-import IosStrategy from "../../../../src/lib/strategies/ios";
-import BaseStrategy from "../../../../src/lib/strategies/base";
+import { IosStrategy } from "../../../../src/lib/strategies/ios";
+import { BaseStrategy } from "../../../../src/lib/strategies/base";
 import { StrategyOptions } from "../../../../src/lib/strategies/strategy-interface";
 
 describe("iOS Strategy", function () {

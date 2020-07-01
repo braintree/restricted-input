@@ -1,5 +1,5 @@
-import IE9Strategy from "../../../../src/lib/strategies/ie9";
-import BaseStrategy from "../../../../src/lib/strategies/base";
+import { IE9Strategy } from "../../../../src/lib/strategies/ie9";
+import { BaseStrategy } from "../../../../src/lib/strategies/base";
 import { StrategyOptions } from "../../../../src/lib/strategies/strategy-interface";
 
 describe("IE9 Strategy", function () {

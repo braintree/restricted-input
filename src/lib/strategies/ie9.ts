@@ -1,5 +1,5 @@
-import BaseStrategy from "./base";
-import keyCannotMutateValue from "../key-cannot-mutate-value";
+import { BaseStrategy } from "./base";
+import { keyCannotMutateValue } from "../key-cannot-mutate-value";
 import {
   get as getSelection,
   set as setSelection,
@@ -13,7 +13,7 @@ function padSelection(selection: Selection, pad: number): Selection {
   };
 }
 
-class IE9Strategy extends BaseStrategy {
+export class IE9Strategy extends BaseStrategy {
   getUnformattedValue(): string {
     return BaseStrategy.prototype.getUnformattedValue.call(this, true);
   }
@@ -99,5 +99,3 @@ class IE9Strategy extends BaseStrategy {
     }, 0);
   }
 }
-
-export default IE9Strategy;

@@ -5,9 +5,9 @@
 // problem. This causes other problems in non-webviews, so we give it
 // its own strategy.
 
-import AndroidChromeStrategy from "./android-chrome";
+import { AndroidChromeStrategy } from "./android-chrome";
 
-class KitKatChromiumBasedWebViewStrategy extends AndroidChromeStrategy {
+export class KitKatChromiumBasedWebViewStrategy extends AndroidChromeStrategy {
   _reformatInput(): void {
     setTimeout(() => {
       super._reformatInput();
@@ -20,5 +20,3 @@ class KitKatChromiumBasedWebViewStrategy extends AndroidChromeStrategy {
     }, 0);
   }
 }
-
-export default KitKatChromiumBasedWebViewStrategy;

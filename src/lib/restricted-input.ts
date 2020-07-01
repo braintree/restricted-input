@@ -1,14 +1,15 @@
-import device from "./device";
-import supportsInputFormatting from "../supports-input-formatting";
-import IosStrategy from "./strategies/ios";
-import AndroidChromeStrategy from "./strategies/android-chrome";
-import KitKatChromiumBasedWebViewStrategy from "./strategies/kitkat-chromium-based-webview";
-import IE9Strategy from "./strategies/ie9";
-import StrategyInterface, {
+import { isIos, isKitKatWebview, isAndroidChrome, isIE9 } from "./device";
+import supportsInputFormatting = require("../supports-input-formatting");
+import { IosStrategy } from "./strategies/ios";
+import { AndroidChromeStrategy } from "./strategies/android-chrome";
+import { KitKatChromiumBasedWebViewStrategy } from "./strategies/kitkat-chromium-based-webview";
+import { IE9Strategy } from "./strategies/ie9";
+import {
+  StrategyInterface,
   StrategyOptions,
 } from "./strategies/strategy-interface";
-import BaseStrategy from "./strategies/base";
-import NoopStrategy from "./strategies/noop";
+import { BaseStrategy } from "./strategies/base";
+import { NoopKeyboardStrategy as NoopStrategy } from "./strategies/noop";
 
 /**
  * Instances of this class can be used to modify the formatter for an input
@@ -23,13 +24,13 @@ class RestrictedInput {
   constructor(options: StrategyOptions) {
     if (!RestrictedInput.supportsFormatting()) {
       this.strategy = new NoopStrategy(options);
-    } else if (device.isIos()) {
+    } else if (isIos()) {
       this.strategy = new IosStrategy(options);
-    } else if (device.isKitKatWebview()) {
+    } else if (isKitKatWebview()) {
       this.strategy = new KitKatChromiumBasedWebViewStrategy(options);
-    } else if (device.isAndroidChrome()) {
+    } else if (isAndroidChrome()) {
       this.strategy = new AndroidChromeStrategy(options);
-    } else if (device.isIE9()) {
+    } else if (isIE9()) {
       this.strategy = new IE9Strategy(options);
     } else {
       this.strategy = new BaseStrategy(options);
@@ -58,4 +59,4 @@ class RestrictedInput {
   }
 }
 
-export default RestrictedInput;
+export = RestrictedInput;

@@ -34,10 +34,4 @@ export function isSamsungBrowser(ua: string = UA): boolean {
   return /SamsungBrowser/.test(ua) || _isOldSamsungBrowserOrSamsungWebview(ua);
 }
 
-export default {
-  isIE9: isIE9,
-  isAndroidChrome: isAndroidChrome,
-  isIos: isIos,
-  isKitKatWebview: isKitKatWebview,
-  isSamsungBrowser: isSamsungBrowser,
-};
+export { isIE9, isIos };
