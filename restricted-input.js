@@ -9,10 +9,9 @@ module.exports = {
 };
 
 },{}],2:[function(require,module,exports){
-(function (global){
 'use strict';
 
-var UA = global.navigator && global.navigator.userAgent;
+var UA = typeof window !== 'undefined' && window.navigator && window.navigator.userAgent;
 
 var isAndroid = require('@braintree/browser-detection/is-android');
 var isChromeOs = require('@braintree/browser-detection/is-chrome-os');
@@ -54,7 +53,6 @@ module.exports = {
   isSamsungBrowser: isSamsungBrowser
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"@braintree/browser-detection/is-android":18,"@braintree/browser-detection/is-chrome":20,"@braintree/browser-detection/is-chrome-os":19,"@braintree/browser-detection/is-ie9":22,"@braintree/browser-detection/is-ios":23}],3:[function(require,module,exports){
 'use strict';
 
@@ -501,7 +499,6 @@ AndroidChromeStrategy.prototype._afterReformatInput = function (formattedState) 
 module.exports = AndroidChromeStrategy;
 
 },{"../input-selection":5,"../key-cannot-mutate-value":9,"./base":12}],12:[function(require,module,exports){
-(function (global){
 'use strict';
 
 var keyCannotMutateValue = require('../key-cannot-mutate-value');
@@ -658,8 +655,8 @@ BaseStrategy.prototype._pasteEventHandler = function (event) {
 
   if (event.clipboardData) {
     entryValue = event.clipboardData.getData('Text');
-  } else if (global.clipboardData) {
-    entryValue = global.clipboardData.getData('Text');
+  } else if (window.clipboardData) {
+    entryValue = window.clipboardData.getData('Text');
   }
 
   selection = getSelection(this.inputElement);
@@ -709,7 +706,6 @@ BaseStrategy.prototype._getStateToFormat = function () {
 
 module.exports = BaseStrategy;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"../formatter":3,"../input-selection":5,"../is-backspace":6,"../is-delete":7,"../key-cannot-mutate-value":9}],13:[function(require,module,exports){
 'use strict';
 
