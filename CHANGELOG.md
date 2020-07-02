@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## unreleased
+## 2.1.1
 
 * convert global to window (closes braintree-web#401)
 
