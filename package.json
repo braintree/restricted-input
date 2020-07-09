@@ -26,6 +26,7 @@
     "prebuild": "prettier --write .",
     "build": "tsc --declaration",
     "build:app": "mkdir -p dist-app; browserify ./src/main.ts -p [ tsify --strict ] -o dist-app/restricted-input.js -s RestrictedInput -v",
+    "predoc": "npm run build",
     "doc": "jsdoc -r -R README.md -d jsdoc dist/lib/",
     "doc:watch": "npm run doc && chokidar 'src/lib/**/*.ts' -c 'npm run doc'",
     "prestart": "npm run build:app",

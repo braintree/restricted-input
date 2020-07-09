@@ -2,15 +2,15 @@
 
 ## unrleased
 
-* Add Typescript types
+- Add Typescript types
 
-__Breaking Changes__
+**Breaking Changes**
 
 Private methods in Restricted Input are now private
 
 ## 2.1.1
 
-* convert global to window (closes braintree-web#401)
+- convert global to window (closes braintree-web#401)
 
 ## 2.1.0
 
