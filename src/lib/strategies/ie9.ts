@@ -18,7 +18,7 @@ export class IE9Strategy extends BaseStrategy {
     return BaseStrategy.prototype.getUnformattedValue.call(this, true);
   }
 
-  _attachListeners(): void {
+  protected _attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
       this._keydownListener(event as KeyboardEvent);
     });
@@ -30,7 +30,7 @@ export class IE9Strategy extends BaseStrategy {
     });
   }
 
-  _format(): void {
+  private _format(): void {
     const input = this.inputElement;
     const stateToFormat = this._getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
@@ -43,7 +43,7 @@ export class IE9Strategy extends BaseStrategy {
     );
   }
 
-  _keydownListener(event: KeyboardEvent): void {
+  private _keydownListener(event: KeyboardEvent): void {
     if (keyCannotMutateValue(event)) {
       return;
     }
@@ -81,7 +81,7 @@ export class IE9Strategy extends BaseStrategy {
     this._format();
   }
 
-  _reformatAfterPaste(): void {
+  protected _reformatAfterPaste(): void {
     const input = this.inputElement;
     let selection = getSelection(this.inputElement);
     const value = this.formatter.format({

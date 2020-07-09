@@ -26,8 +26,8 @@ function isSimulatedEvent(event: KeyboardEvent): boolean {
 
 export class BaseStrategy extends StrategyInterface {
   formatter: Formatter;
-  _onPasteEvent?: OnPasteEventMethod;
-  _stateToFormat?: FormatMetadata;
+  protected _onPasteEvent?: OnPasteEventMethod;
+  protected _stateToFormat?: FormatMetadata;
 
   constructor(options: StrategyOptions) {
     super(options);
@@ -53,7 +53,7 @@ export class BaseStrategy extends StrategyInterface {
     return value;
   }
 
-  _formatIfNotEmpty(): void {
+  protected _formatIfNotEmpty(): void {
     if (this.inputElement.value) {
       this._reformatInput();
     }
@@ -67,7 +67,7 @@ export class BaseStrategy extends StrategyInterface {
     this._formatIfNotEmpty();
   }
 
-  _attachListeners(): void {
+  protected _attachListeners(): void {
     this.inputElement.addEventListener("keydown", (e) => {
       const event = e as KeyboardEvent;
 
@@ -113,11 +113,11 @@ export class BaseStrategy extends StrategyInterface {
     });
   }
 
-  _isDeletion(event: KeyboardEvent): boolean {
+  protected _isDeletion(event: KeyboardEvent): boolean {
     return isDelete(event) || isBackspace(event);
   }
 
-  _reformatInput(): void {
+  protected _reformatInput(): void {
     if (this.isFormatted) {
       return;
     }
@@ -143,11 +143,11 @@ export class BaseStrategy extends StrategyInterface {
   // after reformatting has happend, the strategy just
   // overwrites this method on their own prototype
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _afterReformatInput(formattedState: FormatMetadata): void {
+  protected _afterReformatInput(formattedState: FormatMetadata): void {
     // noop
   }
 
-  _unformatInput(): void {
+  protected _unformatInput(): void {
     if (!this.isFormatted) {
       return;
     }
@@ -169,18 +169,18 @@ export class BaseStrategy extends StrategyInterface {
     );
   }
 
-  _prePasteEventHandler(event: ClipboardEvent): void {
+  protected _prePasteEventHandler(event: ClipboardEvent): void {
     // without this, the paste event is called twice
     // so if you were pasting abc it would result in
     // abcabc
     event.preventDefault();
   }
 
-  _postPasteEventHandler(): void {
+  protected _postPasteEventHandler(): void {
     this._reformatAfterPaste();
   }
 
-  _pasteEventHandler(event: ClipboardEvent): void {
+  protected _pasteEventHandler(event: ClipboardEvent): void {
     let splicedEntry;
     let entryValue = "";
 
@@ -220,7 +220,7 @@ export class BaseStrategy extends StrategyInterface {
     this._postPasteEventHandler();
   }
 
-  _reformatAfterPaste(): void {
+  protected _reformatAfterPaste(): void {
     const event = document.createEvent("Event");
 
     this._reformatInput();
@@ -229,7 +229,7 @@ export class BaseStrategy extends StrategyInterface {
     this.inputElement.dispatchEvent(event);
   }
 
-  _getStateToFormat(): FormatMetadata {
+  protected _getStateToFormat(): FormatMetadata {
     const input = this.inputElement;
     const selection = getSelection(input);
     let stateToFormat = {

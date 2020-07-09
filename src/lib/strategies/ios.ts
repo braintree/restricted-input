@@ -7,7 +7,7 @@ export class IosStrategy extends BaseStrategy {
     return super.getUnformattedValue(true);
   }
 
-  _attachListeners(): void {
+  protected _attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
       this._keydownListener(event as KeyboardEvent);
     });
@@ -40,7 +40,7 @@ export class IosStrategy extends BaseStrategy {
   // When deleting the last character on iOS, the cursor
   // is positioned as if there is a blank space when there
   // is not, setting it to '' in a setTimeout fixes it ¯\_(ツ)_/¯
-  _fixLeadingBlankSpaceOnIos(): void {
+  private _fixLeadingBlankSpaceOnIos(): void {
     const input = this.inputElement;
 
     if (input.value === "") {
@@ -50,7 +50,7 @@ export class IosStrategy extends BaseStrategy {
     }
   }
 
-  _formatListener(): void {
+  private _formatListener(): void {
     const input = this.inputElement;
     const stateToFormat = this._getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
@@ -63,7 +63,7 @@ export class IosStrategy extends BaseStrategy {
     );
   }
 
-  _keydownListener(event: KeyboardEvent): void {
+  private _keydownListener(event: KeyboardEvent): void {
     if (keyCannotMutateValue(event)) {
       return;
     }
