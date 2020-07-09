@@ -24,25 +24,27 @@ describe("parsePattern", function () {
   });
 
   describe("digit patterns", function () {
-    "0123456789".split("").forEach(function (test) {
-      it("creates a regex for digits with " + test, function () {
-        expect(parsePattern("{{" + test + "}}")[0].value).toEqual(/\d/);
-      });
-    });
+    it.each("0123456789".split(""))(
+      "creates a regex for digits with %s",
+      (digit) => {
+        expect(parsePattern("{{" + digit + "}}")[0].value).toEqual(/\d/);
+      }
+    );
   });
 
   describe("non-digit patterns", function () {
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-      .split("")
-      .forEach(function (test) {
-        it("creates a regex for non-digits with " + test, function () {
-          expect(parsePattern("{{" + test + "}}")[0].value).toEqual(/[A-Za-z]/);
-        });
-      });
+    it.each("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split(""))(
+      "creates a regex for non-digits with %s",
+      (character) => {
+        expect(parsePattern("{{" + character + "}}")[0].value).toEqual(
+          /[A-Za-z]/
+        );
+      }
+    );
   });
 
   describe("invalid patterns", function () {
-    [
+    it.each([
       "{{-}}",
       "{{_}}",
       "{{!}}",
@@ -66,14 +68,12 @@ describe("parsePattern", function () {
       "{{/}}",
       "{{A--}}",
       "{{9999}} {{99-9}}",
-    ].forEach(function (test) {
-      it("throws for " + test, function () {
-        expect(function () {
-          parsePattern(test);
-        }).toThrowError(
-          "Only alphanumeric or wildcard pattern matchers are allowed"
-        );
-      });
+    ])("throws for %s", function (pattern) {
+      expect(function () {
+        parsePattern(pattern);
+      }).toThrowError(
+        "Only alphanumeric or wildcard pattern matchers are allowed"
+      );
     });
   });
 });

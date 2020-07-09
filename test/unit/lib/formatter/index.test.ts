@@ -75,70 +75,53 @@ describe("Formatter", function () {
     });
 
     describe("formatting", function () {
-      [
-        { input: "4", output: "4", pattern: NON_AMEX_CARD_PATTERN },
-        { input: "41", output: "41", pattern: NON_AMEX_CARD_PATTERN },
-        { input: "411", output: "411", pattern: NON_AMEX_CARD_PATTERN },
-        { input: "4111", output: "4111 ", pattern: NON_AMEX_CARD_PATTERN },
-        {
-          input: "4111111111111111",
-          output: "4111 1111 1111 1111",
-          pattern: NON_AMEX_CARD_PATTERN,
-        },
-        {
-          input: "94819849871",
-          output: "9481 9849 871",
-          pattern: NON_AMEX_CARD_PATTERN,
-        },
-        { input: "1", output: "1" },
-        { input: "12", output: "12-" },
-        { input: "123", output: "12-3" },
-        { input: "9", output: "9", pattern: "{{9}}" },
-        { input: "8", output: "--8x", pattern: "--{{9}}x{{a}}z" },
-        { input: "8b", output: "--8xbz", pattern: "--{{9}}x{{a}}z" },
-        { input: "", output: "--", pattern: "--{{9}}x{{a}}z" },
-        { input: "9238923", output: "92-38" },
-        { input: "11bb", output: "11 bb", pattern: "{{99}} {{aa}}" },
-        { input: "aaaa", output: "", pattern: "{{99}} {{AA}}" },
-        { input: "9999", output: "99 99", pattern: "{{23}} {{45}}" },
-        { input: "9999", output: "", pattern: "{{BB}} {{AA}}" },
-        { input: "9999", output: "", pattern: "{{B}}-{{B}}_///{{AA}}" },
-        { input: "9999", output: "--", pattern: "--{{B}}-{{B}}_///{{AA}}" },
-        {
-          input: "CBAA",
-          output: "--C-B_///AA",
-          pattern: "--{{C}}-{{B}}_///{{AA}}",
-        },
-        {
-          input: "a1b2z",
-          output: "a--_1/b2z",
-          pattern: "{{A}}--_{{9}}/{{A}}{{9}}{{A}}",
-        },
-        { input: "!#$%&--", output: "", pattern: NON_AMEX_CARD_PATTERN },
-        { input: "4!#$%&--", output: "4", pattern: NON_AMEX_CARD_PATTERN },
-        { input: "4!#$%5&--", output: "45", pattern: NON_AMEX_CARD_PATTERN },
-        { input: "A", output: "A", pattern: "{{*}}" },
-        { input: "9", output: "9", pattern: "{{*}}" },
-        { input: "98", output: "9", pattern: "{{*}}" },
-        { input: "!8", output: "!", pattern: "{{*}}" },
-      ].forEach(function (test) {
-        const pattern = test.pattern || FAKE_PATTERN;
+      // each cases array is in the form input, pattern, expected result
+      const cases = [
+        ["4", NON_AMEX_CARD_PATTERN, "4"],
+        ["41", NON_AMEX_CARD_PATTERN, "41"],
+        ["411", NON_AMEX_CARD_PATTERN, "411"],
+        ["4111", NON_AMEX_CARD_PATTERN, "4111 "],
+        ["4111111111111111", NON_AMEX_CARD_PATTERN, "4111 1111 1111 1111"],
+        ["94819849871", NON_AMEX_CARD_PATTERN, "9481 9849 871"],
+        ["1", FAKE_PATTERN, "1"],
+        ["12", FAKE_PATTERN, "12-"],
+        ["123", FAKE_PATTERN, "12-3"],
+        ["9", "{{9}}", "9"],
+        ["8", "--{{9}}x{{a}}z", "--8x"],
+        ["8b", "--{{9}}x{{a}}z", "--8xbz"],
+        ["", "--{{9}}x{{a}}z", "--"],
+        ["9238923", FAKE_PATTERN, "92-38"],
+        ["11bb", "{{99}} {{aa}}", "11 bb"],
+        ["aaaa", "{{99}} {{AA}}", ""],
+        ["9999", "{{23}} {{45}}", "99 99"],
+        ["9999", "{{BB}} {{AA}}", ""],
+        ["9999", "{{B}}-{{B}}_///{{AA}}", ""],
+        ["9999", "--{{B}}-{{B}}_///{{AA}}", "--"],
+        ["CBAA", "--{{C}}-{{B}}_///{{AA}}", "--C-B_///AA"],
+        ["a1b2z", "{{A}}--_{{9}}/{{A}}{{9}}{{A}}", "a--_1/b2z"],
+        ["!#$%&--", NON_AMEX_CARD_PATTERN, ""],
+        ["4!#$%&--", NON_AMEX_CARD_PATTERN, "4"],
+        ["4!#$%5&--", NON_AMEX_CARD_PATTERN, "45"],
+        ["A", "{{*}}", "A"],
+        ["9", "{{*}}", "9"],
+        ["98", "{{*}}", "9"],
+        ["!8", "{{*}}", "!"],
+      ];
+      it.each(cases)("injects permaChars for %s with %s", function (
+        input,
+        pattern,
+        expectedResult
+      ) {
+        const formatter = new Formatter(pattern);
+        const options = {
+          selection: {
+            start: input.length,
+            end: input.length,
+          },
+          value: input,
+        };
 
-        it(
-          "injects permaChars for " + test.input + " with " + pattern,
-          function () {
-            const formatter = new Formatter(pattern);
-            const options = {
-              selection: {
-                start: test.input.length,
-                end: test.input.length,
-              },
-              value: test.input,
-            };
-
-            expect(formatter.format(options).value).toBe(test.output);
-          }
-        );
+        expect(formatter.format(options).value).toBe(expectedResult);
       });
     });
 
