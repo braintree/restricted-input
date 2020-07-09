@@ -26,7 +26,7 @@ function isSimulatedEvent(event: KeyboardEvent): boolean {
 
 export class BaseStrategy extends StrategyInterface {
   formatter: Formatter;
-  protected onPasteEvent?: OnPasteEventMethod;
+  private onPasteEvent?: OnPasteEventMethod;
   protected stateToFormat?: FormatMetadata;
 
   constructor(options: StrategyOptions) {
@@ -53,7 +53,7 @@ export class BaseStrategy extends StrategyInterface {
     return value;
   }
 
-  protected formatIfNotEmpty(): void {
+  private formatIfNotEmpty(): void {
     if (this.inputElement.value) {
       this.reformatInput();
     }
