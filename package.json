@@ -75,6 +75,8 @@
     "setupFilesAfterEnv": [
       "./test/unit/global.ts"
     ],
-    "testPathIgnorePatterns": ["<rootDir>/dist"]
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist"
+    ]
   }
 }
