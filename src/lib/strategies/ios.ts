@@ -4,7 +4,7 @@ import { get as getSelection, set as setSelection } from "../input-selection";
 
 export class IosStrategy extends BaseStrategy {
   getUnformattedValue(): string {
-    return BaseStrategy.prototype.getUnformattedValue.call(this, true);
+    return super.getUnformattedValue(true);
   }
 
   _attachListeners(): void {

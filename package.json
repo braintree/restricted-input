@@ -26,7 +26,7 @@
     "prebuild": "prettier --write .",
     "build": "tsc --declaration",
     "build:app": "mkdir -p dist-app; browserify ./src/main.ts -p [ tsify --strict ] -o dist-app/restricted-input.js -s RestrictedInput -v",
-    "doc": "jsdoc -r -R README.md -d jsdoc lib/",
+    "doc": "jsdoc -r -R README.md -d jsdoc dist/lib/",
     "doc:watch": "npm run doc && chokidar 'src/lib/**/*.ts' -c 'npm run doc'",
     "prestart": "npm run build:app",
     "start": "node ./test/support/server.js",
@@ -74,6 +74,7 @@
     "preset": "ts-jest",
     "setupFilesAfterEnv": [
       "./test/unit/global.ts"
-    ]
+    ],
+    "testPathIgnorePatterns": ["<rootDir>/dist"]
   }
 }

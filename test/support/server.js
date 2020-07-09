@@ -15,7 +15,9 @@ app.get("*", function (req, res) {
 });
 
 app.listen(process.env.PORT || DEFAULT_PORT, function () {
-  const message = "\n App running on " + this.address().port + " \n";
+  const message = `
+ App running on ${this.address().port} 
+`;
 
   console.log(message);
 });

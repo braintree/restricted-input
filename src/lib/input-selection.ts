@@ -11,8 +11,8 @@ export function get(element: Input): Selection {
   const end = element.selectionEnd || 0;
 
   return {
-    start: start,
-    end: end,
+    start,
+    end,
     delta: Math.abs(end - start),
   };
 }
