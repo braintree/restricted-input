@@ -47,11 +47,8 @@ export class PatternFormatter {
         }
       } else {
         // User input char
-        for (
-          ;
-          originalStringIndex < originalString.length;
-          originalStringIndex++
-        ) {
+        // prettier-ignore
+        for (; originalStringIndex < originalString.length; originalStringIndex++) {
           inputChar = originalString[originalStringIndex];
 
           if (patternChar.value.test(inputChar)) {
