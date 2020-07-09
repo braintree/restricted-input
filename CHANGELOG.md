@@ -1,5 +1,13 @@
 # Restricted Input - Release Notes
 
+## unrleased
+
+* Add Typescript types
+
+__Breaking Changes__
+
+Private methods in Restricted Input are now private
+
 ## 2.1.1
 
 * convert global to window (closes braintree-web#401)
