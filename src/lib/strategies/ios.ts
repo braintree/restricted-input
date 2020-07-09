@@ -7,9 +7,9 @@ export class IosStrategy extends BaseStrategy {
     return super.getUnformattedValue(true);
   }
 
-  protected _attachListeners(): void {
+  protected attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
-      this._keydownListener(event as KeyboardEvent);
+      this.keydownListener(event as KeyboardEvent);
     });
     this.inputElement.addEventListener("input", (event) => {
       const isCustomEvent = event instanceof CustomEvent;
@@ -17,30 +17,30 @@ export class IosStrategy extends BaseStrategy {
       // Safari AutoFill fires CustomEvents
       // Set state to format before calling format listener
       if (isCustomEvent) {
-        this._stateToFormat = {
+        this.stateToFormat = {
           selection: { start: 0, end: 0 },
           value: this.inputElement.value,
         };
       }
 
-      this._formatListener();
+      this.formatListener();
 
       if (!isCustomEvent) {
-        this._fixLeadingBlankSpaceOnIos();
+        this.fixLeadingBlankSpaceOnIos();
       }
     });
     this.inputElement.addEventListener("focus", () => {
-      this._formatListener();
+      this.formatListener();
     });
     this.inputElement.addEventListener("paste", (event) => {
-      this._pasteEventHandler(event as ClipboardEvent);
+      this.pasteEventHandler(event as ClipboardEvent);
     });
   }
 
   // When deleting the last character on iOS, the cursor
   // is positioned as if there is a blank space when there
   // is not, setting it to '' in a setTimeout fixes it ¯\_(ツ)_/¯
-  private _fixLeadingBlankSpaceOnIos(): void {
+  private fixLeadingBlankSpaceOnIos(): void {
     const input = this.inputElement;
 
     if (input.value === "") {
@@ -50,9 +50,9 @@ export class IosStrategy extends BaseStrategy {
     }
   }
 
-  private _formatListener(): void {
+  private formatListener(): void {
     const input = this.inputElement;
-    const stateToFormat = this._getStateToFormat();
+    const stateToFormat = this.getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
 
     input.value = formattedState.value;
@@ -63,12 +63,12 @@ export class IosStrategy extends BaseStrategy {
     );
   }
 
-  private _keydownListener(event: KeyboardEvent): void {
+  private keydownListener(event: KeyboardEvent): void {
     if (keyCannotMutateValue(event)) {
       return;
     }
-    if (this._isDeletion(event)) {
-      this._stateToFormat = this.formatter.simulateDeletion({
+    if (this.isDeletion(event)) {
+      this.stateToFormat = this.formatter.simulateDeletion({
         event: event,
         selection: getSelection(this.inputElement),
         value: this.inputElement.value,

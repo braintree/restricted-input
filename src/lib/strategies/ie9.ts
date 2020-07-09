@@ -18,21 +18,21 @@ export class IE9Strategy extends BaseStrategy {
     return BaseStrategy.prototype.getUnformattedValue.call(this, true);
   }
 
-  protected _attachListeners(): void {
+  protected attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
-      this._keydownListener(event as KeyboardEvent);
+      this.keydownListener(event as KeyboardEvent);
     });
     this.inputElement.addEventListener("focus", () => {
-      this._format();
+      this.format();
     });
     this.inputElement.addEventListener("paste", (event) => {
-      this._pasteEventHandler(event as ClipboardEvent);
+      this.pasteEventHandler(event as ClipboardEvent);
     });
   }
 
-  private _format(): void {
+  private format(): void {
     const input = this.inputElement;
-    const stateToFormat = this._getStateToFormat();
+    const stateToFormat = this.getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
 
     input.value = formattedState.value;
@@ -43,15 +43,15 @@ export class IE9Strategy extends BaseStrategy {
     );
   }
 
-  private _keydownListener(event: KeyboardEvent): void {
+  private keydownListener(event: KeyboardEvent): void {
     if (keyCannotMutateValue(event)) {
       return;
     }
 
     event.preventDefault();
 
-    if (this._isDeletion(event)) {
-      this._stateToFormat = this.formatter.simulateDeletion({
+    if (this.isDeletion(event)) {
+      this.stateToFormat = this.formatter.simulateDeletion({
         event: event,
         selection: getSelection(this.inputElement),
         value: this.inputElement.value,
@@ -69,19 +69,19 @@ export class IE9Strategy extends BaseStrategy {
         oldValue.slice(selection.start);
       selection = padSelection(selection, 1);
 
-      this._stateToFormat = {
+      this.stateToFormat = {
         selection: selection,
         value: newValue,
       };
       if (selection.start === newValue.length) {
-        this._stateToFormat = this.formatter.unformat(this._stateToFormat);
+        this.stateToFormat = this.formatter.unformat(this.stateToFormat);
       }
     }
 
-    this._format();
+    this.format();
   }
 
-  protected _reformatAfterPaste(): void {
+  protected reformatAfterPaste(): void {
     const input = this.inputElement;
     let selection = getSelection(this.inputElement);
     const value = this.formatter.format({

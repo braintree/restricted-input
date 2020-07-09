@@ -4,12 +4,12 @@ import { FormatMetadata } from "../formatter";
 import { set as setSelection } from "../input-selection";
 
 export class AndroidChromeStrategy extends BaseStrategy {
-  protected _attachListeners(): void {
+  protected attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
       if (keyCannotMutateValue(event as KeyboardEvent)) {
         return;
       }
-      this._unformatInput();
+      this.unformatInput();
     });
 
     // 'keypress' is not fired with some Android keyboards (see #23)
@@ -17,36 +17,36 @@ export class AndroidChromeStrategy extends BaseStrategy {
       if (keyCannotMutateValue(event as KeyboardEvent)) {
         return;
       }
-      this._unformatInput();
+      this.unformatInput();
     });
 
     this.inputElement.addEventListener("keyup", () => {
-      this._reformatInput();
+      this.reformatInput();
     });
 
     this.inputElement.addEventListener("input", () => {
-      this._reformatInput();
+      this.reformatInput();
     });
 
     this.inputElement.addEventListener("paste", (event) => {
-      this._pasteEventHandler(event as ClipboardEvent);
+      this.pasteEventHandler(event as ClipboardEvent);
     });
   }
 
-  protected _prePasteEventHandler(): void {
+  protected prePasteEventHandler(): void {
     // the default strategy calls preventDefault here
     // but that removes the clipboard data in Android chrome
     // so we noop instead
   }
 
-  protected _postPasteEventHandler(): void {
+  protected postPasteEventHandler(): void {
     // the default strategy calls this without a timeout
     setTimeout(() => {
-      this._reformatAfterPaste();
+      this.reformatAfterPaste();
     }, 0);
   }
 
-  protected _afterReformatInput(formattedState: FormatMetadata): void {
+  protected afterReformatInput(formattedState: FormatMetadata): void {
     const input = this.inputElement;
 
     // Some Android Chrome keyboards (notably Samsung)

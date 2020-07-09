@@ -26,18 +26,18 @@ function isSimulatedEvent(event: KeyboardEvent): boolean {
 
 export class BaseStrategy extends StrategyInterface {
   formatter: Formatter;
-  protected _onPasteEvent?: OnPasteEventMethod;
-  protected _stateToFormat?: FormatMetadata;
+  protected onPasteEvent?: OnPasteEventMethod;
+  protected stateToFormat?: FormatMetadata;
 
   constructor(options: StrategyOptions) {
     super(options);
 
     this.formatter = new Formatter(options.pattern);
-    this._onPasteEvent = options.onPasteEvent;
+    this.onPasteEvent = options.onPasteEvent;
 
-    this._attachListeners();
+    this.attachListeners();
 
-    this._formatIfNotEmpty();
+    this.formatIfNotEmpty();
   }
 
   getUnformattedValue(forceUnformat?: boolean): string {
@@ -53,21 +53,21 @@ export class BaseStrategy extends StrategyInterface {
     return value;
   }
 
-  protected _formatIfNotEmpty(): void {
+  protected formatIfNotEmpty(): void {
     if (this.inputElement.value) {
-      this._reformatInput();
+      this.reformatInput();
     }
   }
 
   setPattern(pattern: string): void {
-    this._unformatInput();
+    this.unformatInput();
 
     this.formatter = new Formatter(pattern);
 
-    this._formatIfNotEmpty();
+    this.formatIfNotEmpty();
   }
 
-  protected _attachListeners(): void {
+  protected attachListeners(): void {
     this.inputElement.addEventListener("keydown", (e) => {
       const event = e as KeyboardEvent;
 
@@ -79,8 +79,8 @@ export class BaseStrategy extends StrategyInterface {
         return;
       }
 
-      if (this._isDeletion(event)) {
-        this._unformatInput();
+      if (this.isDeletion(event)) {
+        this.unformatInput();
       }
     });
     this.inputElement.addEventListener("keypress", (e) => {
@@ -93,10 +93,10 @@ export class BaseStrategy extends StrategyInterface {
       if (keyCannotMutateValue(event)) {
         return;
       }
-      this._unformatInput();
+      this.unformatInput();
     });
     this.inputElement.addEventListener("keyup", () => {
-      this._reformatInput();
+      this.reformatInput();
     });
     this.inputElement.addEventListener("input", (event) => {
       // Safari AutoFill fires CustomEvents
@@ -106,18 +106,18 @@ export class BaseStrategy extends StrategyInterface {
       if (event instanceof CustomEvent || !event.isTrusted) {
         this.isFormatted = false;
       }
-      this._reformatInput();
+      this.reformatInput();
     });
     this.inputElement.addEventListener("paste", (event) => {
-      this._pasteEventHandler(event as ClipboardEvent);
+      this.pasteEventHandler(event as ClipboardEvent);
     });
   }
 
-  protected _isDeletion(event: KeyboardEvent): boolean {
+  protected isDeletion(event: KeyboardEvent): boolean {
     return isDelete(event) || isBackspace(event);
   }
 
-  protected _reformatInput(): void {
+  protected reformatInput(): void {
     if (this.isFormatted) {
       return;
     }
@@ -136,18 +136,18 @@ export class BaseStrategy extends StrategyInterface {
       formattedState.selection.end
     );
 
-    this._afterReformatInput(formattedState);
+    this.afterReformatInput(formattedState);
   }
 
   // If a strategy needs to impliment specific behavior
   // after reformatting has happend, the strategy just
   // overwrites this method on their own prototype
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected _afterReformatInput(formattedState: FormatMetadata): void {
+  protected afterReformatInput(formattedState: FormatMetadata): void {
     // noop
   }
 
-  protected _unformatInput(): void {
+  protected unformatInput(): void {
     if (!this.isFormatted) {
       return;
     }
@@ -169,24 +169,24 @@ export class BaseStrategy extends StrategyInterface {
     );
   }
 
-  protected _prePasteEventHandler(event: ClipboardEvent): void {
+  protected prePasteEventHandler(event: ClipboardEvent): void {
     // without this, the paste event is called twice
     // so if you were pasting abc it would result in
     // abcabc
     event.preventDefault();
   }
 
-  protected _postPasteEventHandler(): void {
-    this._reformatAfterPaste();
+  protected postPasteEventHandler(): void {
+    this.reformatAfterPaste();
   }
 
-  protected _pasteEventHandler(event: ClipboardEvent): void {
+  protected pasteEventHandler(event: ClipboardEvent): void {
     let splicedEntry;
     let entryValue = "";
 
-    this._prePasteEventHandler(event);
+    this.prePasteEventHandler(event);
 
-    this._unformatInput();
+    this.unformatInput();
 
     if (event.clipboardData) {
       entryValue = event.clipboardData.getData("Text");
@@ -204,8 +204,8 @@ export class BaseStrategy extends StrategyInterface {
     );
     splicedEntry = splicedEntry.join("");
 
-    if (this._onPasteEvent) {
-      this._onPasteEvent({
+    if (this.onPasteEvent) {
+      this.onPasteEvent({
         unformattedInputValue: splicedEntry,
       });
     }
@@ -217,19 +217,19 @@ export class BaseStrategy extends StrategyInterface {
       selection.start + entryValue.length
     );
 
-    this._postPasteEventHandler();
+    this.postPasteEventHandler();
   }
 
-  protected _reformatAfterPaste(): void {
+  protected reformatAfterPaste(): void {
     const event = document.createEvent("Event");
 
-    this._reformatInput();
+    this.reformatInput();
 
     event.initEvent("input", true, true);
     this.inputElement.dispatchEvent(event);
   }
 
-  protected _getStateToFormat(): FormatMetadata {
+  protected getStateToFormat(): FormatMetadata {
     const input = this.inputElement;
     const selection = getSelection(input);
     let stateToFormat = {
@@ -237,9 +237,9 @@ export class BaseStrategy extends StrategyInterface {
       value: input.value,
     };
 
-    if (this._stateToFormat) {
-      stateToFormat = this._stateToFormat;
-      delete this._stateToFormat;
+    if (this.stateToFormat) {
+      stateToFormat = this.stateToFormat;
+      delete this.stateToFormat;
     } else if (selection.start === input.value.length && this.isFormatted) {
       stateToFormat = this.formatter.unformat(stateToFormat);
     }
