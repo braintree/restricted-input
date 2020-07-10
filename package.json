@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "dist/main.js",
   "files": [
-    "dist"
+    "dist",
+    "supports-input-formatting.js"
   ],
   "homepage": "https://github.com/braintree/restricted-input",
   "repository": {
