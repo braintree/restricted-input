@@ -4,7 +4,10 @@
   "description": "Restrict inputs to certain valid characters (e.g. formatting phone or card numbers)",
   "author": "Braintree <code@getbraintree.com> (https://www.braintreepayments.com/)",
   "license": "MIT",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "files": [
+    "dist"
+  ],
   "homepage": "https://github.com/braintree/restricted-input",
   "repository": {
     "type": "git",
@@ -20,48 +23,61 @@
     "restrict"
   ],
   "scripts": {
-    "build": "mkdir -p dist; browserify ./main.js -o dist/restricted-input.js -s RestrictedInput -v",
-    "doc": "jsdoc -r -R README.md -d jsdoc lib/",
-    "doc:watch": "npm run doc && chokidar 'lib/**/*.js' -c 'npm run doc'",
-    "prestart": "npm run build",
+    "prebuild": "prettier --write .",
+    "build": "tsc --declaration",
+    "build:app": "mkdir -p dist-app; browserify ./src/main.ts -p [ tsify --strict ] -o dist-app/restricted-input.js -s RestrictedInput -v",
+    "predoc": "npm run build",
+    "doc": "jsdoc -r -R README.md -d jsdoc dist/lib/",
+    "doc:watch": "npm run doc && chokidar 'src/lib/**/*.ts' -c 'npm run doc'",
+    "prestart": "npm run build:app",
     "start": "node ./test/support/server.js",
-    "development": "npm start & chokidar 'lib/**/*.js' -c 'npm run build; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
-    "lint": "eslint lib test",
-    "test": "npm run lint && npm run test:unit",
+    "development": "npm start & chokidar 'src/lib/**/*.ts' -c 'npm run build:app; echo $(tput setaf 2)rebuilt$(tput sgr0)'",
+    "lint": "eslint --ext js,ts src test",
+    "posttest": "npm run lint",
+    "test": "npm run test:unit",
     "test:watch": "jest --watchAll",
     "test:unit": "jest test/unit",
     "test:integration": "wdio wdio.conf.js",
     "test:all": "npm run test && npm run test:integration",
     "publish:demo": "./publish-gh-pages.sh",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:app",
     "postpublish": "npm run publish:demo"
   },
   "dependencies": {
     "@braintree/browser-detection": "^1.9.0"
   },
   "devDependencies": {
-    "@wdio/browserstack-service": "^6.1.4",
-    "@wdio/cli": "^6.1.8",
-    "@wdio/local-runner": "^6.1.8",
-    "@wdio/mocha-framework": "^6.1.8",
-    "@wdio/spec-reporter": "^6.1.5",
-    "@wdio/sync": "^6.1.8",
+    "@types/jest": "^26.0.3",
+    "@wdio/browserstack-service": "^6.1.15",
+    "@wdio/cli": "^6.1.23",
+    "@wdio/local-runner": "^6.1.23",
+    "@wdio/mocha-framework": "^6.1.19",
+    "@wdio/spec-reporter": "^6.1.23",
+    "@wdio/sync": "^6.1.14",
     "browserify": "^16.5.0",
     "browserstack-local": "^1.4.5",
     "chai": "^4.2.0",
     "chokidar-cli": "^2.1.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.8.0",
-    "eslint-config-braintree": "^4.0.0",
+    "eslint": "^7.3.1",
+    "eslint-config-braintree": "^5.0.0-typescript-prep-rc.17",
     "express": "^4.17.1",
-    "jest": "^26.0.1",
+    "jest": "^26.1.0",
     "jsdoc": "^3.6.4",
-    "uuid": "^8.0.0",
-    "webdriverio": "^6.1.8"
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.1",
+    "tsify": "^4.0.2",
+    "typescript": "^3.9.5",
+    "uuid": "^8.2.0",
+    "webdriverio": "^6.1.23"
   },
   "jest": {
+    "preset": "ts-jest",
     "setupFilesAfterEnv": [
-      "./test/unit/global.js"
+      "./test/unit/global.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist"
     ]
   }
 }

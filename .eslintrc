@@ -1,2 +1,6 @@
----
-  extends: eslint-config-braintree/client
+{
+  "extends": "braintree/client",
+  "globals": {
+    "define": true
+  }
+}

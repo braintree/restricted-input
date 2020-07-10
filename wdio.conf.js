@@ -1,53 +1,54 @@
-const uuid = require('uuid').v4;
-const browserstack = require('browserstack-local');
+const uuid = require("uuid").v4;
+const browserstack = require("browserstack-local");
 
 // Stop node from complaining about fake memory leaks at higher concurrency
-require('events').defaultMaxListeners = 20;
-require('dotenv').config();
+require("events").defaultMaxListeners = 20;
+require("dotenv").config();
 
 const ONLY_BROWSERS = process.env.ONLY_BROWSERS;
 const localIdentifier = uuid();
-const screenResolution = '1920x1080';
+const screenResolution = "1920x1080";
 
-const projectName = 'Restricted Input';
+const projectName = "Restricted Input";
 let type;
 
 if (!process.env.TRAVIS_BRANCH) {
-  type = 'Local';
-} else if (process.env.TRAVIS_BRANCH !== 'master') {
-  type = 'Pull Request';
+  type = "Local";
+} else if (process.env.TRAVIS_BRANCH !== "master") {
+  type = "Pull Request";
 } else {
-  type = 'CI';
+  type = "CI";
 }
 const build = `${projectName} - ${type} ${Date.now()}`;
 
 const defaultCapabilities = {
   project: projectName,
-  'browserstack.debug': true,
-  'browserstack.local': true,
-  'browserstack.networkLogs': true,
-  'browserstack.localIdentifier': localIdentifier
+  build,
+  "browserstack.debug": true,
+  "browserstack.local": true,
+  "browserstack.networkLogs": true,
+  "browserstack.localIdentifier": localIdentifier,
 };
 
 const desktopCapabilities = {
   ...defaultCapabilities,
-  os: 'windows',
-  os_version: '10',
-  resolution: screenResolution
+  os: "windows",
+  os_version: "10",
+  resolution: screenResolution,
 };
 
 const mobileCapabilities = {
   ...defaultCapabilities,
   real_mobile: true,
-  'browserstack.appium_version': '1.14.0'
+  "browserstack.appium_version": "1.14.0",
 };
 
 let capabilities = [
   {
     ...desktopCapabilities,
-    browserName: 'Google Chrome',
-    browser: 'chrome',
-    'browserstack.console': 'info'
+    browserName: "Google Chrome",
+    browser: "chrome",
+    "browserstack.console": "info",
   },
   // TODO mobile browsers are having trouble with browser.keys
   //{
@@ -72,41 +73,41 @@ let capabilities = [
   //},
   {
     ...desktopCapabilities,
-    browser: 'IE',
-    browserName: 'IE 11',
-    browser_version: '11.0',
-    'browserstack.selenium_version' : '3.141.5',
+    browser: "IE",
+    browserName: "IE 11",
+    browser_version: "11.0",
+    "browserstack.selenium_version": "3.141.5",
     // https://stackoverflow.com/a/42340325/7851516
-    'browserstack.bfcache': '0',
-    'browserstack.ie.arch' : 'x32'
+    "browserstack.bfcache": "0",
+    "browserstack.ie.arch": "x32",
   },
   {
     ...desktopCapabilities,
-    browserName: 'Microsoft Edge',
-    browser: 'edge',
-    browser_version: '18.0'
+    browserName: "Microsoft Edge",
+    browser: "edge",
+    browser_version: "18.0",
   },
   {
     ...desktopCapabilities,
-    browserName: 'Firefox',
-    browser: 'firefox',
-    'browserstack.console': 'info'
+    browserName: "Firefox",
+    browser: "firefox",
+    "browserstack.console": "info",
   },
   {
     ...desktopCapabilities,
-    browserName: 'Desktop Safari',
-    browser: 'safari',
-    os: 'OS X',
-    os_version: 'Mojave'
-  }
+    browserName: "Desktop Safari",
+    browser: "safari",
+    os: "OS X",
+    os_version: "Mojave",
+  },
 ];
 
 if (ONLY_BROWSERS) {
-  capabilities = ONLY_BROWSERS
-    .split(',')
-    .map(browser => capabilities
-      .find(config => config.browser.toLowerCase() === browser.toLowerCase())
-    );
+  capabilities = ONLY_BROWSERS.split(",").map((browser) =>
+    capabilities.find(
+      (config) => config.browser.toLowerCase() === browser.toLowerCase()
+    )
+  );
 
   if (capabilities.length === 0) {
     throw new Error(`Could not find browsers ${ONLY_BROWSERS} in config`);
@@ -114,7 +115,7 @@ if (ONLY_BROWSERS) {
 }
 
 const mochaOpts = {
-  timeout: 90000
+  timeout: 90000,
 };
 
 if (!process.env.DISABLE_RETRIES) {
@@ -124,13 +125,13 @@ if (!process.env.DISABLE_RETRIES) {
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
-  specs: require('fs')
-    .readdirSync('./test/integration')
-    .map(f => `./test/integration/${f}`),
+  specs: require("fs")
+    .readdirSync("./test/integration")
+    .map((f) => `./test/integration/${f}`),
   maxInstances: 4,
   capabilities,
   sync: true,
-  logLevel: 'error',
+  logLevel: "error",
   deprecationWarnings: true,
   bail: 0,
   baseUrl: process.env.HOST,
@@ -138,40 +139,42 @@ exports.config = {
   connectionRetryTimeout: 90000,
   connectionRetryCount: 1,
   services: [
-    ['browserstack', {
-      runner: 'local',
-      browserstackLocal: true,
-    }]
+    [
+      "browserstack",
+      {
+        runner: "local",
+        browserstackLocal: true,
+      },
+    ],
   ],
-  framework: 'mocha',
+  framework: "mocha",
   mochaOpts,
-  reporters: ['spec'],
+  reporters: ["spec"],
   reportOptions: {
-    outputDir: './'
+    outputDir: "./",
   },
   onPrepare() {
     /* eslint-disable no-console */
-    console.log('Connecting local');
+    console.log("Connecting local");
     return new Promise((resolve, reject) => {
       exports.bs_local = new browserstack.Local();
       exports.bs_local.start(
         {
           key: process.env.BROWSERSTACK_ACCESS_KEY,
-          localIdentifier
+          localIdentifier,
         },
-        error => {
+        (error) => {
           if (error) return reject(error);
           console.log(`Connected with localIdentifier=${localIdentifier}`);
           console.log(
-            'Testing in the following browsers:',
+            "Testing in the following browsers:",
             capabilities
-              .map(
-                browser =>
-                  browser.real_mobile
-                    ? `${browser.device}@${browser.os_version}`
-                    : `${browser.browser}@${browser.browser_version}`
+              .map((browser) =>
+                browser.real_mobile
+                  ? `${browser.device}@${browser.os_version}`
+                  : `${browser.browser}@${browser.browser_version}`
               )
-              .join(', ')
+              .join(", ")
           );
 
           return resolve();
@@ -186,11 +189,11 @@ exports.config = {
       browser.maximizeWindow();
       browser.setTimeout({
         pageLoad: 10000,
-        script: 5 * 60 * 1000
+        script: 5 * 60 * 1000,
       });
     }
   },
   onComplete() {
     exports.bs_local.stop(() => {});
-  }
+  },
 };

@@ -1,5 +1,4 @@
-Restricted Input
-================
+# Restricted Input
 
 [![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=UUlSMGtaQWNkL3lEdlZ2NmFzcnh4OWcvNGFkQjZjcExhQmFPb1cydlJEOD0tLVNlQ3JSUDgzR20ySUs4SFc4L2x1TXc9PQ==--7e53bf426e69647ff4cda6a50460759494986d49)](https://automate.browserstack.com/public-build/UUlSMGtaQWNkL3lEdlZ2NmFzcnh4OWcvNGFkQjZjcExhQmFPb1cydlJEOD0tLVNlQ3JSUDgzR20ySUs4SFc4L2x1TXc9PQ==--7e53bf426e69647ff4cda6a50460759494986d49)
 
@@ -102,11 +101,11 @@ it.only('does something', function () {
 ## Usage
 
 ```javascript
-import RestrictedInput from 'restricted-input';
+import RestrictedInput from "restricted-input";
 
 const formattedCreditCardInput = new RestrictedInput({
-  element: document.querySelector('#credit-card'),
-  pattern: '{{9999}} {{9999}} {{9999}} {{9999}}'
+  element: document.querySelector("#credit-card"),
+  pattern: "{{9999}} {{9999}} {{9999}} {{9999}}",
 });
 ```
 
@@ -119,9 +118,10 @@ Patterns are a mixture of [`Placeholder`](#placeholder)s and [`PermaChar`](#perm
 A `Placeholder` is the part of the pattern that accepts user input based on some restrictions. A placeholder is defined in the pattern using two open curly brackets, the placeholder, followed by two closing curly brackets e.g. `{{Abc123}}`.
 
 The patterns a `Placeholder` can be are:
- - a single alpha character that matches the alpha regex `/[A-Za-z]/`. e.g. `{{C}}` will match one alpha character.
- - a single digit that matches the digit regex `/[0-9]/`. e.g. `{{3}}` will match one digit.
- - a `*` character that matches `/./`. e.g. `{{*}}` will match the next character.
+
+- a single alpha character that matches the alpha regex `/[A-Za-z]/`. e.g. `{{C}}` will match one alpha character.
+- a single digit that matches the digit regex `/[0-9]/`. e.g. `{{3}}` will match one digit.
+- a `*` character that matches `/./`. e.g. `{{*}}` will match the next character.
 
 ### PermaChar
 
@@ -130,18 +130,19 @@ A `PermaChar` is the part of the pattern that is automatically inserted. `PermaC
 ### Example patterns
 
 Some example patterns with behavior are listed:
- - `12{{3}}`
-   - Inserts `12`.
-   - Waits for a single digit from the user.
- - `{{A}}BC`
-   - Waits for a single alpha from the user.
-   - Inserts `BC`.
- - `${{*2L}}E`
-   - Inserts `$`.
-   - Waits for any single character input from the user.
-   - Waits for a single digit from the user.
-   - Waits for a single alpha from the user.
-   - Inserts `E`.
+
+- `12{{3}}`
+  - Inserts `12`.
+  - Waits for a single digit from the user.
+- `{{A}}BC`
+  - Waits for a single alpha from the user.
+  - Inserts `BC`.
+- `${{*2L}}E`
+  - Inserts `$`.
+  - Waits for any single character input from the user.
+  - Waits for a single digit from the user.
+  - Waits for a single alpha from the user.
+  - Inserts `E`.
 
 ## Paste Event
 
