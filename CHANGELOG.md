@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## unreleased
+## 3.0.0
 
 - Add Typescript types
 
