@@ -1,172 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Restricted Input</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <style>
-    *{
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 40em;
-      margin: 1em auto;
-    }
-
-    .input-wrapper {
-      margin-bottom: 1em;
-    }
-
-    label {font-size: 0.7em;}
-
-    input {
-      width: 100%;
-      font-size: 3em;
-      padding: 0.3em 0.4em;
-      margin: 0.2em 0;
-    }
-
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    input[type="number"] {
-      -moz-appearance: textfield;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="app">
-    <div class="input-wrapper">
-      <label for="credit-card-number">Card Number</label>
-      <input id="credit-card-number" type="tel" placeholder="4111 1111 1111 1111" data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}" name="credit-card-number" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="prefilled-credit-card-number">Card Number with Prefilled Input</label>
-      <input id="prefilled-credit-card-number" type="tel" placeholder="4111 1111 1111 1111" data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}" name="prefilled-credit-card-number" value="4111111111111111" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="credit-card-amex">Credit Card (amex)</label>
-      <input id="credit-card-amex" type="tel" placeholder="3782 822463 10005" data-pattern="{{9999}} {{999999}} {{99999}}" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="credit-card-toggle-able">Card Number (toggle-able)</label>
-      <input id="credit-card-toggle-able" type="tel" placeholder="4111 1111 1111 1111" data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}" name="credit-card-toggle-able" />
-      <button data-current-state="non-amex" id="credit-card-toggle-able-btn">Toggle</button>
-    </div>
-
-    <div class="input-wrapper">
-      <label for="credit-card-unformatted">Credit Card (unformatted)</label>
-      <input id="credit-card-unformatted" type="tel" placeholder="4111111111111111" data-pattern="{{9999999999999999}}" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="credit-card-random-pattern">--{{9}}x{{a}}z</label>
-      <input id="credit-card-random-pattern" type="text" placeholder="--{{9}}x{{a}}z" data-pattern="--{{9}}x{{a}}z" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="credit-card-random-pattern2">{{B}}-{{B}}_///{{AA}}}</label>
-      <input id="credit-card-random-pattern2" type="text" placeholder="{{B}}-{{B}}_///{{AA}}" data-pattern="{{B}}-{{B}}_///{{AA}}" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="expiration">Expiration</label>
-      <input id="expiration" type="tel" placeholder="mm/yyyy" data-pattern="{{99}} / {{9999}}" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="cvv">CVV</label>
-      <input id="cvv" type="tel" placeholder="123" data-pattern="{{9999}}" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="postal-code">Postal Code</Label>
-      <input type="text" maxlength="10" placeholder="H0H 0H0" data-pattern="{{**********}}"/>
-    </div>
-
-    <div class="input-wrapper">
-      <label for="phone-number">US Phone Number</label>
-      <input id="phone-number" type="tel" placeholder="(312) 123-2345" data-pattern="({{999}}) {{999}}-{{9999}}" />
-    </div>
-
-    <div class="input-wrapper">
-      <label for="wildcard">*A*3 {{*A*3}}</Label>
-      <input id="wildcard" type="text" placeholder="*A*3 {{*A*3}}" data-pattern="*A*3 {{*A*3}}" />
-    </div>
-  </div>
-
-  <script src="restricted-input.js"></script>
-  <script>
-    var inputs = document.querySelectorAll('input');
-
-    function updateSelectionData(event) {
-      var input = event.currentTarget || event.srcElement;
-
-      input.setAttribute('data-selection-start', input.selectionStart);
-      input.setAttribute('data-selection-end', input.selectionEnd);
-    }
-
-    for (var i = 0; i < inputs.length; i++) {
-      var input = inputs[i];
-
-      var ri = new RestrictedInput({
-        element: input,
-        pattern: input.getAttribute('data-pattern') || '{{9999}} {{9999}} {{9999}} {{9999}}'
-      });
-
-      var events = [
-        'input',
-        'keypress',
-        'keyup',
-        'keydown',
-        'change',
-        'focus',
-        'blur',
-        'click'
-      ];
-
-      for (var j = 0; j < events.length; j++) {
-        var e = events[j];
-
-        input.addEventListener(e, updateSelectionData, false);
+  <head>
+    <meta charset="UTF-8" />
+    <title>Restricted Input</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
       }
 
-      input.setAttribute('data-selection-start', 0);
-      input.setAttribute('data-selection-end', 0);
+      .app {
+        width: 100%;
+        max-width: 40em;
+        margin: 1em auto;
+      }
 
-      (function (i, r) {
-        var toggleButton = document.getElementById(i.id + '-btn');
+      .input-wrapper {
+        margin-bottom: 1em;
+      }
 
-        if (toggleButton) {
-          toggleButton.addEventListener('click', function (event) {
-            var btn = event.currentTarget;
-            var currentState = btn.getAttribute('data-current-state');
+      label {
+        font-size: 0.7em;
+      }
 
-            if (currentState === 'non-amex') {
-              r.setPattern('{{9999}} {{999999}} {{99999}}');
-              i.setAttribute('placeholder', '3782 822463 10005');
-              btn.setAttribute('data-current-state', 'amex');
-            } else {
-              r.setPattern('{{9999}} {{9999}} {{9999}} {{9999}}');
-              i.setAttribute('placeholder', '4111 1111 1111 1111');
-              btn.setAttribute('data-current-state', 'non-amex');
-            }
-          }, false);
+      input {
+        width: 100%;
+        font-size: 3em;
+        padding: 0.3em 0.4em;
+        margin: 0.2em 0;
+      }
+
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="input-wrapper">
+        <label for="credit-card-number">Card Number</label>
+        <input
+          id="credit-card-number"
+          type="tel"
+          placeholder="4111 1111 1111 1111"
+          data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}"
+          name="credit-card-number"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="prefilled-credit-card-number"
+          >Card Number with Prefilled Input</label
+        >
+        <input
+          id="prefilled-credit-card-number"
+          type="tel"
+          placeholder="4111 1111 1111 1111"
+          data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}"
+          name="prefilled-credit-card-number"
+          value="4111111111111111"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="credit-card-amex">Credit Card (amex)</label>
+        <input
+          id="credit-card-amex"
+          type="tel"
+          placeholder="3782 822463 10005"
+          data-pattern="{{9999}} {{999999}} {{99999}}"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="credit-card-toggle-able">Card Number (toggle-able)</label>
+        <input
+          id="credit-card-toggle-able"
+          type="tel"
+          placeholder="4111 1111 1111 1111"
+          data-pattern="{{9999}} {{9999}} {{9999}} {{9999}}"
+          name="credit-card-toggle-able"
+        />
+        <button data-current-state="non-amex" id="credit-card-toggle-able-btn">
+          Toggle
+        </button>
+      </div>
+
+      <div class="input-wrapper">
+        <label for="credit-card-unformatted">Credit Card (unformatted)</label>
+        <input
+          id="credit-card-unformatted"
+          type="tel"
+          placeholder="4111111111111111"
+          data-pattern="{{9999999999999999}}"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="credit-card-random-pattern">--{{9}}x{{a}}z</label>
+        <input
+          id="credit-card-random-pattern"
+          type="text"
+          placeholder="--{{9}}x{{a}}z"
+          data-pattern="--{{9}}x{{a}}z"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="credit-card-random-pattern2">{{B}}-{{B}}_///{{AA}}}</label>
+        <input
+          id="credit-card-random-pattern2"
+          type="text"
+          placeholder="{{B}}-{{B}}_///{{AA}}"
+          data-pattern="{{B}}-{{B}}_///{{AA}}"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="expiration">Expiration</label>
+        <input
+          id="expiration"
+          type="tel"
+          placeholder="mm/yyyy"
+          data-pattern="{{99}} / {{9999}}"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="cvv">CVV</label>
+        <input id="cvv" type="tel" placeholder="123" data-pattern="{{9999}}" />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="postal-code">Postal Code</label>
+        <input
+          type="text"
+          maxlength="10"
+          placeholder="H0H 0H0"
+          data-pattern="{{**********}}"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="phone-number">US Phone Number</label>
+        <input
+          id="phone-number"
+          type="tel"
+          placeholder="(312) 123-2345"
+          data-pattern="({{999}}) {{999}}-{{9999}}"
+        />
+      </div>
+
+      <div class="input-wrapper">
+        <label for="wildcard">*A*3 {{*A*3}}</label>
+        <input
+          id="wildcard"
+          type="text"
+          placeholder="*A*3 {{*A*3}}"
+          data-pattern="*A*3 {{*A*3}}"
+        />
+      </div>
+    </div>
+
+    <script src="restricted-input.js"></script>
+    <script>
+      var inputs = document.querySelectorAll("input");
+
+      function updateSelectionData(event) {
+        var input = event.currentTarget || event.srcElement;
+
+        input.setAttribute("data-selection-start", input.selectionStart);
+        input.setAttribute("data-selection-end", input.selectionEnd);
+      }
+
+      for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+
+        var ri = new RestrictedInput({
+          element: input,
+          pattern:
+            input.getAttribute("data-pattern") ||
+            "{{9999}} {{9999}} {{9999}} {{9999}}",
+        });
+
+        var events = [
+          "input",
+          "keypress",
+          "keyup",
+          "keydown",
+          "change",
+          "focus",
+          "blur",
+          "click",
+        ];
+
+        for (var j = 0; j < events.length; j++) {
+          var e = events[j];
+
+          input.addEventListener(e, updateSelectionData, false);
         }
-      })(input, ri);
-    }
-  </script>
-</body>
+
+        input.setAttribute("data-selection-start", 0);
+        input.setAttribute("data-selection-end", 0);
+
+        (function (i, r) {
+          var toggleButton = document.getElementById(i.id + "-btn");
+
+          if (toggleButton) {
+            toggleButton.addEventListener(
+              "click",
+              function (event) {
+                var btn = event.currentTarget;
+                var currentState = btn.getAttribute("data-current-state");
+
+                if (currentState === "non-amex") {
+                  r.setPattern("{{9999}} {{999999}} {{99999}}");
+                  i.setAttribute("placeholder", "3782 822463 10005");
+                  btn.setAttribute("data-current-state", "amex");
+                } else {
+                  r.setPattern("{{9999}} {{9999}} {{9999}} {{9999}}");
+                  i.setAttribute("placeholder", "4111 1111 1111 1111");
+                  btn.setAttribute("data-current-state", "non-amex");
+                }
+              },
+              false
+            );
+          }
+        })(input, ri);
+      }
+    </script>
+  </body>
 </html>
