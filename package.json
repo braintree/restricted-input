@@ -45,22 +45,22 @@
     "postpublish": "npm run publish:demo"
   },
   "dependencies": {
-    "@braintree/browser-detection": "^1.9.0"
+    "@braintree/browser-detection": "^1.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^26.0.5",
     "@wdio/browserstack-service": "^6.1.15",
-    "@wdio/cli": "^6.3.0",
-    "@wdio/local-runner": "^6.3.0",
+    "@wdio/cli": "^6.3.4",
+    "@wdio/local-runner": "^6.3.4",
     "@wdio/mocha-framework": "^6.3.0",
     "@wdio/spec-reporter": "^6.3.0",
-    "@wdio/sync": "^6.3.0",
+    "@wdio/sync": "^6.3.3",
     "browserify": "^16.5.0",
     "browserstack-local": "^1.4.5",
     "chai": "^4.2.0",
     "chokidar-cli": "^2.1.0",
     "dotenv": "^8.2.0",
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
     "eslint-config-braintree": "^5.0.0-typescript-prep-rc.17",
     "express": "^4.17.1",
     "jest": "^26.1.0",
@@ -70,7 +70,7 @@
     "tsify": "^4.0.2",
     "typescript": "^3.9.7",
     "uuid": "^8.2.0",
-    "webdriverio": "^6.3.0"
+    "webdriverio": "^6.3.4"
   },
   "jest": {
     "preset": "ts-jest",
