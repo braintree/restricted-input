@@ -1,4 +1,7 @@
-const UA = window.navigator && window.navigator.userAgent;
+// server side rendering check
+const UA = (typeof window !== "undefined" &&
+  window.navigator &&
+  window.navigator.userAgent) as string;
 
 // TODO remove this when browser detection is converted to typescript
 /* eslint-disable @typescript-eslint/ban-ts-ignore */

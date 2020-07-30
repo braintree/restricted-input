@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## 3.0.2
+
+- Fixup usage of window for server-side rendering
+
 ## 3.0.1
 
 - Add missing `supports-input-formatting` module at top level
