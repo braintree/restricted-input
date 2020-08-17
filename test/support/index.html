@@ -85,6 +85,19 @@
       </div>
 
       <div class="input-wrapper">
+        <label for="credit-card-number"
+          >Card Number with more than 16 digits</label
+        >
+        <input
+          id="credit-card-number-with-19-digits"
+          type="tel"
+          placeholder="4111 1111 1111 1111 111"
+          data-pattern="{{9999}} {{9999}} {{9999}} {{9999}} {{999}}"
+          name="credit-card-number-19-digits"
+        />
+      </div>
+
+      <div class="input-wrapper">
         <label for="credit-card-toggle-able">Card Number (toggle-able)</label>
         <input
           id="credit-card-toggle-able"
