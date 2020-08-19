@@ -29,6 +29,7 @@ export class AndroidChromeStrategy extends BaseStrategy {
     });
 
     this.inputElement.addEventListener("paste", (event) => {
+      event.preventDefault();
       this.pasteEventHandler(event as ClipboardEvent);
     });
   }

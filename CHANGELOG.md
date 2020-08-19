@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+- Fix issue where pasting on Android Chrome would result in a double entry of the inputted value (Fixes [braintree-web-drop-in#650](https://github.com/braintree/braintree-web-drop-in/issues/650))
+
 ## 3.0.2
 
 - Fixup usage of window for server-side rendering
