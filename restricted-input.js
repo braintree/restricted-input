@@ -675,6 +675,7 @@
                 _this.reformatInput();
               });
               this.inputElement.addEventListener("paste", function (event) {
+                event.preventDefault();
                 _this.pasteEventHandler(event);
               });
             };
