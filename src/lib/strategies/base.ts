@@ -9,6 +9,7 @@ import { isBackspace } from "../is-backspace";
 import { isDelete } from "../is-delete";
 import { PatternFormatter as Formatter, FormatMetadata } from "../formatter";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   interface Window {
     clipboardData: {

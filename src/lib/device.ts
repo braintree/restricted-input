@@ -4,7 +4,7 @@ const UA = (typeof window !== "undefined" &&
   window.navigator.userAgent) as string;
 
 // TODO remove this when browser detection is converted to typescript
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import isAndroid = require("@braintree/browser-detection/is-android");
 // @ts-ignore
@@ -15,7 +15,7 @@ import isChrome = require("@braintree/browser-detection/is-chrome");
 import isIos = require("@braintree/browser-detection/is-ios");
 // @ts-ignore
 import isIE9 = require("@braintree/browser-detection/is-ie9");
-/* eslint-enable @typescript-eslint/ban-ts-ignore */
+/* eslint-enable @typescript-eslint/ban-ts-comment */
 
 // Old Android Webviews used specific versions of Chrome with 0.0.0 as their version suffix
 // https://developer.chrome.com/multidevice/user-agent#webview_user_agent
