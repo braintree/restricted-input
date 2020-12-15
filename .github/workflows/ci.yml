@@ -22,3 +22,5 @@ jobs:
       - run: xvfb-run --auto-servernum npm run test:integration
         env:
           CI: true
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
