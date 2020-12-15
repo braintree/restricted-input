@@ -19,7 +19,7 @@ jobs:
       # for whatever reason, just removing the mocha types module fixes the issue
       - run: rm -rf node_modules/@types/mocha
       - run: sudo echo "172.16.18.16 bs-local.com" | sudo tee -a /etc/hosts
-      - run: npm run develoment & echo "starting test app"
+      - run: npm run development & echo "starting test app"
       - run: ONLY_BROWSERS=chrome,firefox,safari,edge npm run test:integration
       - run: ONLY_BROWSERS=ie npm run test:integration
     env:
