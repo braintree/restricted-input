@@ -22,5 +22,6 @@ jobs:
       - run: npm run development & npm run test:integration
     env:
       CI: true
+      HOST: 'bt-local.com'
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
