@@ -12,9 +12,9 @@ const screenResolution = "1920x1080";
 const projectName = "Restricted Input";
 let type;
 
-if (!process.env.TRAVIS_BRANCH) {
+if (!process.env.GITHUB_REF) {
   type = "Local";
-} else if (process.env.TRAVIS_BRANCH !== "master") {
+} else if (process.env.GITHUB_BASE_REF) {
   type = "Pull Request";
 } else {
   type = "CI";
