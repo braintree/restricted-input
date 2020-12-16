@@ -71,36 +71,35 @@ let capabilities = [
   //    }
   //  }
   //},
-  // TODO comment these out while fussing with ci
-  // {
-  //   ...desktopCapabilities,
-  //   browser: "IE",
-  //   browserName: "IE 11",
-  //   browser_version: "11.0",
-  //   "browserstack.selenium_version": "3.141.5",
-  //   // https://stackoverflow.com/a/42340325/7851516
-  //   "browserstack.bfcache": "0",
-  //   "browserstack.ie.arch": "x32",
-  // },
-  // {
-  //   ...desktopCapabilities,
-  //   browserName: "Microsoft Edge",
-  //   browser: "edge",
-  //   browser_version: "18.0",
-  // },
-  // {
-  //   ...desktopCapabilities,
-  //   browserName: "Firefox",
-  //   browser: "firefox",
-  //   "browserstack.console": "info",
-  // },
-  // {
-  //   ...desktopCapabilities,
-  //   browserName: "Desktop Safari",
-  //   browser: "safari",
-  //   os: "OS X",
-  //   os_version: "Mojave",
-  // },
+  {
+    ...desktopCapabilities,
+    browser: "IE",
+    browserName: "IE 11",
+    browser_version: "11.0",
+    "browserstack.selenium_version": "3.141.5",
+    // https://stackoverflow.com/a/42340325/7851516
+    "browserstack.bfcache": "0",
+    "browserstack.ie.arch": "x32",
+  },
+  {
+    ...desktopCapabilities,
+    browserName: "Microsoft Edge",
+    browser: "edge",
+    browser_version: "18.0",
+  },
+  {
+    ...desktopCapabilities,
+    browserName: "Firefox",
+    browser: "firefox",
+    "browserstack.console": "info",
+  },
+  {
+    ...desktopCapabilities,
+    browserName: "Desktop Safari",
+    browser: "safari",
+    os: "OS X",
+    os_version: "Mojave",
+  },
 ];
 
 if (ONLY_BROWSERS) {
