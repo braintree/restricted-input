@@ -6,6 +6,9 @@ jobs:
   ubuntu-job:
     name: "BrowserStack Test on Ubuntu"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: ["chrome,firefox", "edge", "ie"]
     steps:
       - uses: actions/checkout@v2
       - name: "BrowserStack Env Setup"
@@ -31,6 +34,8 @@ jobs:
         uses: "browserstack/github-actions/setup-local@master"
         with:
           local-testing: stop
+
     env:
       CI: true
       HOST: "localhost"
+      ONLY_BROWSERS: ${{ matrix.browser }}
