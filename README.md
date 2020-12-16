@@ -1,6 +1,4 @@
-# Restricted Input
-
-[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=UUlSMGtaQWNkL3lEdlZ2NmFzcnh4OWcvNGFkQjZjcExhQmFPb1cydlJEOD0tLVNlQ3JSUDgzR20ySUs4SFc4L2x1TXc9PQ==--7e53bf426e69647ff4cda6a50460759494986d49)](https://automate.browserstack.com/public-build/UUlSMGtaQWNkL3lEdlZ2NmFzcnh4OWcvNGFkQjZjcExhQmFPb1cydlJEOD0tLVNlQ3JSUDgzR20ySUs4SFc4L2x1TXc9PQ==--7e53bf426e69647ff4cda6a50460759494986d49)
+# Restricted Input [![Build Status](https://github.com/braintree/restricted-input/workflows/Unit%20Tests/badge.svg)](https://github.com/braintree/restricted-input/actions?query=workflow%3A%22Unit+Tests%22) [![Build Status](https://github.com/braintree/restricted-input/workflows/Integration%20Tests/badge.svg)](https://github.com/braintree/restricted-input/actions?query=workflow%3A%22Integration+Tests%22) [![npm version](https://badge.fury.io/js/restricted-input.svg)](http://badge.fury.io/js/framebus)
 
 Allow restricted character sets in `input` elements.
 
