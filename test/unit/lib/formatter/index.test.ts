@@ -107,22 +107,21 @@ describe("Formatter", function () {
         ["98", "{{*}}", "9"],
         ["!8", "{{*}}", "!"],
       ];
-      it.each(cases)("injects permaChars for %s with %s", function (
-        input,
-        pattern,
-        expectedResult
-      ) {
-        const formatter = new Formatter(pattern);
-        const options = {
-          selection: {
-            start: input.length,
-            end: input.length,
-          },
-          value: input,
-        };
+      it.each(cases)(
+        "injects permaChars for %s with %s",
+        function (input, pattern, expectedResult) {
+          const formatter = new Formatter(pattern);
+          const options = {
+            selection: {
+              start: input.length,
+              end: input.length,
+            },
+            value: input,
+          };
 
-        expect(formatter.format(options).value).toBe(expectedResult);
-      });
+          expect(formatter.format(options).value).toBe(expectedResult);
+        }
+      );
     });
 
     describe("selection", function () {

@@ -12,9 +12,9 @@ const screenResolution = "1920x1080";
 const projectName = "Restricted Input";
 let type;
 
-if (!process.env.TRAVIS_BRANCH) {
+if (!process.env.GITHUB_REF) {
   type = "Local";
-} else if (process.env.TRAVIS_BRANCH !== "master") {
+} else if (process.env.GITHUB_BASE_REF) {
   type = "Pull Request";
 } else {
   type = "CI";
@@ -93,13 +93,14 @@ let capabilities = [
     browser: "firefox",
     "browserstack.console": "info",
   },
-  {
-    ...desktopCapabilities,
-    browserName: "Desktop Safari",
-    browser: "safari",
-    os: "OS X",
-    os_version: "Mojave",
-  },
+  // TODO safari doesn't work on github actions
+  // {
+  //   ...desktopCapabilities,
+  //   browserName: "Desktop Safari",
+  //   browser: "safari",
+  //   os: "OS X",
+  //   os_version: "Mojave",
+  // },
 ];
 
 if (ONLY_BROWSERS) {

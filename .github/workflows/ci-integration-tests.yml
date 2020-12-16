@@ -1,0 +1,36 @@
+name: "Integration Tests"
+
+on: [push]
+
+jobs:
+  ubuntu-job:
+    name: "BrowserStack Test on Ubuntu"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "BrowserStack Env Setup"
+        uses: "browserstack/github-actions/setup-env@master"
+        with:
+          username:  ${{ secrets.BROWSERSTACK_USERNAME }}
+          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          build-name: BUILD_INFO
+          project-name: REPO_NAME
+      - name: "BrowserStackLocal Setup"
+        uses: "browserstack/github-actions/setup-local@master"
+        with:
+          local-testing: start
+          local-identifier: random
+      - name: "Node Setup"
+        uses: "actions/setup-node@v1"
+        with:
+          node-version: "12.x"
+      - run: npm install
+      - run: rm -rf node_modules/@types/mocha
+      - run: npm run development & npm run test:integration
+      - name: "BrowserStackLocal Stop"
+        uses: "browserstack/github-actions/setup-local@master"
+        with:
+          local-testing: stop
+    env:
+      CI: true
+      HOST: "localhost"

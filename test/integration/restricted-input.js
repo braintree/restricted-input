@@ -44,7 +44,7 @@ describe("Restricted Input", function () {
   });
 
   beforeEach(() => {
-    browser.url("http://bs-local.com:3099");
+    browser.url("http://localhost:3099");
   });
 
   describe("for number", () => {
