@@ -33,4 +33,4 @@ jobs:
           local-testing: stop
     env:
       CI: true
-      HOST: "bt-local.com"
+      HOST: "localhost"
