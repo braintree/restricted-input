@@ -93,13 +93,14 @@ let capabilities = [
     browser: "firefox",
     "browserstack.console": "info",
   },
-  {
-    ...desktopCapabilities,
-    browserName: "Desktop Safari",
-    browser: "safari",
-    os: "OS X",
-    os_version: "Mojave",
-  },
+  // TODO safari doesn't work on github actions
+  // {
+  //   ...desktopCapabilities,
+  //   browserName: "Desktop Safari",
+  //   browser: "safari",
+  //   os: "OS X",
+  //   os_version: "Mojave",
+  // },
 ];
 
 if (ONLY_BROWSERS) {
