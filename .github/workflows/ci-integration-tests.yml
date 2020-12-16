@@ -7,6 +7,11 @@ jobs:
     name: "BrowserStack Test on Ubuntu"
     runs-on: ubuntu-latest
     steps:
+      - name: "Node Setup"
+        uses: "actions/setup-node@v1"
+        with:
+          node-version: "12.x"
+      - run: npm install
       - name: "BrowserStack Env Setup"
         uses: "browserstack/github-actions/setup-env@master"
         with:
@@ -19,13 +24,6 @@ jobs:
         with:
           local-testing: start
           local-identifier: random
-      - name: "Setup"
-        uses: "actions/setup-node@v1"
-        with:
-          node-version: "12.x"
-      - run: pwd
-      - run: cd ../ && ls -la
-      - run: npm install
       - run: pwd
       - run: ls
       - run: npm run development & npm run test:integration
