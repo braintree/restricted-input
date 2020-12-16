@@ -23,8 +23,11 @@ jobs:
         uses: "actions/setup-node@v1"
         with:
           node-version: "12.x"
-      - run: cd ../
+      - run: pwd
+      - run: ls
       - run: npm install
+      - run: pwd
+      - run: ls
       - run: npm run development & npm run test:integration
         env:
           CI: true
