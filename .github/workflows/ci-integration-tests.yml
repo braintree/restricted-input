@@ -24,15 +24,15 @@ jobs:
         with:
           node-version: "12.x"
       - run: pwd
-      - run: ls
+      - run: cd ../ && ls -la
       - run: npm install
       - run: pwd
       - run: ls
       - run: npm run development & npm run test:integration
-        env:
-          CI: true
-          HOST: "bt-local.com"
       - name: "BrowserStackLocal Stop"
         uses: "browserstack/github-actions/setup-local@master"
         with:
           local-testing: stop
+    env:
+      CI: true
+      HOST: "bt-local.com"
