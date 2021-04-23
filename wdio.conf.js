@@ -85,7 +85,6 @@ exports.config = {
   logLevel: "error",
   deprecationWarnings: true,
   bail: 0,
-  baseUrl: process.env.HOST,
   waitforTimeout: 20000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 1,
