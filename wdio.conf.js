@@ -7,7 +7,6 @@ require("dotenv").config();
 
 const ONLY_BROWSERS = process.env.ONLY_BROWSERS;
 const localIdentifier = uuid();
-const screenResolution = "1920x1080";
 
 const projectName = "Restricted Input";
 let type;
@@ -19,77 +18,30 @@ if (!process.env.GITHUB_REF) {
 }
 const build = `${projectName} - ${type} ${Date.now()}`;
 
-const defaultCapabilities = {
-  project: projectName,
-  build,
-  "browserstack.debug": true,
-  "browserstack.local": true,
-  "browserstack.networkLogs": true,
-  "browserstack.localIdentifier": localIdentifier,
-};
-
 const desktopCapabilities = {
-  ...defaultCapabilities,
-  os: "windows",
-  os_version: "10",
-  resolution: screenResolution,
-};
-
-const mobileCapabilities = {
-  ...defaultCapabilities,
-  real_mobile: true,
-  "browserstack.appium_version": "1.14.0",
+  "bstack:options": {
+    os: "Windows",
+    osVersion: "10",
+    local: "true",
+    debug: "true",
+    seleniumVersion: "3.14.0",
+    localIdentifier,
+  },
+  browserVersion: "latest",
 };
 
 let capabilities = [
   {
     ...desktopCapabilities,
-    browserName: "Google Chrome",
-    browser: "chrome",
-    "browserstack.console": "info",
-  },
-  // TODO mobile browsers are having trouble with browser.keys
-  //{
-  //  ...mobileCapabilities,
-  //  browserName: 'iPhone XS Safari',
-  //  device: 'iPhone XS',
-  //  os_version: '13'
-  //},
-  //{
-  //  ...mobileCapabilities,
-  //  browserName: 'Google Pixel 3 Chrome',
-  //  device: 'Google Pixel 3',
-  //  os_version: '9.0',
-  //  chromeOptions: {
-  //    prefs: {
-  //      // disable chrome's annoying password manager, may be unnec
-  //      'profile.password_manager_enabled': false,
-  //      credentials_enable_service: false,
-  //      password_manager_enabled: false
-  //    }
-  //  }
-  //},
-  {
-    ...desktopCapabilities,
-    browser: "IE",
-    browserName: "IE 11",
-    browser_version: "11.0",
-    "browserstack.selenium_version": "3.141.5",
-    // https://stackoverflow.com/a/42340325/7851516
-    "browserstack.bfcache": "0",
-    "browserstack.ie.arch": "x32",
+    browserName: "Chrome",
   },
   {
     ...desktopCapabilities,
-    browserName: "Microsoft Edge",
-    browser: "edge",
-    browser_version: "18.0",
+    browserName: "Edge",
   },
   {
     ...desktopCapabilities,
     browserName: "Firefox",
-    browser: "firefox",
-    "browserstack.console": "info",
   },
   // TODO safari doesn't work on github actions
   // {
@@ -104,7 +56,7 @@ let capabilities = [
 if (ONLY_BROWSERS) {
   capabilities = ONLY_BROWSERS.split(",").map((browser) =>
     capabilities.find(
-      (config) => config.browser.toLowerCase() === browser.toLowerCase()
+      (config) => config.browserName.toLowerCase() === browser.toLowerCase()
     )
   );
 
@@ -168,11 +120,7 @@ exports.config = {
           console.log(
             "Testing in the following browsers:",
             capabilities
-              .map((browser) =>
-                browser.real_mobile
-                  ? `${browser.device}@${browser.os_version}`
-                  : `${browser.browser}@${browser.browser_version}`
-              )
+              .map((browser) => `${browser.browserName}@${browser.browserVersion}`)
               .join(", ")
           );
 
@@ -184,13 +132,10 @@ exports.config = {
   },
   before(capabilities) {
     // Mobile devices/selenium don't support the following APIs yet
-    if (!capabilities.real_mobile) {
-      browser.maximizeWindow();
-      browser.setTimeout({
-        pageLoad: 10000,
-        script: 5 * 60 * 1000,
-      });
-    }
+    browser.setTimeout({
+      pageLoad: 10000,
+      script: 5 * 60 * 1000,
+    });
   },
   onComplete() {
     exports.bs_local.stop(() => {});
