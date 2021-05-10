@@ -119,7 +119,9 @@ exports.config = {
           console.log(
             "Testing in the following browsers:",
             capabilities
-              .map((browser) => `${browser.browserName}@${browser.browserVersion}`)
+              .map(
+                (browser) => `${browser.browserName}@${browser.browserVersion}`
+              )
               .join(", ")
           );
 
