@@ -19,7 +19,9 @@ describe("Base Strategy", function () {
     it("adds input listeners", function () {
       const strategy = new BaseStrategy(options);
 
-      ["keydown", "keyup", "input", "paste"].forEach(function (event) {
+      ["keydown", "keypress", "keyup", "input", "paste"].forEach(function (
+        event
+      ) {
         expect(strategy.inputElement.addEventListener).toBeCalledWith(
           event,
           expect.any(Function)
