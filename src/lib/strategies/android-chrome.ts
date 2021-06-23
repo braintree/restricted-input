@@ -12,14 +12,6 @@ export class AndroidChromeStrategy extends BaseStrategy {
       this.unformatInput();
     });
 
-    // 'keypress' is not fired with some Android keyboards (see #23)
-    this.inputElement.addEventListener("keypress", (event) => {
-      if (keyCannotMutateValue(event as KeyboardEvent)) {
-        return;
-      }
-      this.unformatInput();
-    });
-
     this.inputElement.addEventListener("keyup", () => {
       this.reformatInput();
     });

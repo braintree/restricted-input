@@ -84,31 +84,32 @@ export class BaseStrategy extends StrategyInterface {
         this.unformatInput();
       }
     });
-    this.inputElement.addEventListener("keypress", (e) => {
-      const event = e as KeyboardEvent;
 
-      if (isSimulatedEvent(event)) {
-        this.isFormatted = false;
-      }
-
-      if (keyCannotMutateValue(event)) {
-        return;
-      }
-      this.unformatInput();
-    });
     this.inputElement.addEventListener("keyup", () => {
       this.reformatInput();
     });
-    this.inputElement.addEventListener("input", (event) => {
+
+    this.inputElement.addEventListener("input", (e) => {
+      const event = e as KeyboardEvent;
       // Safari AutoFill fires CustomEvents
       // LastPass sends an `isTrusted: false` property
       // Since the input is changed all at once, set isFormatted
       // to false so that reformatting actually occurs
+      if (isSimulatedEvent(event)) {
+        this.isFormatted = false;
+      }
+
+      if (!keyCannotMutateValue(event)) {
+        this.unformatInput();
+      }
+
       if (event instanceof CustomEvent || !event.isTrusted) {
         this.isFormatted = false;
       }
+
       this.reformatInput();
     });
+
     this.inputElement.addEventListener("paste", (event) => {
       this.pasteEventHandler(event as ClipboardEvent);
     });
