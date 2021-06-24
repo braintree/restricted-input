@@ -1,5 +1,9 @@
 # Restricted Input - Release Notes
 
+## unreleased
+
+- Fix issue where some Mac OS input sources would not format correctly in Safari
+
 ## 3.0.3
 
 - Fix issue where pasting on Android Chrome would result in a double entry of the inputted value (Fixes [braintree-web-drop-in#650](https://github.com/braintree/braintree-web-drop-in/issues/650))

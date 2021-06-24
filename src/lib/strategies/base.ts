@@ -28,11 +28,13 @@ function isSimulatedEvent(event: KeyboardEvent): boolean {
 export class BaseStrategy extends StrategyInterface {
   formatter: Formatter;
   private onPasteEvent?: OnPasteEventMethod;
+  private hasKeypressEvent: boolean;
   protected stateToFormat?: FormatMetadata;
 
   constructor(options: StrategyOptions) {
     super(options);
 
+    this.hasKeypressEvent = false;
     this.formatter = new Formatter(options.pattern);
     this.onPasteEvent = options.onPasteEvent;
 
@@ -84,22 +86,29 @@ export class BaseStrategy extends StrategyInterface {
         this.unformatInput();
       }
     });
+
     this.inputElement.addEventListener("keypress", (e) => {
-      const event = e as KeyboardEvent;
-
-      if (isSimulatedEvent(event)) {
-        this.isFormatted = false;
-      }
-
-      if (keyCannotMutateValue(event)) {
-        return;
-      }
-      this.unformatInput();
+      this.hasKeypressEvent = true;
+      this.onKeypress(e as KeyboardEvent);
     });
+
     this.inputElement.addEventListener("keyup", () => {
       this.reformatInput();
     });
-    this.inputElement.addEventListener("input", (event) => {
+
+    this.inputElement.addEventListener("input", (e) => {
+      const event = e as KeyboardEvent;
+
+      // Some input sources on Mac OS prevent
+      // the keypress event from being fired,
+      // so if we can't detect that the keypress
+      // event fired, we simulate the event
+      // here before the handler for the input
+      // event
+      if (!this.hasKeypressEvent) {
+        this.onKeypress(e as KeyboardEvent);
+      }
+
       // Safari AutoFill fires CustomEvents
       // LastPass sends an `isTrusted: false` property
       // Since the input is changed all at once, set isFormatted
@@ -107,8 +116,10 @@ export class BaseStrategy extends StrategyInterface {
       if (event instanceof CustomEvent || !event.isTrusted) {
         this.isFormatted = false;
       }
+
       this.reformatInput();
     });
+
     this.inputElement.addEventListener("paste", (event) => {
       this.pasteEventHandler(event as ClipboardEvent);
     });
@@ -246,5 +257,16 @@ export class BaseStrategy extends StrategyInterface {
     }
 
     return stateToFormat;
+  }
+
+  private onKeypress(event: KeyboardEvent): void {
+    if (isSimulatedEvent(event)) {
+      this.isFormatted = false;
+    }
+
+    if (keyCannotMutateValue(event)) {
+      return;
+    }
+    this.unformatInput();
   }
 }
