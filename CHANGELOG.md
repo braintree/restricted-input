@@ -1,6 +1,6 @@
 # Restricted Input - Release Notes
 
-## unreleased
+## 3.0.4
 
 - Fix issue where some Mac OS input sources would not format correctly in Safari
 
