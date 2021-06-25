@@ -82,18 +82,40 @@
           "use strict";
           var isEdge = require("./is-edge");
           var isSamsung = require("./is-samsung");
+          var isDuckDuckGo = require("./is-duckduckgo");
+          var isOpera = require("./is-opera");
+          var isSilk = require("./is-silk");
           module.exports = function isChrome(ua) {
             ua = ua || window.navigator.userAgent;
             return (
               (ua.indexOf("Chrome") !== -1 || ua.indexOf("CriOS") !== -1) &&
               !isEdge(ua) &&
-              !isSamsung(ua)
+              !isSamsung(ua) &&
+              !isDuckDuckGo(ua) &&
+              !isOpera(ua) &&
+              !isSilk(ua)
             );
           };
         },
-        { "./is-edge": 4, "./is-samsung": 7 },
+        {
+          "./is-duckduckgo": 4,
+          "./is-edge": 5,
+          "./is-opera": 8,
+          "./is-samsung": 9,
+          "./is-silk": 10,
+        },
       ],
       4: [
+        function (require, module, exports) {
+          "use strict";
+          module.exports = function isDuckDuckGo(ua) {
+            ua = ua || window.navigator.userAgent;
+            return ua.indexOf("DuckDuckGo/") !== -1;
+          };
+        },
+        {},
+      ],
+      5: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isEdge(ua) {
@@ -103,7 +125,7 @@
         },
         {},
       ],
-      5: [
+      6: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isIe9(ua) {
@@ -113,7 +135,7 @@
         },
         {},
       ],
-      6: [
+      7: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isIos(ua) {
@@ -123,7 +145,21 @@
         },
         {},
       ],
-      7: [
+      8: [
+        function (require, module, exports) {
+          "use strict";
+          module.exports = function isOpera(ua) {
+            ua = ua || window.navigator.userAgent;
+            return (
+              ua.indexOf("OPR/") !== -1 ||
+              ua.indexOf("Opera/") !== -1 ||
+              ua.indexOf("OPT/") !== -1
+            );
+          };
+        },
+        {},
+      ],
+      9: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isSamsungBrowser(ua) {
@@ -133,48 +169,63 @@
         },
         {},
       ],
-      8: [
+      10: [
+        function (require, module, exports) {
+          "use strict";
+          module.exports = function isSilk(ua) {
+            ua = ua || window.navigator.userAgent;
+            return ua.indexOf("Silk/") !== -1;
+          };
+        },
+        {},
+      ],
+      11: [
         function (require, module, exports) {
           module.exports = require("./dist/is-android");
         },
         { "./dist/is-android": 1 },
       ],
-      9: [
+      12: [
         function (require, module, exports) {
           module.exports = require("./dist/is-chrome-os");
         },
         { "./dist/is-chrome-os": 2 },
       ],
-      10: [
+      13: [
         function (require, module, exports) {
           module.exports = require("./dist/is-chrome");
         },
         { "./dist/is-chrome": 3 },
       ],
-      11: [
+      14: [
         function (require, module, exports) {
           module.exports = require("./dist/is-ie9");
         },
-        { "./dist/is-ie9": 5 },
+        { "./dist/is-ie9": 6 },
       ],
-      12: [
+      15: [
         function (require, module, exports) {
           module.exports = require("./dist/is-ios");
         },
-        { "./dist/is-ios": 6 },
+        { "./dist/is-ios": 7 },
       ],
-      13: [
+      16: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
-          exports.isIos = exports.isIE9 = exports.isSamsungBrowser = exports.isAndroidChrome = exports.isKitKatWebview = void 0;
+          exports.isIos =
+            exports.isIE9 =
+            exports.isSamsungBrowser =
+            exports.isAndroidChrome =
+            exports.isKitKatWebview =
+              void 0;
           // server side rendering check
           var UA =
             typeof window !== "undefined" &&
             window.navigator &&
             window.navigator.userAgent;
           // TODO remove this when browser detection is converted to typescript
-          /* eslint-disable @typescript-eslint/ban-ts-ignore */
+          /* eslint-disable @typescript-eslint/ban-ts-comment */
           // @ts-ignore
           var isAndroid = require("@braintree/browser-detection/is-android");
           // @ts-ignore
@@ -187,7 +238,7 @@
           // @ts-ignore
           var isIE9 = require("@braintree/browser-detection/is-ie9");
           exports.isIE9 = isIE9;
-          /* eslint-enable @typescript-eslint/ban-ts-ignore */
+          /* eslint-enable @typescript-eslint/ban-ts-comment */
           // Old Android Webviews used specific versions of Chrome with 0.0.0 as their version suffix
           // https://developer.chrome.com/multidevice/user-agent#webview_user_agent
           var KITKAT_WEBVIEW_REGEX = /Version\/\d\.\d* Chrome\/\d*\.0\.0\.0/;
@@ -220,14 +271,14 @@
           exports.isSamsungBrowser = isSamsungBrowser;
         },
         {
-          "@braintree/browser-detection/is-android": 8,
-          "@braintree/browser-detection/is-chrome": 10,
-          "@braintree/browser-detection/is-chrome-os": 9,
-          "@braintree/browser-detection/is-ie9": 11,
-          "@braintree/browser-detection/is-ios": 12,
+          "@braintree/browser-detection/is-android": 11,
+          "@braintree/browser-detection/is-chrome": 13,
+          "@braintree/browser-detection/is-chrome-os": 12,
+          "@braintree/browser-detection/is-ie9": 14,
+          "@braintree/browser-detection/is-ios": 15,
         },
       ],
-      14: [
+      17: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -353,9 +404,9 @@
           })();
           exports.PatternFormatter = PatternFormatter;
         },
-        { "../is-backspace": 17, "./parse-pattern": 15 },
+        { "../is-backspace": 20, "./parse-pattern": 18 },
       ],
-      15: [
+      18: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -433,7 +484,7 @@
         },
         {},
       ],
-      16: [
+      19: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -462,7 +513,7 @@
         },
         {},
       ],
-      17: [
+      20: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -474,7 +525,7 @@
         },
         {},
       ],
-      18: [
+      21: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -487,7 +538,7 @@
         },
         {},
       ],
-      19: [
+      22: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -541,9 +592,9 @@
           }
           exports.keyCannotMutateValue = keyCannotMutateValue;
         },
-        { "./input-selection": 16 },
+        { "./input-selection": 19 },
       ],
-      20: [
+      23: [
         function (require, module, exports) {
           "use strict";
           var device_1 = require("./device");
@@ -568,9 +619,10 @@
               } else if (device_1.isIos()) {
                 this.strategy = new ios_1.IosStrategy(options);
               } else if (device_1.isKitKatWebview()) {
-                this.strategy = new kitkat_chromium_based_webview_1.KitKatChromiumBasedWebViewStrategy(
-                  options
-                );
+                this.strategy =
+                  new kitkat_chromium_based_webview_1.KitKatChromiumBasedWebViewStrategy(
+                    options
+                  );
               } else if (device_1.isAndroidChrome()) {
                 this.strategy = new android_chrome_1.AndroidChromeStrategy(
                   options
@@ -604,17 +656,17 @@
           module.exports = RestrictedInput;
         },
         {
-          "../supports-input-formatting": 29,
-          "./device": 13,
-          "./strategies/android-chrome": 21,
-          "./strategies/base": 22,
-          "./strategies/ie9": 23,
-          "./strategies/ios": 24,
-          "./strategies/kitkat-chromium-based-webview": 25,
-          "./strategies/noop": 26,
+          "../supports-input-formatting": 32,
+          "./device": 16,
+          "./strategies/android-chrome": 24,
+          "./strategies/base": 25,
+          "./strategies/ie9": 26,
+          "./strategies/ios": 27,
+          "./strategies/kitkat-chromium-based-webview": 28,
+          "./strategies/noop": 29,
         },
       ],
-      21: [
+      24: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -628,11 +680,19 @@
                       d.__proto__ = b;
                     }) ||
                   function (d, b) {
-                    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+                    for (var p in b)
+                      if (Object.prototype.hasOwnProperty.call(b, p))
+                        d[p] = b[p];
                   };
                 return extendStatics(d, b);
               };
               return function (d, b) {
+                if (typeof b !== "function" && b !== null)
+                  throw new TypeError(
+                    "Class extends value " +
+                      String(b) +
+                      " is not a constructor or null"
+                  );
                 extendStatics(d, b);
                 function __() {
                   this.constructor = d;
@@ -661,13 +721,6 @@
                 }
                 _this.unformatInput();
               });
-              // 'keypress' is not fired with some Android keyboards (see #23)
-              this.inputElement.addEventListener("keypress", function (event) {
-                if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
-                  return;
-                }
-                _this.unformatInput();
-              });
               this.inputElement.addEventListener("keyup", function () {
                 _this.reformatInput();
               });
@@ -684,13 +737,14 @@
               // but that removes the clipboard data in Android chrome
               // so we noop instead
             };
-            AndroidChromeStrategy.prototype.postPasteEventHandler = function () {
-              var _this = this;
-              // the default strategy calls this without a timeout
-              setTimeout(function () {
-                _this.reformatAfterPaste();
-              }, 0);
-            };
+            AndroidChromeStrategy.prototype.postPasteEventHandler =
+              function () {
+                var _this = this;
+                // the default strategy calls this without a timeout
+                setTimeout(function () {
+                  _this.reformatAfterPaste();
+                }, 0);
+              };
             AndroidChromeStrategy.prototype.afterReformatInput = function (
               formattedState
             ) {
@@ -724,12 +778,12 @@
           exports.AndroidChromeStrategy = AndroidChromeStrategy;
         },
         {
-          "../input-selection": 16,
-          "../key-cannot-mutate-value": 19,
-          "./base": 22,
+          "../input-selection": 19,
+          "../key-cannot-mutate-value": 22,
+          "./base": 25,
         },
       ],
-      22: [
+      25: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -743,11 +797,19 @@
                       d.__proto__ = b;
                     }) ||
                   function (d, b) {
-                    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+                    for (var p in b)
+                      if (Object.prototype.hasOwnProperty.call(b, p))
+                        d[p] = b[p];
                   };
                 return extendStatics(d, b);
               };
               return function (d, b) {
+                if (typeof b !== "function" && b !== null)
+                  throw new TypeError(
+                    "Class extends value " +
+                      String(b) +
+                      " is not a constructor or null"
+                  );
                 extendStatics(d, b);
                 function __() {
                   this.constructor = d;
@@ -776,6 +838,7 @@
             __extends(BaseStrategy, _super);
             function BaseStrategy(options) {
               var _this = _super.call(this, options) || this;
+              _this.hasKeypressEvent = false;
               _this.formatter = new formatter_1.PatternFormatter(
                 options.pattern
               );
@@ -821,19 +884,23 @@
                 }
               });
               this.inputElement.addEventListener("keypress", function (e) {
-                var event = e;
-                if (isSimulatedEvent(event)) {
-                  _this.isFormatted = false;
-                }
-                if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
-                  return;
-                }
-                _this.unformatInput();
+                _this.hasKeypressEvent = true;
+                _this.onKeypress(e);
               });
               this.inputElement.addEventListener("keyup", function () {
                 _this.reformatInput();
               });
-              this.inputElement.addEventListener("input", function (event) {
+              this.inputElement.addEventListener("input", function (e) {
+                var event = e;
+                // Some input sources on Mac OS prevent
+                // the keypress event from being fired,
+                // so if we can't detect that the keypress
+                // event fired, we simulate the event
+                // here before the handler for the input
+                // event
+                if (!_this.hasKeypressEvent) {
+                  _this.onKeypress(e);
+                }
                 // Safari AutoFill fires CustomEvents
                 // LastPass sends an `isTrusted: false` property
                 // Since the input is changed all at once, set isFormatted
@@ -961,20 +1028,29 @@
               }
               return stateToFormat;
             };
+            BaseStrategy.prototype.onKeypress = function (event) {
+              if (isSimulatedEvent(event)) {
+                this.isFormatted = false;
+              }
+              if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
+                return;
+              }
+              this.unformatInput();
+            };
             return BaseStrategy;
           })(strategy_interface_1.StrategyInterface);
           exports.BaseStrategy = BaseStrategy;
         },
         {
-          "../formatter": 14,
-          "../input-selection": 16,
-          "../is-backspace": 17,
-          "../is-delete": 18,
-          "../key-cannot-mutate-value": 19,
-          "./strategy-interface": 27,
+          "../formatter": 17,
+          "../input-selection": 19,
+          "../is-backspace": 20,
+          "../is-delete": 21,
+          "../key-cannot-mutate-value": 22,
+          "./strategy-interface": 30,
         },
       ],
-      23: [
+      26: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -988,11 +1064,19 @@
                       d.__proto__ = b;
                     }) ||
                   function (d, b) {
-                    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+                    for (var p in b)
+                      if (Object.prototype.hasOwnProperty.call(b, p))
+                        d[p] = b[p];
                   };
                 return extendStatics(d, b);
               };
               return function (d, b) {
+                if (typeof b !== "function" && b !== null)
+                  throw new TypeError(
+                    "Class extends value " +
+                      String(b) +
+                      " is not a constructor or null"
+                  );
                 extendStatics(d, b);
                 function __() {
                   this.constructor = d;
@@ -1104,12 +1188,12 @@
           exports.IE9Strategy = IE9Strategy;
         },
         {
-          "../input-selection": 16,
-          "../key-cannot-mutate-value": 19,
-          "./base": 22,
+          "../input-selection": 19,
+          "../key-cannot-mutate-value": 22,
+          "./base": 25,
         },
       ],
-      24: [
+      27: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -1123,11 +1207,19 @@
                       d.__proto__ = b;
                     }) ||
                   function (d, b) {
-                    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+                    for (var p in b)
+                      if (Object.prototype.hasOwnProperty.call(b, p))
+                        d[p] = b[p];
                   };
                 return extendStatics(d, b);
               };
               return function (d, b) {
+                if (typeof b !== "function" && b !== null)
+                  throw new TypeError(
+                    "Class extends value " +
+                      String(b) +
+                      " is not a constructor or null"
+                  );
                 extendStatics(d, b);
                 function __() {
                   this.constructor = d;
@@ -1217,12 +1309,12 @@
           exports.IosStrategy = IosStrategy;
         },
         {
-          "../input-selection": 16,
-          "../key-cannot-mutate-value": 19,
-          "./base": 22,
+          "../input-selection": 19,
+          "../key-cannot-mutate-value": 22,
+          "./base": 25,
         },
       ],
-      25: [
+      28: [
         function (require, module, exports) {
           "use strict";
           // Android Devices on KitKat use Chromium based webviews. For some reason,
@@ -1242,11 +1334,19 @@
                       d.__proto__ = b;
                     }) ||
                   function (d, b) {
-                    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+                    for (var p in b)
+                      if (Object.prototype.hasOwnProperty.call(b, p))
+                        d[p] = b[p];
                   };
                 return extendStatics(d, b);
               };
               return function (d, b) {
+                if (typeof b !== "function" && b !== null)
+                  throw new TypeError(
+                    "Class extends value " +
+                      String(b) +
+                      " is not a constructor or null"
+                  );
                 extendStatics(d, b);
                 function __() {
                   this.constructor = d;
@@ -1267,25 +1367,28 @@
             function KitKatChromiumBasedWebViewStrategy() {
               return (_super !== null && _super.apply(this, arguments)) || this;
             }
-            KitKatChromiumBasedWebViewStrategy.prototype.reformatInput = function () {
-              var _this = this;
-              setTimeout(function () {
-                _super.prototype.reformatInput.call(_this);
-              }, 0);
-            };
-            KitKatChromiumBasedWebViewStrategy.prototype.unformatInput = function () {
-              var _this = this;
-              setTimeout(function () {
-                _super.prototype.unformatInput.call(_this);
-              }, 0);
-            };
+            KitKatChromiumBasedWebViewStrategy.prototype.reformatInput =
+              function () {
+                var _this = this;
+                setTimeout(function () {
+                  _super.prototype.reformatInput.call(_this);
+                }, 0);
+              };
+            KitKatChromiumBasedWebViewStrategy.prototype.unformatInput =
+              function () {
+                var _this = this;
+                setTimeout(function () {
+                  _super.prototype.unformatInput.call(_this);
+                }, 0);
+              };
             return KitKatChromiumBasedWebViewStrategy;
           })(android_chrome_1.AndroidChromeStrategy);
-          exports.KitKatChromiumBasedWebViewStrategy = KitKatChromiumBasedWebViewStrategy;
+          exports.KitKatChromiumBasedWebViewStrategy =
+            KitKatChromiumBasedWebViewStrategy;
         },
-        { "./android-chrome": 21 },
+        { "./android-chrome": 24 },
       ],
-      26: [
+      29: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -1299,11 +1402,19 @@
                       d.__proto__ = b;
                     }) ||
                   function (d, b) {
-                    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+                    for (var p in b)
+                      if (Object.prototype.hasOwnProperty.call(b, p))
+                        d[p] = b[p];
                   };
                 return extendStatics(d, b);
               };
               return function (d, b) {
+                if (typeof b !== "function" && b !== null)
+                  throw new TypeError(
+                    "Class extends value " +
+                      String(b) +
+                      " is not a constructor or null"
+                  );
                 extendStatics(d, b);
                 function __() {
                   this.constructor = d;
@@ -1332,9 +1443,9 @@
           })(strategy_interface_1.StrategyInterface);
           exports.NoopKeyboardStrategy = NoopKeyboardStrategy;
         },
-        { "./strategy-interface": 27 },
+        { "./strategy-interface": 30 },
       ],
-      27: [
+      30: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -1350,15 +1461,15 @@
         },
         {},
       ],
-      28: [
+      31: [
         function (require, module, exports) {
           "use strict";
           var RestrictedInput = require("./lib/restricted-input");
           module.exports = RestrictedInput;
         },
-        { "./lib/restricted-input": 20 },
+        { "./lib/restricted-input": 23 },
       ],
-      29: [
+      32: [
         function (require, module, exports) {
           "use strict";
           var device_1 = require("./lib/device");
@@ -1367,10 +1478,10 @@
             return !device_1.isSamsungBrowser();
           };
         },
-        { "./lib/device": 13 },
+        { "./lib/device": 16 },
       ],
     },
     {},
-    [28]
-  )(28);
+    [31]
+  )(31);
 });
