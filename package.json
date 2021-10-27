@@ -62,7 +62,7 @@
     "chokidar-cli": "^3.0.0",
     "dotenv": "^10.0.0",
     "eslint": "^8.1.0",
-    "eslint-config-braintree": "^6.0.0-typescript-prep-rc.1",
+    "eslint-config-braintree": "^6.0.0-typescript-prep-rc.2",
     "eslint-plugin-prettier": "^4.0.0",
     "express": "^4.17.1",
     "jest": "^27.3.1",
