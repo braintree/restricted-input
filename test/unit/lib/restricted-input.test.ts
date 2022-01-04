@@ -13,18 +13,16 @@ import {
   isSamsungBrowser,
 } from "../../../src/lib/device";
 
-import { mocked } from "ts-jest/utils";
-
 jest.mock("../../../src/lib/device");
 
 describe("RestrictedInput", function () {
   afterEach(() => {
     // reset these back to their default mocked values
-    mocked(isIE9).mockReturnValue(false);
-    mocked(isIos).mockReturnValue(false);
-    mocked(isKitKatWebview).mockReturnValue(false);
-    mocked(isAndroidChrome).mockReturnValue(false);
-    mocked(isSamsungBrowser).mockReturnValue(false);
+    jest.mocked(isIE9).mockReturnValue(false);
+    jest.mocked(isIos).mockReturnValue(false);
+    jest.mocked(isKitKatWebview).mockReturnValue(false);
+    jest.mocked(isAndroidChrome).mockReturnValue(false);
+    jest.mocked(isSamsungBrowser).mockReturnValue(false);
   });
 
   describe("constructor()", function () {
@@ -66,7 +64,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses IosStrategy for ios devices", function () {
-      mocked(isIos).mockReturnValue(true);
+      jest.mocked(isIos).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -77,7 +75,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses KitKatChromiumBasedWebViewStrategy for Android KitKiat webvies", function () {
-      mocked(isKitKatWebview).mockReturnValue(true);
+      jest.mocked(isKitKatWebview).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -88,7 +86,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses AndroidChromeStrategy for android chrome devices", function () {
-      mocked(isAndroidChrome).mockReturnValue(true);
+      jest.mocked(isAndroidChrome).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -99,7 +97,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses IE9Strategy for IE9 browser", function () {
-      mocked(isIE9).mockReturnValue(true);
+      jest.mocked(isIE9).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -110,7 +108,7 @@ describe("RestrictedInput", function () {
     });
 
     it("uses NoopStrategy for Samsung browser", function () {
-      mocked(isSamsungBrowser).mockReturnValue(true);
+      jest.mocked(isSamsungBrowser).mockReturnValue(true);
 
       const ri = new RestrictedInput({
         element: document.createElement("input"),
@@ -154,13 +152,13 @@ describe("RestrictedInput", function () {
 
   describe("supportsFormatting", function () {
     it("returns false if device is a samsung browser", function () {
-      mocked(isSamsungBrowser).mockReturnValue(true);
+      jest.mocked(isSamsungBrowser).mockReturnValue(true);
 
       expect(RestrictedInput.supportsFormatting()).toBe(false);
     });
 
     it("returns true if device is not a Samsung browser", function () {
-      mocked(isSamsungBrowser).mockReturnValue(false);
+      jest.mocked(isSamsungBrowser).mockReturnValue(false);
 
       expect(RestrictedInput.supportsFormatting()).toBe(true);
     });
