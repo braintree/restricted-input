@@ -287,7 +287,7 @@
           var is_backspace_1 = require("../is-backspace");
           var PatternFormatter = /** @class */ (function () {
             function PatternFormatter(pattern) {
-              this.pattern = parse_pattern_1.parsePattern(pattern);
+              this.pattern = (0, parse_pattern_1.parsePattern)(pattern);
             }
             PatternFormatter.prototype.format = function (options) {
               var originalString = options.value;
@@ -383,7 +383,7 @@
               if (delta) {
                 deletionStart = selection.start;
                 deletionEnd = selection.end;
-              } else if (is_backspace_1.isBackspace(options.event)) {
+              } else if ((0, is_backspace_1.isBackspace)(options.event)) {
                 deletionStart = Math.max(0, selection.start - 1);
                 deletionEnd = selection.start;
               } else {
@@ -547,7 +547,7 @@
           // eslint-disable-next-line complexity
           function keyCannotMutateValue(event) {
             var input = event.currentTarget || event.srcElement;
-            var selection = input_selection_1.get(input);
+            var selection = (0, input_selection_1.get)(input);
             var isAtBeginning = selection.start === 0;
             var isAtEnd = selection.start === input.value.length;
             var isShifted = event.shiftKey === true;
@@ -616,18 +616,18 @@
             function RestrictedInput(options) {
               if (!RestrictedInput.supportsFormatting()) {
                 this.strategy = new noop_1.NoopKeyboardStrategy(options);
-              } else if (device_1.isIos()) {
+              } else if ((0, device_1.isIos)()) {
                 this.strategy = new ios_1.IosStrategy(options);
-              } else if (device_1.isKitKatWebview()) {
+              } else if ((0, device_1.isKitKatWebview)()) {
                 this.strategy =
                   new kitkat_chromium_based_webview_1.KitKatChromiumBasedWebViewStrategy(
                     options
                   );
-              } else if (device_1.isAndroidChrome()) {
+              } else if ((0, device_1.isAndroidChrome)()) {
                 this.strategy = new android_chrome_1.AndroidChromeStrategy(
                   options
                 );
-              } else if (device_1.isIE9()) {
+              } else if ((0, device_1.isIE9)()) {
                 this.strategy = new ie9_1.IE9Strategy(options);
               } else {
                 this.strategy = new base_1.BaseStrategy(options);
@@ -716,7 +716,9 @@
             AndroidChromeStrategy.prototype.attachListeners = function () {
               var _this = this;
               this.inputElement.addEventListener("keydown", function (event) {
-                if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
+                if (
+                  (0, key_cannot_mutate_value_1.keyCannotMutateValue)(event)
+                ) {
                   return;
                 }
                 _this.unformatInput();
@@ -766,11 +768,8 @@
               // the selection to the formatted end position.
               setTimeout(function () {
                 var formattedSelection = formattedState.selection;
-                input_selection_1.set(
-                  input,
-                  formattedSelection.end,
-                  formattedSelection.end
-                );
+                (0,
+                input_selection_1.set)(input, formattedSelection.end, formattedSelection.end);
               }, 0);
             };
             return AndroidChromeStrategy;
@@ -876,7 +875,9 @@
                 if (isSimulatedEvent(event)) {
                   _this.isFormatted = false;
                 }
-                if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
+                if (
+                  (0, key_cannot_mutate_value_1.keyCannotMutateValue)(event)
+                ) {
                   return;
                 }
                 if (_this.isDeletion(event)) {
@@ -889,6 +890,12 @@
               });
               this.inputElement.addEventListener("keyup", function () {
                 _this.reformatInput();
+                // if the user changes their keyboard and
+                // the browser doesn't support the keypress event listener,
+                // we need to reset the keypress flag to be able to enable the
+                // fallback for the custom input event listener
+                // to be able to format the field
+                _this.hasKeypressEvent = false;
               });
               this.inputElement.addEventListener("input", function (e) {
                 var event = e;
@@ -916,7 +923,8 @@
             };
             BaseStrategy.prototype.isDeletion = function (event) {
               return (
-                is_delete_1.isDelete(event) || is_backspace_1.isBackspace(event)
+                (0, is_delete_1.isDelete)(event) ||
+                (0, is_backspace_1.isBackspace)(event)
               );
             };
             BaseStrategy.prototype.reformatInput = function () {
@@ -926,11 +934,11 @@
               this.isFormatted = true;
               var input = this.inputElement;
               var formattedState = this.formatter.format({
-                selection: input_selection_1.get(input),
+                selection: (0, input_selection_1.get)(input),
                 value: input.value,
               });
               input.value = formattedState.value;
-              input_selection_1.set(
+              (0, input_selection_1.set)(
                 input,
                 formattedState.selection.start,
                 formattedState.selection.end
@@ -952,13 +960,13 @@
               }
               this.isFormatted = false;
               var input = this.inputElement;
-              var selection = input_selection_1.get(input);
+              var selection = (0, input_selection_1.get)(input);
               var unformattedState = this.formatter.unformat({
                 selection: selection,
                 value: input.value,
               });
               input.value = unformattedState.value;
-              input_selection_1.set(
+              (0, input_selection_1.set)(
                 input,
                 unformattedState.selection.start,
                 unformattedState.selection.end
@@ -983,7 +991,7 @@
               } else if (window.clipboardData) {
                 entryValue = window.clipboardData.getData("Text");
               }
-              var selection = input_selection_1.get(this.inputElement);
+              var selection = (0, input_selection_1.get)(this.inputElement);
               splicedEntry = this.inputElement.value.split("");
               splicedEntry.splice(
                 selection.start,
@@ -997,7 +1005,7 @@
                 });
               }
               this.inputElement.value = splicedEntry;
-              input_selection_1.set(
+              (0, input_selection_1.set)(
                 this.inputElement,
                 selection.start + entryValue.length,
                 selection.start + entryValue.length
@@ -1012,7 +1020,7 @@
             };
             BaseStrategy.prototype.getStateToFormat = function () {
               var input = this.inputElement;
-              var selection = input_selection_1.get(input);
+              var selection = (0, input_selection_1.get)(input);
               var stateToFormat = {
                 selection: selection,
                 value: input.value,
@@ -1032,7 +1040,7 @@
               if (isSimulatedEvent(event)) {
                 this.isFormatted = false;
               }
-              if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
+              if ((0, key_cannot_mutate_value_1.keyCannotMutateValue)(event)) {
                 return;
               }
               this.unformatInput();
@@ -1126,21 +1134,21 @@
               var stateToFormat = this.getStateToFormat();
               var formattedState = this.formatter.format(stateToFormat);
               input.value = formattedState.value;
-              input_selection_1.set(
+              (0, input_selection_1.set)(
                 input,
                 formattedState.selection.start,
                 formattedState.selection.end
               );
             };
             IE9Strategy.prototype.keydownListener = function (event) {
-              if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
+              if ((0, key_cannot_mutate_value_1.keyCannotMutateValue)(event)) {
                 return;
               }
               event.preventDefault();
               if (this.isDeletion(event)) {
                 this.stateToFormat = this.formatter.simulateDeletion({
                   event: event,
-                  selection: input_selection_1.get(this.inputElement),
+                  selection: (0, input_selection_1.get)(this.inputElement),
                   value: this.inputElement.value,
                 });
               } else {
@@ -1149,7 +1157,7 @@
                 // We must retrieve the key from event.key and
                 // add it to the input's value before formatting.
                 var oldValue = this.inputElement.value;
-                var selection = input_selection_1.get(this.inputElement);
+                var selection = (0, input_selection_1.get)(this.inputElement);
                 var newValue =
                   oldValue.slice(0, selection.start) +
                   event.key +
@@ -1169,7 +1177,7 @@
             };
             IE9Strategy.prototype.reformatAfterPaste = function () {
               var input = this.inputElement;
-              var selection = input_selection_1.get(this.inputElement);
+              var selection = (0, input_selection_1.get)(this.inputElement);
               var value = this.formatter.format({
                 selection: selection,
                 value: input.value,
@@ -1180,7 +1188,8 @@
               // manually setting it in a setTimeout puts it
               // in the correct position after pasting
               setTimeout(function () {
-                input_selection_1.set(input, selection.start, selection.end);
+                (0,
+                input_selection_1.set)(input, selection.start, selection.end);
               }, 0);
             };
             return IE9Strategy;
@@ -1286,20 +1295,20 @@
               var stateToFormat = this.getStateToFormat();
               var formattedState = this.formatter.format(stateToFormat);
               input.value = formattedState.value;
-              input_selection_1.set(
+              (0, input_selection_1.set)(
                 input,
                 formattedState.selection.start,
                 formattedState.selection.end
               );
             };
             IosStrategy.prototype.keydownListener = function (event) {
-              if (key_cannot_mutate_value_1.keyCannotMutateValue(event)) {
+              if ((0, key_cannot_mutate_value_1.keyCannotMutateValue)(event)) {
                 return;
               }
               if (this.isDeletion(event)) {
                 this.stateToFormat = this.formatter.simulateDeletion({
                   event: event,
-                  selection: input_selection_1.get(this.inputElement),
+                  selection: (0, input_selection_1.get)(this.inputElement),
                   value: this.inputElement.value,
                 });
               }
@@ -1475,7 +1484,7 @@
           var device_1 = require("./lib/device");
           module.exports = function supportsInputFormatting() {
             // Digits get dropped in samsung browser
-            return !device_1.isSamsungBrowser();
+            return !(0, device_1.isSamsungBrowser)();
           };
         },
         { "./lib/device": 16 },
