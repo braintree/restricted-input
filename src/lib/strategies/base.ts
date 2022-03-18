@@ -94,6 +94,12 @@ export class BaseStrategy extends StrategyInterface {
 
     this.inputElement.addEventListener("keyup", () => {
       this.reformatInput();
+      // if the user changes their keyboard and
+      // the browser doesn't support the keypress event listener,
+      // we need to reset the keypress flag to be able to enable the
+      // fallback for the custom input event listener
+      // to be able to format the field
+      this.hasKeypressEvent = false;
     });
 
     this.inputElement.addEventListener("input", (e) => {
