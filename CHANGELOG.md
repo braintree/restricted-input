@@ -1,5 +1,6 @@
 # Restricted Input - Release Notes
-## unreleased
+
+## 3.0.5
 
 - Fix issue where a Mac OS user change between two keyboard configuration and the input would not format correctly in Safari
 
