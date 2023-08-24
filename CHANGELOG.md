@@ -3,10 +3,12 @@
 # Unreleased
 
 - Update to node v18
-- Update to TypeScript 5
-- Update jsdoc to v4.0.2
-- Update uuid to v9.0.0
-- Update other minor dependencies to latest minor version
+
+- Dev Dependency Updates
+  - Update to TypeScript 5
+  - Update jsdoc to v4.0.2
+  - Update uuid to v9.0.0
+  - Update other minor dependencies to latest minor version
 
 ## 3.0.5
 
