@@ -62,7 +62,7 @@
           "use strict";
           module.exports = function isAndroid(ua) {
             ua = ua || window.navigator.userAgent;
-            return /Android/.test(ua);
+            return /Android/i.test(ua);
           };
         },
         {},
@@ -100,9 +100,9 @@
         {
           "./is-duckduckgo": 4,
           "./is-edge": 5,
-          "./is-opera": 8,
-          "./is-samsung": 9,
-          "./is-silk": 10,
+          "./is-opera": 9,
+          "./is-samsung": 10,
+          "./is-silk": 11,
         },
       ],
       4: [
@@ -120,7 +120,7 @@
           "use strict";
           module.exports = function isEdge(ua) {
             ua = ua || window.navigator.userAgent;
-            return ua.indexOf("Edge/") !== -1;
+            return ua.indexOf("Edge/") !== -1 || ua.indexOf("Edg/") !== -1;
           };
         },
         {},
@@ -138,14 +138,32 @@
       7: [
         function (require, module, exports) {
           "use strict";
-          module.exports = function isIos(ua) {
+          var isIpadOS = require("./is-ipados");
+          module.exports = function isIos(ua, checkIpadOS, document) {
+            if (checkIpadOS === void 0) {
+              checkIpadOS = true;
+            }
             ua = ua || window.navigator.userAgent;
-            return /iPhone|iPod|iPad/i.test(ua);
+            var iOsTest = /iPhone|iPod|iPad/i.test(ua);
+            return checkIpadOS ? iOsTest || isIpadOS(ua, document) : iOsTest;
+          };
+        },
+        { "./is-ipados": 8 },
+      ],
+      8: [
+        function (require, module, exports) {
+          "use strict";
+          module.exports = function isIpadOS(ua, document) {
+            ua = ua || window.navigator.userAgent;
+            document = document || window.document;
+            // "ontouchend" is used to determine if a browser is on an iPad, otherwise
+            // user-agents for iPadOS behave/identify as a desktop browser
+            return /Mac|iPad/i.test(ua) && "ontouchend" in document;
           };
         },
         {},
       ],
-      8: [
+      9: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isOpera(ua) {
@@ -159,7 +177,7 @@
         },
         {},
       ],
-      9: [
+      10: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isSamsungBrowser(ua) {
@@ -169,7 +187,7 @@
         },
         {},
       ],
-      10: [
+      11: [
         function (require, module, exports) {
           "use strict";
           module.exports = function isSilk(ua) {
@@ -179,37 +197,37 @@
         },
         {},
       ],
-      11: [
+      12: [
         function (require, module, exports) {
           module.exports = require("./dist/is-android");
         },
         { "./dist/is-android": 1 },
       ],
-      12: [
+      13: [
         function (require, module, exports) {
           module.exports = require("./dist/is-chrome-os");
         },
         { "./dist/is-chrome-os": 2 },
       ],
-      13: [
+      14: [
         function (require, module, exports) {
           module.exports = require("./dist/is-chrome");
         },
         { "./dist/is-chrome": 3 },
       ],
-      14: [
+      15: [
         function (require, module, exports) {
           module.exports = require("./dist/is-ie9");
         },
         { "./dist/is-ie9": 6 },
       ],
-      15: [
+      16: [
         function (require, module, exports) {
           module.exports = require("./dist/is-ios");
         },
         { "./dist/is-ios": 7 },
       ],
-      16: [
+      17: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -271,14 +289,14 @@
           exports.isSamsungBrowser = isSamsungBrowser;
         },
         {
-          "@braintree/browser-detection/is-android": 11,
-          "@braintree/browser-detection/is-chrome": 13,
-          "@braintree/browser-detection/is-chrome-os": 12,
-          "@braintree/browser-detection/is-ie9": 14,
-          "@braintree/browser-detection/is-ios": 15,
+          "@braintree/browser-detection/is-android": 12,
+          "@braintree/browser-detection/is-chrome": 14,
+          "@braintree/browser-detection/is-chrome-os": 13,
+          "@braintree/browser-detection/is-ie9": 15,
+          "@braintree/browser-detection/is-ios": 16,
         },
       ],
-      17: [
+      18: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -404,9 +422,9 @@
           })();
           exports.PatternFormatter = PatternFormatter;
         },
-        { "../is-backspace": 20, "./parse-pattern": 18 },
+        { "../is-backspace": 21, "./parse-pattern": 19 },
       ],
-      18: [
+      19: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -484,7 +502,7 @@
         },
         {},
       ],
-      19: [
+      20: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -513,7 +531,7 @@
         },
         {},
       ],
-      20: [
+      21: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -525,7 +543,7 @@
         },
         {},
       ],
-      21: [
+      22: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -538,7 +556,7 @@
         },
         {},
       ],
-      22: [
+      23: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -592,9 +610,9 @@
           }
           exports.keyCannotMutateValue = keyCannotMutateValue;
         },
-        { "./input-selection": 19 },
+        { "./input-selection": 20 },
       ],
-      23: [
+      24: [
         function (require, module, exports) {
           "use strict";
           var device_1 = require("./device");
@@ -656,17 +674,17 @@
           module.exports = RestrictedInput;
         },
         {
-          "../supports-input-formatting": 32,
-          "./device": 16,
-          "./strategies/android-chrome": 24,
-          "./strategies/base": 25,
-          "./strategies/ie9": 26,
-          "./strategies/ios": 27,
-          "./strategies/kitkat-chromium-based-webview": 28,
-          "./strategies/noop": 29,
+          "../supports-input-formatting": 33,
+          "./device": 17,
+          "./strategies/android-chrome": 25,
+          "./strategies/base": 26,
+          "./strategies/ie9": 27,
+          "./strategies/ios": 28,
+          "./strategies/kitkat-chromium-based-webview": 29,
+          "./strategies/noop": 30,
         },
       ],
-      24: [
+      25: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -777,12 +795,12 @@
           exports.AndroidChromeStrategy = AndroidChromeStrategy;
         },
         {
-          "../input-selection": 19,
-          "../key-cannot-mutate-value": 22,
-          "./base": 25,
+          "../input-selection": 20,
+          "../key-cannot-mutate-value": 23,
+          "./base": 26,
         },
       ],
-      25: [
+      26: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -1050,15 +1068,15 @@
           exports.BaseStrategy = BaseStrategy;
         },
         {
-          "../formatter": 17,
-          "../input-selection": 19,
-          "../is-backspace": 20,
-          "../is-delete": 21,
-          "../key-cannot-mutate-value": 22,
-          "./strategy-interface": 30,
+          "../formatter": 18,
+          "../input-selection": 20,
+          "../is-backspace": 21,
+          "../is-delete": 22,
+          "../key-cannot-mutate-value": 23,
+          "./strategy-interface": 31,
         },
       ],
-      26: [
+      27: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -1197,12 +1215,12 @@
           exports.IE9Strategy = IE9Strategy;
         },
         {
-          "../input-selection": 19,
-          "../key-cannot-mutate-value": 22,
-          "./base": 25,
+          "../input-selection": 20,
+          "../key-cannot-mutate-value": 23,
+          "./base": 26,
         },
       ],
-      27: [
+      28: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -1318,12 +1336,12 @@
           exports.IosStrategy = IosStrategy;
         },
         {
-          "../input-selection": 19,
-          "../key-cannot-mutate-value": 22,
-          "./base": 25,
+          "../input-selection": 20,
+          "../key-cannot-mutate-value": 23,
+          "./base": 26,
         },
       ],
-      28: [
+      29: [
         function (require, module, exports) {
           "use strict";
           // Android Devices on KitKat use Chromium based webviews. For some reason,
@@ -1395,9 +1413,9 @@
           exports.KitKatChromiumBasedWebViewStrategy =
             KitKatChromiumBasedWebViewStrategy;
         },
-        { "./android-chrome": 24 },
+        { "./android-chrome": 25 },
       ],
-      29: [
+      30: [
         function (require, module, exports) {
           "use strict";
           var __extends =
@@ -1452,9 +1470,9 @@
           })(strategy_interface_1.StrategyInterface);
           exports.NoopKeyboardStrategy = NoopKeyboardStrategy;
         },
-        { "./strategy-interface": 30 },
+        { "./strategy-interface": 31 },
       ],
-      30: [
+      31: [
         function (require, module, exports) {
           "use strict";
           Object.defineProperty(exports, "__esModule", { value: true });
@@ -1470,15 +1488,15 @@
         },
         {},
       ],
-      31: [
+      32: [
         function (require, module, exports) {
           "use strict";
           var RestrictedInput = require("./lib/restricted-input");
           module.exports = RestrictedInput;
         },
-        { "./lib/restricted-input": 23 },
+        { "./lib/restricted-input": 24 },
       ],
-      32: [
+      33: [
         function (require, module, exports) {
           "use strict";
           var device_1 = require("./lib/device");
@@ -1487,10 +1505,10 @@
             return !(0, device_1.isSamsungBrowser)();
           };
         },
-        { "./lib/device": 16 },
+        { "./lib/device": 17 },
       ],
     },
     {},
-    [31]
-  )(31);
+    [32]
+  )(32);
 });
