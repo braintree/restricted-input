@@ -22,9 +22,7 @@ class RestrictedInput {
   strategy: StrategyInterface;
 
   constructor(options: StrategyOptions) {
-    if (!RestrictedInput.supportsFormatting()) {
-      this.strategy = new NoopStrategy(options);
-    } else if (isIos()) {
+    if (isIos()) {
       this.strategy = new IosStrategy(options);
     } else if (isKitKatWebview()) {
       this.strategy = new KitKatChromiumBasedWebViewStrategy(options);
