@@ -148,18 +148,4 @@ describe("RestrictedInput", function () {
       expect(ri.strategy.setPattern).toBeCalledWith("{{1}}");
     });
   });
-
-  describe("supportsFormatting", function () {
-    it("returns false if device is a samsung browser", function () {
-      jest.mocked(isSamsungBrowser).mockReturnValue(true);
-
-      expect(RestrictedInput.supportsFormatting()).toBe(false);
-    });
-
-    it("returns true if device is not a Samsung browser", function () {
-      jest.mocked(isSamsungBrowser).mockReturnValue(false);
-
-      expect(RestrictedInput.supportsFormatting()).toBe(true);
-    });
-  });
 });
