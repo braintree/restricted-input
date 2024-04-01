@@ -9,7 +9,6 @@ import {
   StrategyOptions,
 } from "./strategies/strategy-interface";
 import { BaseStrategy } from "./strategies/base";
-import { NoopKeyboardStrategy as NoopStrategy } from "./strategies/noop";
 
 /**
  * Instances of this class can be used to modify the formatter for an input
