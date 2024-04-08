@@ -1,43 +1,41 @@
 describe("Restricted Input", function () {
   before(() => {
-    browser.addCommand("name", () => {
-      return browser.capabilities.browserName.toUpperCase();
-    });
-
     browser.addCommand(
       "repeatKeys",
-      function (key, numberOfTimes) {
+      async function (key, numberOfTimes) {
         let count = 0;
+        const promises = [];
 
         while (count < numberOfTimes) {
-          this.keys(key);
-
+          promises.push(this.keys(key));
           count++;
         }
+
+        await Promise.all(promises);
       },
       true
     );
 
     browser.addCommand(
       "getSelectionRange",
-      function () {
+      async function () {
         // executed in browser, so it must be es5 compliant
-        return browser.execute(function (nodeId) {
-          const el = document.getElementById(nodeId);
+        return browser.execute(async function (nodeId) {
+          const el = await document.getElementById(nodeId);
 
           return {
-            start: el.selectionStart,
-            end: el.selectionEnd,
+            start: await el.selectionStart,
+            end: await el.selectionEnd,
           };
-        }, this.getProperty("id"));
+        }, await this.getProperty("id"));
       },
       true
     );
 
     browser.addCommand(
       "typeKeys",
-      function (keys) {
-        this.addValue(keys);
+      async function (keys) {
+        await this.addValue(keys);
       },
       true
     );
@@ -48,616 +46,669 @@ describe("Restricted Input", function () {
   });
 
   describe("for number", () => {
-    it("enters a credit card", () => {
-      const input = $("#credit-card-number");
+    it("enters a credit card", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("4111111111111111");
+      await input.typeKeys("4111111111111111");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 1111 1111 1111");
+      expect(value).toBe("4111 1111 1111 1111");
     });
 
-    it("only allows digits", () => {
-      const input = $("#credit-card-number");
+    it("only allows digits", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys(
+      await input.typeKeys(
         "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56"
       );
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 5678 9012 3456");
+      expect(value).toBe("1234 5678 9012 3456");
     });
 
-    it("limits input size", () => {
-      const input = $("#credit-card-number");
+    it("limits input size", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("41111111111111111234567890123456");
+      await input.typeKeys("41111111111111111234567890123456");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 1111 1111 1111");
+      expect(value).toBe("4111 1111 1111 1111");
     });
 
-    it("should enter a space when expected gap", () => {
-      const input = $("#credit-card-number");
+    it("should enter a space when expected gap", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("4111");
+      await input.typeKeys("4111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 ");
+      expect(value).toBe("4111 ");
 
-      input.typeKeys("1");
+      await input.typeKeys("1");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 1");
+      expect(value).toBe("4111 1");
     });
 
-    it("should keep the space when removing digit after gap", () => {
-      const input = $("#credit-card-number");
+    it("should keep the space when removing digit after gap", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("41115");
+      await input.typeKeys("41115");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 5");
+      expect(value).toBe("4111 5");
 
-      browser.keys("Backspace");
+      await browser.keys("Backspace");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 ");
+      expect(value).toBe("4111 ");
     });
 
-    it("backspacing after a gap should change the value", () => {
-      const input = $("#credit-card-number");
+    it("backspacing after a gap should change the value", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("41115");
+      await input.typeKeys("41115");
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      const value = await input.getValue();
 
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
-
-      expect(input.getValue()).toBe("4115 ");
+      expect(value).toBe("4115 ");
     });
 
-    it("backspacing before a gap backspaces a character", () => {
-      const input = $("#credit-card-number");
+    it("backspacing before a gap backspaces a character", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("41115");
+      await input.typeKeys("41115");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 5");
+      expect(value).toBe("4111 5");
 
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("4115 ");
+      expect(value).toBe("4115 ");
     });
 
-    it("backspacing the character after a gap should keep the cursor after the gap", () => {
-      const input = $("#credit-card-number");
+    it("backspacing the character after a gap should keep the cursor after the gap", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("411156");
+      await input.typeKeys("411156");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 56");
+      expect(value).toBe("4111 56");
 
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 6");
+      expect(value).toBe("4111 6");
 
-      const selection = input.getSelectionRange();
+      const selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("backspacing the character before a gap should backspace the character and move the gap", () => {
-      const input = $("#credit-card-number");
+    it("backspacing the character before a gap should backspace the character and move the gap", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("411156");
+      await input.typeKeys("411156");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 56");
+      expect(value).toBe("4111 56");
 
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("4115 6");
+      expect(value).toBe("4115 6");
 
-      const selection = input.getSelectionRange();
+      const selection = await input.getSelectionRange();
       expect(selection.start).toBe(3);
       expect(selection.end).toBe(3);
     });
 
-    it("field overwrites", () => {
-      const input = $("#credit-card-number");
+    it("field overwrites", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("1111111111111111");
+      await input.typeKeys("1111111111111111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1111 1111 1111 1111");
+      expect(value).toBe("1111 1111 1111 1111");
 
-      input.repeatKeys("ArrowLeft", 19);
+      await input.repeatKeys("ArrowLeft", 19);
+      await input.typeKeys("2222222222222222");
+      value = await input.getValue();
 
-      input.typeKeys("2222222222222222");
-
-      expect(input.getValue()).toBe("2222 2222 2222 2222");
+      expect(value).toBe("2222 2222 2222 2222");
     });
 
-    it("can backspace a whole field", () => {
-      const input = $("#credit-card-number");
+    it("can backspace a whole field", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("1111111111111111");
-      expect(input.getValue()).toBe("1111 1111 1111 1111");
+      await input.typeKeys("1111111111111111");
+      let value = await input.getValue();
 
-      input.repeatKeys("Backspace", 16);
+      expect(value).toBe("1111 1111 1111 1111");
 
-      expect(input.getValue()).toBe("");
+      await input.repeatKeys("Backspace", 16);
+      value = await input.getValue();
+
+      expect(value).toBe("");
     });
 
-    it("can backspace in the middle", () => {
-      const input = $("#credit-card-number");
+    it("can backspace in the middle", async () => {
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("1234567890123456");
+      await input.typeKeys("1234567890123456");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 5678 9012 3456");
+      expect(value).toBe("1234 5678 9012 3456");
 
-      input.repeatKeys("ArrowLeft", 11);
+      await input.repeatKeys("ArrowLeft", 11);
+      await browser.keys("Backspace");
+      value = await input.getValue();
 
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("1234 5689 0123 456");
+      expect(value).toBe("1234 5689 0123 456");
     });
 
-    it("can delete after a gap", function () {
+    it("can delete after a gap", async () => {
       let selection;
+      const input = await $("#credit-card-number");
 
-      if (browser.name() === "FIREFOX") {
-        this.skip(
-          "Firefox driver has a bug where the delete key does not work"
-        );
+      await input.typeKeys("123456");
+      let value = await input.getValue();
 
-        return;
-      }
+      expect(value).toBe("1234 56");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
 
-      const input = $("#credit-card-number");
-
-      input.typeKeys("123456");
-
-      expect(input.getValue()).toBe("1234 56");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
 
-      browser.keys("Delete");
+      await browser.keys("Delete");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 6");
+      expect(value).toBe("1234 6");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("can delete before a gap", function () {
+    it("can delete before a gap", async () => {
       let selection;
+      const input = await $("#credit-card-number");
 
-      if (browser.name() === "FIREFOX") {
-        this.skip(
-          "Firefox driver has a bug where the delete key does not work"
-        );
+      await input.typeKeys("12345");
+      let value = await input.getValue();
 
-        return;
-      }
+      expect(value).toBe("1234 5");
 
-      const input = $("#credit-card-number");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
 
-      input.typeKeys("12345");
-
-      expect(input.getValue()).toBe("1234 5");
-
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(4);
       expect(selection.end).toBe(4);
 
-      browser.keys("Delete");
-      expect(input.getValue()).toBe("1234 ");
+      await browser.keys("Delete");
+      value = await input.getValue();
+      expect(value).toBe("1234 ");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("can prepend the first four digits", () => {
+    it("can prepend the first four digits", async () => {
       let selection;
-      const input = $("#credit-card-number");
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("412345678");
+      await input.typeKeys("412345678");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4123 4567 8");
+      expect(value).toBe("4123 4567 8");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(11);
       expect(selection.end).toBe(11);
 
-      input.repeatKeys("ArrowLeft", input.getValue().length);
+      value = await input.getValue();
+      await input.repeatKeys("ArrowLeft", value.length);
 
-      input.typeKeys("0000");
+      await input.typeKeys("0000");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("0000 4123 4567 8");
+      expect(value).toBe("0000 4123 4567 8");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("does not overwrite when more digits can fit in the field", () => {
+    it("does not overwrite when more digits can fit in the field", async () => {
       let selection;
-      const input = $("#credit-card-number");
+      const input = await $("#credit-card-number");
 
-      input.typeKeys("1234567");
+      await input.typeKeys("1234567");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 567");
+      expect(value).toBe("1234 567");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(8);
       expect(selection.end).toBe(8);
 
-      input.repeatKeys("ArrowLeft", input.getValue().length);
+      value = await input.getValue();
+      await input.repeatKeys("ArrowLeft", value.length);
 
-      input.typeKeys("0000");
+      await input.typeKeys("0000");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("0000 1234 567");
+      expect(value).toBe("0000 1234 567");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("pre-formats on initialization", () => {
+    it("pre-formats on initialization", async () => {
       const input = $("#prefilled-credit-card-number");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 1111 1111 1111");
+      expect(value).toBe("4111 1111 1111 1111");
     });
   });
 
   describe("for amex", () => {
-    it("enters a credit card", () => {
-      const input = $("#credit-card-amex");
+    it("enters a credit card", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("378211111111111");
+      await input.typeKeys("378211111111111");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 111111 11111");
+      expect(value).toBe("3782 111111 11111");
     });
 
-    it("only allows digits", () => {
-      const input = $("#credit-card-amex");
+    it("only allows digits", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys(
+      await input.typeKeys(
         "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5"
       );
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 567890 12345");
+      expect(value).toBe("1234 567890 12345");
     });
 
-    it("limits input size", () => {
-      const input = $("#credit-card-amex");
+    it("limits input size", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("3782111111111111234567890123456");
+      await input.typeKeys("3782111111111111234567890123456");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 111111 11111");
+      expect(value).toBe("3782 111111 11111");
     });
 
-    it("should enter a space for expected gap", () => {
-      const input = $("#credit-card-amex");
+    it("should enter a space for expected gap", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("3782");
+      await input.typeKeys("3782");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 ");
-      input.typeKeys("1");
+      expect(value).toBe("3782 ");
 
-      expect(input.getValue()).toBe("3782 1");
+      await input.typeKeys("1");
+      value = await input.getValue();
+
+      expect(value).toBe("3782 1");
     });
 
-    it("should keep the space when removing digit after gap", () => {
-      const input = $("#credit-card-amex");
+    it("should keep the space when removing digit after gap", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("37825");
+      await input.typeKeys("37825");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 5");
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("3782 ");
+      expect(value).toBe("3782 5");
+
+      await browser.keys("Backspace");
+      value = await input.getValue();
+
+      expect(value).toBe("3782 ");
     });
 
-    it("backspacing after a gap should change the value", () => {
-      const input = $("#credit-card-amex");
+    it("backspacing after a gap should change the value", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("37828");
+      await input.typeKeys("37828");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 8");
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("3788 ");
+      expect(value).toBe("3782 8");
+
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      value = await input.getValue();
+
+      expect(value).toBe("3788 ");
     });
 
-    it("backspacing before a gap backspaces a character and fills the gap", () => {
-      const input = $("#credit-card-amex");
+    it("backspacing before a gap backspaces a character and fills the gap", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("37825");
+      await input.typeKeys("37825");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 5");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("3785 ");
+      expect(value).toBe("3782 5");
+
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      value = await input.getValue();
+
+      expect(value).toBe("3785 ");
     });
 
-    it("backspacing the character before a gap should backspace the character and move the gap", () => {
-      const input = $("#credit-card-amex");
+    it("backspacing the character before a gap should backspace the character and move the gap", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("378256");
+      await input.typeKeys("378256");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("3782 56");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("3785 6");
+      expect(value).toBe("3782 56");
 
-      const selection = input.getSelectionRange();
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
+      await browser.keys("Backspace");
+      value = await input.getValue();
+
+      expect(value).toBe("3785 6");
+
+      const selection = await input.getSelectionRange();
       expect(selection.start).toBe(3);
       expect(selection.end).toBe(3);
     });
 
-    it("field overwrites", () => {
-      const input = $("#credit-card-amex");
+    it("field overwrites", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("111111111111111");
+      await input.typeKeys("111111111111111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1111 111111 11111");
+      expect(value).toBe("1111 111111 11111");
 
-      input.repeatKeys("ArrowLeft", 17);
+      await input.repeatKeys("ArrowLeft", 17);
+      await input.typeKeys("2222222222222222");
+      value = await input.getValue();
 
-      input.typeKeys("2222222222222222");
-
-      expect(input.getValue()).toBe("2222 222222 22222");
+      expect(value).toBe("2222 222222 22222");
     });
 
-    it("can backspace a whole field", () => {
-      const input = $("#credit-card-amex");
+    it("can backspace a whole field", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("111111111111111");
+      await input.typeKeys("111111111111111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1111 111111 11111");
-      input.repeatKeys("Backspace", 15);
+      expect(value).toBe("1111 111111 11111");
+      await input.repeatKeys("Backspace", 15);
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("");
+      expect(value).toBe("");
     });
 
-    it("can backspace in the middle", () => {
-      const input = $("#credit-card-amex");
+    it("can backspace in the middle", async () => {
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("123456789012345");
+      await input.typeKeys("123456789012345");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 567890 12345");
+      expect(value).toBe("1234 567890 12345");
 
-      input.repeatKeys("ArrowLeft", 10);
+      await input.repeatKeys("ArrowLeft", 10);
+      value = await input.getValue();
 
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("1234 578901 2345");
+      await browser.keys("Backspace");
+      value = await input.getValue();
+
+      expect(value).toBe("1234 578901 2345");
     });
 
-    it("can delete after a gap", function () {
+    it("can delete after a gap", async () => {
       let selection;
+      const input = await $("#credit-card-amex");
 
-      if (browser.name() === "FIREFOX") {
-        this.skip("Firefox driver has a bug where the delete does not work");
+      await input.typeKeys("123456");
+      let value = await input.getValue();
 
-        return;
-      }
+      expect(value).toBe("1234 56");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
 
-      const input = $("#credit-card-amex");
-
-      input.typeKeys("123456");
-
-      expect(input.getValue()).toBe("1234 56");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
 
-      browser.keys("Delete");
-      expect(input.getValue()).toBe("1234 6");
+      await browser.keys("Delete");
+      value = await input.getValue();
 
-      selection = input.getSelectionRange();
+      expect(value).toBe("1234 6");
+
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("can delete before a gap", function () {
+    it("can delete before a gap", async () => {
       let selection;
+      const input = await $("#credit-card-amex");
 
-      if (browser.name() === "FIREFOX") {
-        this.skip("Firefox driver has a bug where the delete does not work");
+      await input.typeKeys("12345");
+      let value = await input.getValue();
 
-        return;
-      }
+      expect(value).toBe("1234 5");
 
-      const input = $("#credit-card-amex");
+      await browser.keys("ArrowLeft");
+      await browser.keys("ArrowLeft");
 
-      input.typeKeys("12345");
-
-      expect(input.getValue()).toBe("1234 5");
-      browser.keys("ArrowLeft");
-      browser.keys("ArrowLeft");
-
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(4);
       expect(selection.end).toBe(4);
 
-      browser.keys("Delete");
-      expect(input.getValue()).toBe("1234 ");
+      await browser.keys("Delete");
+      value = await input.getValue();
 
-      selection = input.getSelectionRange();
+      expect(value).toBe("1234 ");
+
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("can prepend the first four digits", () => {
-      const input = $("#credit-card-amex");
+    it("can prepend the first four digits", async () => {
+      const input = await $("#credit-card-amex");
       let selection;
 
-      input.typeKeys("412345678");
+      await input.typeKeys("412345678");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4123 45678");
+      expect(value).toBe("4123 45678");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(10);
       expect(selection.end).toBe(10);
 
-      input.repeatKeys("ArrowLeft", input.getValue().length);
+      value = await input.getValue();
+      await input.repeatKeys("ArrowLeft", value.length);
 
-      input.typeKeys("0000");
+      await input.typeKeys("0000");
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("0000 412345 678");
+      expect(value).toBe("0000 412345 678");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
 
-    it("does not overwrite when more digits can fit in the field", () => {
+    it("does not overwrite when more digits can fit in the field", async () => {
       let selection;
-      const input = $("#credit-card-amex");
+      const input = await $("#credit-card-amex");
 
-      input.typeKeys("1234567");
+      await input.typeKeys("1234567");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234 567");
+      expect(value).toBe("1234 567");
 
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(8);
       expect(selection.end).toBe(8);
 
-      input.repeatKeys("ArrowLeft", input.getValue().length);
+      value = await input.getValue();
+      await input.repeatKeys("ArrowLeft", value.length);
+      await input.typeKeys("0000");
 
-      input.typeKeys("0000");
+      value = await input.getValue();
+      expect(value).toBe("0000 123456 7");
 
-      expect(input.getValue()).toBe("0000 123456 7");
-
-      selection = input.getSelectionRange();
+      selection = await input.getSelectionRange();
       expect(selection.start).toBe(5);
       expect(selection.end).toBe(5);
     });
   });
 
   describe("for unformatted", () => {
-    it("enters a credit card", () => {
+    it("enters a credit card", async () => {
       const input = $("#credit-card-unformatted");
 
-      input.typeKeys("4111111111111111");
+      await input.typeKeys("4111111111111111");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111111111111111");
+      expect(value).toBe("4111111111111111");
     });
 
-    it("only allows digits", () => {
+    it("only allows digits", async () => {
       const input = $("#credit-card-unformatted");
 
-      input.typeKeys(
+      await input.typeKeys(
         "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56"
       );
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234567890123456");
+      expect(value).toBe("1234567890123456");
     });
 
-    it("limits input size", () => {
+    it("limits input size", async () => {
       const input = $("#credit-card-unformatted");
 
-      input.typeKeys("41111111111111111234567890123456");
+      await input.typeKeys("41111111111111111234567890123456");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111111111111111");
+      expect(value).toBe("4111111111111111");
     });
 
-    it("field overwrites", () => {
+    it("field overwrites", async () => {
       const input = $("#credit-card-unformatted");
 
-      input.typeKeys("1111111111111111");
+      await input.typeKeys("1111111111111111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1111111111111111");
+      expect(value).toBe("1111111111111111");
 
-      input.repeatKeys("ArrowLeft", 16);
+      await input.repeatKeys("ArrowLeft", 16);
+      await input.typeKeys("2222222222222222");
+      value = await input.getValue();
 
-      input.typeKeys("2222222222222222");
-
-      expect(input.getValue()).toBe("2222222222222222");
+      expect(value).toBe("2222222222222222");
     });
 
-    it("can backspace a whole field", () => {
+    it("can backspace a whole field", async () => {
       const input = $("#credit-card-unformatted");
 
-      input.typeKeys("1111111111111111");
+      await input.typeKeys("1111111111111111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1111111111111111");
+      expect(value).toBe("1111111111111111");
 
-      input.repeatKeys("Backspace", 16);
+      await input.repeatKeys("Backspace", 16);
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("");
+      expect(value).toBe("");
     });
 
-    it("can backspace in the middle", () => {
+    it("can backspace in the middle", async () => {
       const input = $("#credit-card-unformatted");
 
-      input.typeKeys("1234567890123456");
+      await input.typeKeys("1234567890123456");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("1234567890123456");
+      expect(value).toBe("1234567890123456");
 
-      input.repeatKeys("ArrowLeft", 9);
+      await input.repeatKeys("ArrowLeft", 9);
+      await browser.keys("Backspace");
+      value = await input.getValue();
 
-      browser.keys("Backspace");
-      expect(input.getValue()).toBe("123456890123456");
+      expect(value).toBe("123456890123456");
     });
   });
 
   describe("for toggle-able", () => {
-    it("toggles", () => {
+    it("toggles", async () => {
       const input = $("#credit-card-toggle-able");
       const button = $("#credit-card-toggle-able-btn");
 
-      input.typeKeys("4111111111111111");
+      await input.typeKeys("4111111111111111");
+      let value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 1111 1111 1111");
+      expect(value).toBe("4111 1111 1111 1111");
 
-      button.click();
+      await button.click();
+      value = await input.getValue();
 
-      expect(input.getValue()).toBe("4111 111111 11111");
+      expect(value).toBe("4111 111111 11111");
     });
   });
 
   describe("wildcard", () => {
-    it("accepts digits", () => {
+    it("accepts digits", async () => {
       const input = $("#wildcard");
 
-      input.typeKeys("3333");
+      await input.typeKeys("3333");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("*A*3 3");
+      expect(value).toBe("*A*3 3");
     });
 
-    it("accepts lowercase alpha", () => {
+    it("accepts lowercase alpha", async () => {
       const input = $("#wildcard");
 
-      input.typeKeys("jjjj");
+      await input.typeKeys("jjjj");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("*A*3 jjj");
+      expect(value).toBe("*A*3 jjj");
     });
 
-    it("accepts uppercase alpha", () => {
+    it("accepts uppercase alpha", async () => {
       const input = $("#wildcard");
 
-      input.typeKeys("NNNN");
+      await input.typeKeys("NNNN");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("*A*3 NNN");
+      expect(value).toBe("*A*3 NNN");
     });
 
-    it("accepts mixed alphanumeric", () => {
+    it("accepts mixed alphanumeric", async () => {
       const input = $("#wildcard");
 
-      input.typeKeys("aZ54");
+      await input.typeKeys("aZ54");
+      const value = await input.getValue();
 
-      expect(input.getValue()).toBe("*A*3 aZ54");
+      expect(value).toBe("*A*3 aZ54");
     });
   });
 });
