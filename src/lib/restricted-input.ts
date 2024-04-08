@@ -1,5 +1,4 @@
 import { isIos, isKitKatWebview, isAndroidChrome, isIE9 } from "./device";
-import supportsInputFormatting = require("../supports-input-formatting");
 import { IosStrategy } from "./strategies/ios";
 import { AndroidChromeStrategy } from "./strategies/android-chrome";
 import { KitKatChromiumBasedWebViewStrategy } from "./strategies/kitkat-chromium-based-webview";
@@ -9,7 +8,6 @@ import {
   StrategyOptions,
 } from "./strategies/strategy-interface";
 import { BaseStrategy } from "./strategies/base";
-import { NoopKeyboardStrategy as NoopStrategy } from "./strategies/noop";
 
 /**
  * Instances of this class can be used to modify the formatter for an input
@@ -22,9 +20,7 @@ class RestrictedInput {
   strategy: StrategyInterface;
 
   constructor(options: StrategyOptions) {
-    if (!RestrictedInput.supportsFormatting()) {
-      this.strategy = new NoopStrategy(options);
-    } else if (isIos()) {
+    if (isIos()) {
       this.strategy = new IosStrategy(options);
     } else if (isKitKatWebview()) {
       this.strategy = new KitKatChromiumBasedWebViewStrategy(options);
@@ -52,10 +48,6 @@ class RestrictedInput {
    */
   setPattern(pattern: string): void {
     this.strategy.setPattern(pattern);
-  }
-
-  static supportsFormatting(): boolean {
-    return supportsInputFormatting();
   }
 }
 

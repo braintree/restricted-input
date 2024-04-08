@@ -4,7 +4,6 @@ import { IosStrategy } from "../../../src/lib/strategies/ios";
 import { IE9Strategy } from "../../../src/lib/strategies/ie9";
 import { AndroidChromeStrategy } from "../../../src/lib/strategies/android-chrome";
 import { KitKatChromiumBasedWebViewStrategy } from "../../../src/lib/strategies/kitkat-chromium-based-webview";
-import { NoopKeyboardStrategy as NoopStrategy } from "../../../src/lib/strategies/noop";
 import {
   isIE9,
   isIos,
@@ -107,7 +106,7 @@ describe("RestrictedInput", function () {
       expect(ri.strategy).toBeInstanceOf(IE9Strategy);
     });
 
-    it("uses NoopStrategy for Samsung browser", function () {
+    it("uses BaseStrategy for Samsung browser", function () {
       jest.mocked(isSamsungBrowser).mockReturnValue(true);
 
       const ri = new RestrictedInput({
@@ -115,7 +114,7 @@ describe("RestrictedInput", function () {
         pattern: "{{a}}",
       });
 
-      expect(ri.strategy).toBeInstanceOf(NoopStrategy);
+      expect(ri.strategy).toBeInstanceOf(BaseStrategy);
     });
   });
 
@@ -147,20 +146,6 @@ describe("RestrictedInput", function () {
 
       expect(ri.strategy.setPattern).toBeCalledTimes(1);
       expect(ri.strategy.setPattern).toBeCalledWith("{{1}}");
-    });
-  });
-
-  describe("supportsFormatting", function () {
-    it("returns false if device is a samsung browser", function () {
-      jest.mocked(isSamsungBrowser).mockReturnValue(true);
-
-      expect(RestrictedInput.supportsFormatting()).toBe(false);
-    });
-
-    it("returns true if device is not a Samsung browser", function () {
-      jest.mocked(isSamsungBrowser).mockReturnValue(false);
-
-      expect(RestrictedInput.supportsFormatting()).toBe(true);
     });
   });
 });
