@@ -1,5 +1,10 @@
 # Restricted Input - Changelog
 
+# 4.0.1
+
+- Repair integration tests
+- Fix date input for Samsung browser
+
 # 4.0.0
 
 - Update to node v18
