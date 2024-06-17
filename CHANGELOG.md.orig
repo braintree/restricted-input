@@ -2,9 +2,12 @@
 
 # UNRELEASED
 
+<<<<<<< HEAD
 - Update express to 4.19.2
 - Update ejs to v3.1.10
+=======
 - Updates braces to 3.0.3
+>>>>>>> 2176d2b (Update CHANGELOG.md)
 
 # 4.0.1
 
