@@ -1,5 +1,9 @@
 # Restricted Input - Changelog
 
+# UNRELEASED
+
+- Updates braces to 3.0.3
+
 # 4.0.1
 
 - Repair integration tests
