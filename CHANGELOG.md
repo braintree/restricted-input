@@ -1,5 +1,9 @@
 # Restricted Input - Changelog
 
+# UNRELEASED
+
+- Update express to 4.19.2
+
 # 4.0.1
 
 - Repair integration tests
