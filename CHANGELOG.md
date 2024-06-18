@@ -1,5 +1,9 @@
 # Restricted Input - Changelog
 
+# UNRELEASED
+
+- Update ejs to v3.1.10
+
 # 4.0.1
 
 - Repair integration tests
