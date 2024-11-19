@@ -2,15 +2,29 @@
 
 # UNRELEASED
 
+- Updates (sub-)dependencies
+  - `body-parser`
+  - `cookie`
+  - `cross-spawn` to 7.0.6
+  - `elliptic` to 
+  - `micromatch` to 
+  - `path-to-regexp` to
+  - `send` to
+  - `ws` to
+- Updates dev dependencies
+  - `@wdio/cli`, `wdio/spec-reporter` to 9.2.14
+  - `@wdio/local-runner` to 9.2.15
+  - `@wdio/sync` to 7.14.1
+  - `webdriverio` to 9.2.15
 - Update express to 4.19.2
 - Update ejs to v3.1.10
 
-# 4.0.1
+## 4.0.1
 
 - Repair integration tests
 - Fix date input for Samsung browser
 
-# 4.0.0
+## 4.0.0
 
 - Update to node v18
 
