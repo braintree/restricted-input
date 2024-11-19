@@ -3,14 +3,14 @@
 # UNRELEASED
 
 - Updates (sub-)dependencies
-  - `body-parser`
-  - `cookie`
+  - `body-parser` to 1.20.3
+  - `cookie` to 0.7.1
   - `cross-spawn` to 7.0.6
-  - `elliptic` to 
-  - `micromatch` to 
-  - `path-to-regexp` to
-  - `send` to
-  - `ws` to
+  - `elliptic` to 6.6.1
+  - `micromatch` to 4.0.8
+  - `path-to-regexp` to 0.1.10
+  - `send` to 0.19.0
+  - `ws` 
 - Updates dev dependencies
   - `@wdio/cli`, `wdio/spec-reporter` to 9.2.14
   - `@wdio/local-runner` to 9.2.15
