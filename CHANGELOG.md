@@ -3,6 +3,7 @@
 # UNRELEASED
 
 - Update express to 4.19.2
+- Update ejs to v3.1.10
 
 # 4.0.1
 
