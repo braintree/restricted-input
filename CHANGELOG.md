@@ -10,8 +10,6 @@
   - micromatch to 4.0.8
   - path-to-regexp to 0.1.10
   - send to 0.19.0
-  - ws
-
 - Update express to 4.19.2
 - Update ejs to v3.1.10
 
