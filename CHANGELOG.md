@@ -1,7 +1,12 @@
 # Restricted Input - Changelog
 
-# UNRELEASED
+## UNRELEASED
+*Breaking Changes*
+- Updates (sub-) or dev dependencies
+  - `@wdio/cli` to 9.2.14 for `cross-spawn` <7.0.5
+  - `webdriverio` to 9.2.15 for `ws` 8.0.0 - 8.17.0
 
+*Other Updates*
 - Updates (sub-)dependencies
   - `body-parser` to 1.20.3
   - `cookie` to 0.7.1
@@ -15,7 +20,7 @@
   - `@wdio/cli`, `wdio/spec-reporter` to 9.2.14
   - `@wdio/local-runner` to 9.2.15
   - `@wdio/sync` to 7.14.1
-  - `webdriverio` to 9.2.15
+
 - Update express to 4.19.2
 - Update ejs to v3.1.10
 
