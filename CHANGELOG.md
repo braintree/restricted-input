@@ -2,6 +2,16 @@
 
 # UNRELEASED
 
+- Updates (sub-)dependencies
+  - body-parser to 1.20.3
+  - cookie to 0.7.1
+  - cross-spawn to 7.0.6
+  - elliptic to 6.6.1
+  - micromatch to 4.0.8
+  - path-to-regexp to 0.1.10
+  - send to 0.19.0
+  - ws
+
 - Update express to 4.19.2
 - Update ejs to v3.1.10
 
