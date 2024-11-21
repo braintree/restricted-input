@@ -73,7 +73,7 @@
     "tsify": "^5.0.4",
     "typescript": "^5.1.6",
     "uuid": "^9.0.0",
-    "webdriverio": "^9.2.14"
+    "webdriverio": "^8.40.6"
   },
   "jest": {
     "testEnvironment": "jsdom",
