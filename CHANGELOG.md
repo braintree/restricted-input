@@ -1,6 +1,6 @@
 # Restricted Input - Changelog
 
-# UNRELEASED
+## 4.0.2
 
 - Updates (sub-)dependencies
   - body-parser to 1.20.3
@@ -13,12 +13,12 @@
 - Update express to 4.19.2
 - Update ejs to v3.1.10
 
-# 4.0.1
+## 4.0.1
 
 - Repair integration tests
 - Fix date input for Samsung browser
 
-# 4.0.0
+## 4.0.0
 
 - Update to node v18
 
