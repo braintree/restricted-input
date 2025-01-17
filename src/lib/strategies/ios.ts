@@ -26,10 +26,12 @@ export class IosStrategy extends BaseStrategy {
       this.formatListener();
 
       if (!isCustomEvent) {
+        console.log("About to fix leading blank space on ios");
         this.fixLeadingBlankSpaceOnIos();
       }
     });
     this.inputElement.addEventListener("focus", () => {
+      console.log("Focus event on input");
       this.formatListener();
     });
     this.inputElement.addEventListener("paste", (event) => {
@@ -41,20 +43,27 @@ export class IosStrategy extends BaseStrategy {
   // is positioned as if there is a blank space when there
   // is not, setting it to '' in a setTimeout fixes it ¯\_(ツ)_/¯
   private fixLeadingBlankSpaceOnIos(): void {
+    console.log("fixing leading blank space");
     const input = this.inputElement;
 
     if (input.value === "") {
+      console.log("input is empty, fixing the blank space");
       setTimeout(function () {
         input.value = "";
       }, 0);
+    } else {
+      console.log("Not the last digit being erased, not fixing blank space");
     }
   }
 
   private formatListener(): void {
+    console.log("Formatting the listener");
     const input = this.inputElement;
     const stateToFormat = this.getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
-
+    console.log("Input to format: ", input);
+    console.log("State to Format", stateToFormat);
+    console.log("Formatted State: ", formattedState);
     input.value = formattedState.value;
     setSelection(
       input,
