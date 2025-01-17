@@ -1,4 +1,5 @@
 import { isIos, isKitKatWebview, isAndroidChrome, isIE9 } from "./device";
+import supportsInputFormatting = require("../supports-input-formatting");
 import { IosStrategy } from "./strategies/ios";
 import { AndroidChromeStrategy } from "./strategies/android-chrome";
 import { KitKatChromiumBasedWebViewStrategy } from "./strategies/kitkat-chromium-based-webview";
@@ -48,6 +49,10 @@ class RestrictedInput {
    */
   setPattern(pattern: string): void {
     this.strategy.setPattern(pattern);
+  }
+
+  static supportsFormatting(): boolean {
+    return supportsInputFormatting();
   }
 }
 
