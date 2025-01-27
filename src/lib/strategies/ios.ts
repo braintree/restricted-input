@@ -9,6 +9,16 @@ export class IosStrategy extends BaseStrategy {
 
   protected attachListeners(): void {
     this.inputElement.addEventListener("keydown", (event) => {
+      const isKeyboardEvent = event instanceof KeyboardEvent;
+      if (!isKeyboardEvent && this.inputElement.value.length > 0) {
+        this.stateToFormat = {
+          selection: { start: 0, end: 0 },
+          value: this.inputElement.value,
+        };
+      } else if (this.stateToFormat) {
+        delete this.stateToFormat;
+      }
+
       this.keydownListener(event as KeyboardEvent);
     });
     this.inputElement.addEventListener("input", (event) => {
@@ -51,10 +61,15 @@ export class IosStrategy extends BaseStrategy {
   }
 
   private formatListener(): void {
+    if (this.isFormatted) {
+      return;
+    }
+
     const input = this.inputElement;
     const stateToFormat = this.getStateToFormat();
     const formattedState = this.formatter.format(stateToFormat);
 
+    this.isFormatted = true;
     input.value = formattedState.value;
     setSelection(
       input,
@@ -74,5 +89,7 @@ export class IosStrategy extends BaseStrategy {
         value: this.inputElement.value,
       });
     }
+
+    this.unformatInput();
   }
 }
