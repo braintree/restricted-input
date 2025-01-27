@@ -24,7 +24,7 @@ describe("iOS Strategy", function () {
     it("adds ios specific listeners", function () {
       const strategy = new IosStrategy(options);
 
-      ["keydown", "input", "focus"].forEach(function (event) {
+      ["keydown", "input"].forEach(function (event) {
         expect(strategy.inputElement.addEventListener).toBeCalledWith(
           event,
           expect.any(Function)

@@ -26,7 +26,6 @@ export class PatternFormatter {
       start: options.selection.start,
       end: options.selection.end,
     };
-
     for (let i = 0; i < this.pattern.length; i++) {
       const patternChar = this.pattern[i];
       let inputChar = originalString[originalStringIndex];
@@ -53,7 +52,7 @@ export class PatternFormatter {
 
           if (patternChar.value.test(inputChar)) {
             formattedString += inputChar;
-            originalStringIndex++;
+              originalStringIndex++;
             break;
           } else {
             if (patternChar.index <= selection.start) {
@@ -74,7 +73,6 @@ export class PatternFormatter {
   }
 
   unformat(options: FormatMetadata): FormatMetadata {
-    console.log("Unformatting: ", options.value);
     let start = options.selection.start;
     let end = options.selection.end;
     let unformattedString = "";
@@ -101,7 +99,6 @@ export class PatternFormatter {
         end--;
       }
     }
-    console.log("Unformatted String", unformattedString);
     return {
       selection: {
         start: start,
