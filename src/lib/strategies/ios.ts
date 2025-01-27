@@ -50,7 +50,8 @@ export class IosStrategy extends BaseStrategy {
   private formatListener(): void {
     const input = this.inputElement;
     const stateToFormat = this.getStateToFormat();
-    const formattedState = this.formatter.format(stateToFormat); // this is where shit is going awry
+    const formattedState = this.formatter.format(stateToFormat);
+
     input.value = formattedState.value;
     setSelection(
       input,

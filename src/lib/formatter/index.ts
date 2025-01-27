@@ -26,6 +26,7 @@ export class PatternFormatter {
       start: options.selection.start,
       end: options.selection.end,
     };
+
     for (let i = 0; i < this.pattern.length; i++) {
       const patternChar = this.pattern[i];
       let inputChar = originalString[originalStringIndex];
@@ -52,7 +53,7 @@ export class PatternFormatter {
 
           if (patternChar.value.test(inputChar)) {
             formattedString += inputChar;
-              originalStringIndex++;
+            originalStringIndex++;
             break;
           } else {
             if (patternChar.index <= selection.start) {
@@ -99,6 +100,7 @@ export class PatternFormatter {
         end--;
       }
     }
+
     return {
       selection: {
         start: start,
