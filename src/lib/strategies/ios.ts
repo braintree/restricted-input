@@ -29,9 +29,6 @@ export class IosStrategy extends BaseStrategy {
         this.fixLeadingBlankSpaceOnIos();
       }
     });
-    this.inputElement.addEventListener("focus", () => {
-      this.formatListener();
-    });
     this.inputElement.addEventListener("paste", (event) => {
       this.pasteEventHandler(event as ClipboardEvent);
     });

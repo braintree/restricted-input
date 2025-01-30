@@ -1,5 +1,9 @@
 # Restricted Input - Changelog
 
+## UNRELEASED
+- Fix bug where pattern would be changed on iOS Safari on focus
+- Fix breaking change where public method `supportsInputFormatting` was removed in PR #110
+
 ## 4.0.2
 
 - Updates (sub-)dependencies
