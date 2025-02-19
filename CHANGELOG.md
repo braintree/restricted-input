@@ -1,5 +1,11 @@
 # Restricted Input - Changelog
 
+## Unreleased
+
+- Updates dependencies
+  - serialize-javascript to 6.0.2
+  - mocha to 10.8.2
+
 ## 4.0.3
 
 - Fix bug where pattern would be changed on iOS Safari on focus
