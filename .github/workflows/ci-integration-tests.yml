@@ -1,6 +1,13 @@
 name: "Integration Tests"
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+  pull_request:
+    branches:
+        - '*'
 
 jobs:
   ubuntu-job:
@@ -21,9 +28,9 @@ jobs:
           local-testing: start
           local-identifier: random
       - name: "Node Setup"
-        uses: "actions/setup-node@v1"
+        uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version-file: .nvmrc 
       - run: npm install
       - run: rm -rf node_modules/@types/mocha
       - run: npm run development & npm run test:integration
