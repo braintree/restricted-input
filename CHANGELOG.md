@@ -1,6 +1,6 @@
 # Restricted Input - Changelog
 
-## 4.1.0 (2025-02-21)
+## Unreleased
 
 - Updates dependencies
   - serialize-javascript to 6.0.2
