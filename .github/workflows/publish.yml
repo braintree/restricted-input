@@ -32,6 +32,7 @@ jobs:
           registry-url: ${{ env.NPM_REGISTRY }}
       - run: npx prettier -c .
   ci-unit-tests:
+    needs: prettier-check
     uses: ./.github/workflows/ci-unit-tests.yml
   bump-version:
     needs: ci-unit-tests
