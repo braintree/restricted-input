@@ -1,6 +1,7 @@
 # Restricted Input - Changelog
 
 ## Unreleased
+
 - Updates workflows and scripts
   - fix `prettier` issue with deploying GH pages
 
