@@ -30,6 +30,7 @@ jobs:
         with:
           node-version-file: .nvmrc
           registry-url: ${{ env.NPM_REGISTRY }}
+      - run: npm ci
       - run: npx prettier -c .
   ci-unit-tests:
     needs: prettier-check
