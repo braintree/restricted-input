@@ -1,6 +1,6 @@
 {
   "name": "restricted-input",
-  "version": "4.0.3",
+  "version": "4.1.0",
   "description": "Restrict inputs to certain valid characters (e.g. formatting phone or card numbers)",
   "author": "Braintree <code@getbraintree.com> (https://www.braintreepayments.com/)",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "restrict"
   ],
   "scripts": {
-    "prebuild": "prettier --write .",
+    "prebuild": "prettier --check .",
+    "format": "prettier --write .",
     "build": "tsc --declaration",
     "build:app": "mkdir -p dist-app; browserify ./src/main.ts -p [ tsify --strict ] -o dist-app/restricted-input.js -s RestrictedInput -v",
     "predoc": "npm run build",
