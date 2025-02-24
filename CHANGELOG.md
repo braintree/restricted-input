@@ -1,6 +1,6 @@
 # Restricted Input - Changelog
 
-## Unreleased
+## 4.1.1 (2025-02-24)
 
 - Updates workflows and scripts
   - fix `prettier` issue with deploying GH pages
