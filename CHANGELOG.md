@@ -2,6 +2,11 @@
 
 ## 4.1.0 (2025-02-21)
 
+- Updates workflows and scripts
+  - fix `prettier` issue with deploying GH pages
+
+## 4.1.0 (2025-02-21)
+
 - Updates dependencies
   - serialize-javascript to 6.0.2
   - mocha to 10.8.2
