@@ -5,7 +5,7 @@
 - Updates workflows and scripts
   - move `prettier` to ci
 
-## 4.1.0 (2025-02-21)
+## 4.1.1 (2025-02-24)
 
 - Updates workflows and scripts
   - fix `prettier` issue with deploying GH pages
