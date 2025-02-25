@@ -1,6 +1,6 @@
 # Restricted Input - Changelog
 
-## Unreleased
+## 4.1.3 (2025-02-25)
 
 - Update workflows and scripts
   - move publish gh-pages action from script to workflow
