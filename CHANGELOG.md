@@ -1,5 +1,9 @@
 # Restricted Input - Changelog
 
+## unreleased
+
+- Fix workflow errors
+
 ## 4.1.3 (2025-02-25)
 
 - Update workflows and scripts
