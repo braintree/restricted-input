@@ -24,7 +24,6 @@
     "restrict"
   ],
   "scripts": {
-    "prebuild": "prettier --check .",
     "format": "prettier --write .",
     "build": "tsc --declaration",
     "build:app": "mkdir -p dist-app; browserify ./src/main.ts -p [ tsify --strict ] -o dist-app/restricted-input.js -s RestrictedInput -v",

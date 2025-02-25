@@ -1,5 +1,10 @@
 # Restricted Input - Changelog
 
+## UNRELEASED
+
+- Updates workflows and scripts
+  - move `prettier` to ci
+
 ## 4.1.1 (2025-02-24)
 
 - Updates workflows and scripts
