@@ -1,6 +1,6 @@
 # Restricted Input - Changelog
 
-## UNRELEASED
+## 4.1.2 (2025-02-25)
 
 - Updates workflows and scripts
   - move `prettier` to ci
