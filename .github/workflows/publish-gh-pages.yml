@@ -1,7 +1,4 @@
-# This workflow will run tests using node, bump the npm version, deploy to npm, and create a release with notes
-
-name: Publish to npm
-run-name: Deploy ${{ github.repository }} to npmjs by @${{ github.actor }}
+name: Publish to gh pages
 on:
   workflow_dispatch:
   workflow_call:
