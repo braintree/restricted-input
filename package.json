@@ -40,9 +40,7 @@
     "test:unit": "jest test/unit",
     "test:integration": "wdio wdio.conf.js",
     "test:all": "npm run test && npm run test:integration",
-    "publish:demo": "./publish-gh-pages.sh",
-    "prepublishOnly": "npm run build && npm run build:app",
-    "postpublish": "npm run publish:demo"
+    "prepublishOnly": "npm run build && npm run build:app"
   },
   "dependencies": {
     "@braintree/browser-detection": "^1.17.2"

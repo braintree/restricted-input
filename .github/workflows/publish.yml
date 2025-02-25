@@ -22,10 +22,10 @@ concurrency: # prevent concurrent releases
   cancel-in-progress: true
 
 jobs:
-  ci-unit-tests:
-    uses: ./.github/workflows/ci-unit-tests.yml
+  ci:
+    uses: ./.github/workflows/ci.yml
   bump-version:
-    needs: ci-unit-tests
+    needs: ci
     uses: ./.github/workflows/version-bump.yml
     with:
       version_type: ${{ inputs.version_type }}
@@ -48,3 +48,6 @@ jobs:
   publish-release:
     needs: publish-npm
     uses: ./.github/workflows/release-notes.yml
+  publish-gh-pages:
+    needs: publish-npm
+    uses: ./.github/workflows/publish-gh-pages.yml

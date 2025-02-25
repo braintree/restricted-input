@@ -1,4 +1,4 @@
-name: "Unit Tests"
+name: "CI"
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: "Unit Tests on Ubuntu"
+    name: "Formatter and Unit Tests on Ubuntu"
     runs-on: ubuntu-latest
 
     steps:
