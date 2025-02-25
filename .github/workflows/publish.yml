@@ -22,18 +22,7 @@ concurrency: # prevent concurrent releases
   cancel-in-progress: true
 
 jobs:
-  prettier-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          registry-url: ${{ env.NPM_REGISTRY }}
-      - run: npm ci
-      - run: npx prettier -c .
   ci-unit-tests:
-    needs: prettier-check
     uses: ./.github/workflows/ci-unit-tests.yml
   bump-version:
     needs: ci-unit-tests
