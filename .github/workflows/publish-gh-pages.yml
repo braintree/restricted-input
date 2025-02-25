@@ -25,6 +25,8 @@ jobs:
           git checkout main
           git pull
 
+      - run: npm ci
+
       - name: Get version
         run: echo "latest_version=$(npm pkg get version --workspaces=false | tr -d \")" >> $GITHUB_ENV
 
