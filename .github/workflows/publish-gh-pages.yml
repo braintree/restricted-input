@@ -39,7 +39,9 @@ jobs:
         run: cp test/support/index.html dist-app/
 
       - name: Checkout gh-pages
-        run: git checkout gh-pages
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
 
       - name: Add page to current directory
         run: mv dist-app/* .
