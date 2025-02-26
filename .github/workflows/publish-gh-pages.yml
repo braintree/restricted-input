@@ -39,7 +39,9 @@ jobs:
         run: cp test/support/index.html dist-app/
 
       - name: Checkout gh-pages
-        run: git checkout gh-pages
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
 
       - name: Add page to current directory
         run: mv dist-app/* .
@@ -48,7 +50,7 @@ jobs:
         run: git add restricted-input.js index.html
 
       - name: Commit page
-        run: git commit -ve -m "Update demo page for restricted-input v${{ env.latest_version }}"
+        run: git commit -m "Update demo page for restricted-input v${{ env.latest_version }}"
 
       - name: Push changes
         run: git push
