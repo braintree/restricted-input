@@ -22,5 +22,5 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: npm ci
-      - run: npx prettier --check .
+      - run: npx eslint --ext .js,.ts src test
       - run: npm test
