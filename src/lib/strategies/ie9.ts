@@ -19,15 +19,27 @@ export class IE9Strategy extends BaseStrategy {
   }
 
   protected attachListeners(): void {
-    this.inputElement.addEventListener("keydown", (event) => {
-      this.keydownListener(event as KeyboardEvent);
-    });
-    this.inputElement.addEventListener("focus", () => {
-      this.format();
-    });
-    this.inputElement.addEventListener("paste", (event) => {
-      this.pasteEventHandler(event as ClipboardEvent);
-    });
+    this.inputElement.addEventListener("keydown", this.handleKeyDownIe9);
+    this.inputElement.addEventListener("focus", this.handleFocusIe9);
+    this.inputElement.addEventListener("paste", this.handlePasteIe9);
+  }
+  
+  destroy(): void {
+	  this.inputElement.removeEventListener("keydown", this.handleKeyDownIe9);
+	  this.inputElement.removeEventListener("focus", this.handleFocusIe9);
+	  this.inputElement.removeEventListener("paste", this.handlePasteIe9);
+  }
+  
+  private handleKeyDownIe9(event: Event): void {
+	  this.keydownListener(event as KeyboardEvent);
+  }
+  
+  private handleFocusIe9(): void {
+	  this.format();
+  }
+  
+  private handlePasteIe9(event: Event): void {
+	  this.pasteEventHandler(event as ClipboardEvent);
   }
 
   private format(): void {

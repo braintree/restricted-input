@@ -19,4 +19,5 @@ export abstract class StrategyInterface {
 
   abstract getUnformattedValue(): string;
   abstract setPattern(pattern: string): void;
+	abstract destroy(): void;
 }

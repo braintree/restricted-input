@@ -8,32 +8,44 @@ export class IosStrategy extends BaseStrategy {
   }
 
   protected attachListeners(): void {
-    this.inputElement.addEventListener("keydown", (event) => {
-      this.keydownListener(event as KeyboardEvent);
-    });
-    this.inputElement.addEventListener("input", (event) => {
-      const isCustomEvent = event instanceof CustomEvent;
-
-      // Safari AutoFill fires CustomEvents
-      // Set state to format before calling format listener
-      if (isCustomEvent) {
-        this.stateToFormat = {
-          selection: { start: 0, end: 0 },
-          value: this.inputElement.value,
-        };
-      }
-
-      this.formatListener();
-
-      if (!isCustomEvent) {
-        this.fixLeadingBlankSpaceOnIos();
-      }
-    });
-    this.inputElement.addEventListener("paste", (event) => {
-      this.pasteEventHandler(event as ClipboardEvent);
-    });
+    this.inputElement.addEventListener("keydown", this.handleKeyDownIos);
+    this.inputElement.addEventListener("input", this.handleInputIos);
+    this.inputElement.addEventListener("paste", this.handlePasteIos);
+  }
+  
+  destroy(): void {
+	  this.inputElement.removeEventListener("keydown", this.handleKeyDownIos);
+	  this.inputElement.removeEventListener("input", this.handleInputIos);
+	  this.inputElement.removeEventListener("paste", this.handlePasteIos);
+  }
+  
+  private handleKeyDownIos(event: Event): void {
+	  this.keydownListener(event as KeyboardEvent);
+  }
+  
+  private handleInputIos(event: Event): void {
+	  const isCustomEvent = event instanceof CustomEvent;
+	
+	  // Safari AutoFill fires CustomEvents
+	  // Set state to format before calling format listener
+	  if (isCustomEvent) {
+	    this.stateToFormat = {
+	      selection: { start: 0, end: 0 },
+	      value: this.inputElement.value,
+	    };
+	  }
+	
+	  this.formatListener();
+	
+	  if (!isCustomEvent) {
+	    this.fixLeadingBlankSpaceOnIos();
+	  }
   }
 
+  private handlePasteIos(event: Event): void {
+	  this.pasteEventHandler(event as ClipboardEvent);
+  }
+  
   // When deleting the last character on iOS, the cursor
   // is positioned as if there is a blank space when there
   // is not, setting it to '' in a setTimeout fixes it ¯\_(ツ)_/¯

@@ -71,64 +71,78 @@ export class BaseStrategy extends StrategyInterface {
   }
 
   protected attachListeners(): void {
-    this.inputElement.addEventListener("keydown", (e) => {
-      const event = e as KeyboardEvent;
+    this.inputElement.addEventListener("keydown", this.handleKeyDown);
+    this.inputElement.addEventListener("keypress", this.handleKeyPress);
+    this.inputElement.addEventListener("keyup", this.handleKeyUp);
+    this.inputElement.addEventListener("input", this.handleInput);
+    this.inputElement.addEventListener("paste", this.handlePaste);
+  }
+  
+  destroy(): void {
+	  this.inputElement.removeEventListener("keydown", this.handleKeyDown);
+	  this.inputElement.removeEventListener("keypress", this.handleKeyPress);
+	  this.inputElement.removeEventListener("keyup", this.handleKeyUp);
+	  this.inputElement.removeEventListener("input", this.handleInput);
+	  this.inputElement.removeEventListener("paste", this.handlePaste);
+  }
 
-      if (isSimulatedEvent(event)) {
-        this.isFormatted = false;
-      }
+  private handleKeyDown(e: Event): void {
+	  const event = e as KeyboardEvent;
+	
+	  if (isSimulatedEvent(event)) {
+	    this.isFormatted = false;
+	  }
+	
+	  if (keyCannotMutateValue(event)) {
+	    return;
+	  }
+	
+	  if (this.isDeletion(event)) {
+	    this.unformatInput();
+	  }
+  }
 
-      if (keyCannotMutateValue(event)) {
-        return;
-      }
-
-      if (this.isDeletion(event)) {
-        this.unformatInput();
-      }
-    });
-
-    this.inputElement.addEventListener("keypress", (e) => {
-      this.hasKeypressEvent = true;
-      this.onKeypress(e as KeyboardEvent);
-    });
-
-    this.inputElement.addEventListener("keyup", () => {
-      this.reformatInput();
-      // if the user changes their keyboard and
-      // the browser doesn't support the keypress event listener,
-      // we need to reset the keypress flag to be able to enable the
-      // fallback for the custom input event listener
-      // to be able to format the field
-      this.hasKeypressEvent = false;
-    });
-
-    this.inputElement.addEventListener("input", (e) => {
-      const event = e as KeyboardEvent;
-
-      // Some input sources on Mac OS prevent
-      // the keypress event from being fired,
-      // so if we can't detect that the keypress
-      // event fired, we simulate the event
-      // here before the handler for the input
-      // event
-      if (!this.hasKeypressEvent) {
-        this.onKeypress(e as KeyboardEvent);
-      }
-
-      // Safari AutoFill fires CustomEvents
-      // LastPass sends an `isTrusted: false` property
-      // Since the input is changed all at once, set isFormatted
-      // to false so that reformatting actually occurs
-      if (event instanceof CustomEvent || !event.isTrusted) {
-        this.isFormatted = false;
-      }
-
-      this.reformatInput();
-    });
-
-    this.inputElement.addEventListener("paste", (event) => {
-      this.pasteEventHandler(event as ClipboardEvent);
-    });
+  private handleKeyPress(e: Event): void {
+	  this.hasKeypressEvent = true;
+	  this.onKeypress(e as KeyboardEvent);
+  }
+  
+  private handleKeyUp(): void {
+	  this.reformatInput();
+	  // if the user changes their keyboard and
+	  // the browser doesn't support the keypress event listener,
+	  // we need to reset the keypress flag to be able to enable the
+	  // fallback for the custom input event listener
+	  // to be able to format the field
+	  this.hasKeypressEvent = false;
+  }
+  
+  private handleInput(e: Event) {
+	  const event = e as KeyboardEvent;
+	
+	  // Some input sources on Mac OS prevent
+	  // the keypress event from being fired,
+	  // so if we can't detect that the keypress
+	  // event fired, we simulate the event
+	  // here before the handler for the input
+	  // event
+	  if (!this.hasKeypressEvent) {
+	    this.onKeypress(e as KeyboardEvent);
+	  }
+	
+	  // Safari AutoFill fires CustomEvents
+	  // LastPass sends an `isTrusted: false` property
+	  // Since the input is changed all at once, set isFormatted
+	  // to false so that reformatting actually occurs
+	  if (event instanceof CustomEvent || !event.isTrusted) {
+	    this.isFormatted = false;
+	  }
+	
+	  this.reformatInput();
+  }
+  
+  private handlePaste(event: Event): void {
+	  this.pasteEventHandler(event as ClipboardEvent);
   }
 
   protected isDeletion(event: KeyboardEvent): boolean {
