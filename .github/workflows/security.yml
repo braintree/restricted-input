@@ -18,7 +18,7 @@ on:
 jobs:
   code-scanning:
     uses: braintree/security-workflows/.github/workflows/codeql.yml@main
-    languages: javascript
+    language: javascript
 
   dependency-review:
     uses: braintree/security-workflows/.github/workflows/dependency-review.yml@main
