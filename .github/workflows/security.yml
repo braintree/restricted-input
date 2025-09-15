@@ -16,10 +16,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  code-scanning:
+  codeql-javascript:
     uses: braintree/security-workflows/.github/workflows/codeql.yml@main
-    language: javascript
-
+    with:
+      language: javascript-typescript
   dependency-review:
     uses: braintree/security-workflows/.github/workflows/dependency-review.yml@main
 
