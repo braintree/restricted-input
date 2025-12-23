@@ -88,15 +88,7 @@ exports.config = {
   waitforTimeout: 20000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 1,
-  services: [
-    [
-      "browserstack",
-      {
-        runner: "local",
-        browserstackLocal: true,
-      },
-    ],
-  ],
+  services: [],
   framework: "mocha",
   mochaOpts,
   reporters: ["spec"],

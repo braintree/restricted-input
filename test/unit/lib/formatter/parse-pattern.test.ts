@@ -71,9 +71,7 @@ describe("parsePattern", function () {
     ])("throws for %s", function (pattern) {
       expect(function () {
         parsePattern(pattern);
-      }).toThrowError(
-        "Only alphanumeric or wildcard pattern matchers are allowed"
-      );
+      }).toThrow("Only alphanumeric or wildcard pattern matchers are allowed");
     });
   });
 });

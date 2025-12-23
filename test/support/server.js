@@ -10,13 +10,13 @@ app.use("/jsdoc", express.static(path.resolve("jsdoc")));
 app.use(express.static(path.resolve("dist-app")));
 app.use(express.static(path.resolve("test/support")));
 
-app.get("*", function (req, res) {
+app.get("/*splat", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(process.env.PORT || DEFAULT_PORT, function () {
+const server = app.listen(process.env.PORT || DEFAULT_PORT, function () {
   const message = `
- App running on ${this.address().port} 
+ App running on ${server.address().port} 
 `;
 
   console.log(message);

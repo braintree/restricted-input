@@ -1,5 +1,30 @@
 # Restricted Input - Changelog
 
+## UNRELEASED
+
+- `@braintree/browser-detection` to 2.1.0
+- Update dev dependencies
+  - @types/jest to 30.0.0
+  - @wdio/browserstack-service to 9.22.0
+  - @wdio/cli to 9.22.0
+  - @wdio/local-runner to 9.22.0
+  - @wdio/mocha-framework to 9.22.0
+  - @wdio/spec-reporter to 9.20.0
+  - browserify to 17.0.1
+  - browserstack-local to 1.5.8
+  - chai to 6.2.2
+  - dotenv to 17.2.3
+  - eslint-plugin-prettier to 5.5.4
+  - express to 5.2.1
+  - jest to 30.2.0
+  - jsdoc to 4.0.5
+  - prettier to 3.7.4
+  - ts-jest to 29.4.6
+  - typescript to 5.9.3
+  - uuid to 13.0.0
+  - webdriverio to 9.21.0
+- Update Node to v24
+
 ## 4.1.4 (2025-02-26)
 
 - Fix workflow errors

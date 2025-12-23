@@ -7,7 +7,7 @@ describe("Restricted Input", function () {
         const promises = [];
 
         while (count < numberOfTimes) {
-          promises.push(this.keys(key));
+          promises.push(browser.keys(key));
           count++;
         }
 

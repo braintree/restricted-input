@@ -22,7 +22,7 @@ describe("Base Strategy", function () {
       ["keydown", "keypress", "keyup", "input", "paste"].forEach(function (
         event
       ) {
-        expect(strategy.inputElement.addEventListener).toBeCalledWith(
+        expect(strategy.inputElement.addEventListener).toHaveBeenCalledWith(
           event,
           expect.any(Function)
         );
