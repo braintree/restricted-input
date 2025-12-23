@@ -138,7 +138,7 @@ describe("device", function () {
 
     it("returns false for Android webviews with newer builds of Chrome", function () {
       expect(isKitKatWebview(AGENTS.androidWebviewLollipopAndAbove)).toBe(
-        false
+        false,
       );
     });
 

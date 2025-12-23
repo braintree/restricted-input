@@ -19,14 +19,14 @@ describe("Base Strategy", function () {
     it("adds input listeners", function () {
       const strategy = new BaseStrategy(options);
 
-      ["keydown", "keypress", "keyup", "input", "paste"].forEach(function (
-        event
-      ) {
-        expect(strategy.inputElement.addEventListener).toHaveBeenCalledWith(
-          event,
-          expect.any(Function)
-        );
-      });
+      ["keydown", "keypress", "keyup", "input", "paste"].forEach(
+        function (event) {
+          expect(strategy.inputElement.addEventListener).toHaveBeenCalledWith(
+            event,
+            expect.any(Function),
+          );
+        },
+      );
     });
   });
 

@@ -56,8 +56,8 @@ let capabilities = [
 if (ONLY_BROWSERS) {
   capabilities = ONLY_BROWSERS.split(",").map((browser) =>
     capabilities.find(
-      (config) => config.browserName.toLowerCase() === browser.toLowerCase()
-    )
+      (config) => config.browserName.toLowerCase() === browser.toLowerCase(),
+    ),
   );
 
   if (capabilities.length === 0) {
@@ -112,13 +112,13 @@ exports.config = {
             "Testing in the following browsers:",
             capabilities
               .map(
-                (browser) => `${browser.browserName}@${browser.browserVersion}`
+                (browser) => `${browser.browserName}@${browser.browserVersion}`,
               )
-              .join(", ")
+              .join(", "),
           );
 
           return resolve();
-        }
+        },
       );
     });
     /* eslint-enable no-console */

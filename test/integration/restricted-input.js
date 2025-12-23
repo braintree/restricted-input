@@ -13,23 +13,26 @@ describe("Restricted Input", function () {
 
         await Promise.all(promises);
       },
-      true
+      true,
     );
 
     browser.addCommand(
       "getSelectionRange",
       async function () {
         // executed in browser, so it must be es5 compliant
-        return browser.execute(async function (nodeId) {
-          const el = await document.getElementById(nodeId);
+        return browser.execute(
+          async function (nodeId) {
+            const el = await document.getElementById(nodeId);
 
-          return {
-            start: await el.selectionStart,
-            end: await el.selectionEnd,
-          };
-        }, await this.getProperty("id"));
+            return {
+              start: await el.selectionStart,
+              end: await el.selectionEnd,
+            };
+          },
+          await this.getProperty("id"),
+        );
       },
-      true
+      true,
     );
 
     browser.addCommand(
@@ -37,7 +40,7 @@ describe("Restricted Input", function () {
       async function (keys) {
         await this.addValue(keys);
       },
-      true
+      true,
     );
   });
 
@@ -59,7 +62,7 @@ describe("Restricted Input", function () {
       const input = await $("#credit-card-number");
 
       await input.typeKeys(
-        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56"
+        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56",
       );
       const value = await input.getValue();
 
@@ -338,7 +341,7 @@ describe("Restricted Input", function () {
       const input = await $("#credit-card-amex");
 
       await input.typeKeys(
-        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5"
+        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5",
       );
       const value = await input.getValue();
 
@@ -596,7 +599,7 @@ describe("Restricted Input", function () {
       const input = $("#credit-card-unformatted");
 
       await input.typeKeys(
-        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56"
+        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56",
       );
       const value = await input.getValue();
 

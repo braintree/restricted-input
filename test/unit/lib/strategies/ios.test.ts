@@ -27,7 +27,7 @@ describe("iOS Strategy", function () {
       ["keydown", "input"].forEach(function (event) {
         expect(strategy.inputElement.addEventListener).toHaveBeenCalledWith(
           event,
-          expect.any(Function)
+          expect.any(Function),
         );
       });
     });

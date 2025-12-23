@@ -18,7 +18,7 @@ describe("getCurrentSelection", function () {
           end: 23,
           delta: 13,
         });
-      }
+      },
     );
   });
 });

@@ -27,7 +27,7 @@ describe("IE9 Strategy", function () {
       ["keydown", "paste", "focus"].forEach(function (event) {
         expect(strategy.inputElement.addEventListener).toHaveBeenCalledWith(
           event,
-          expect.any(Function)
+          expect.any(Function),
         );
       });
     });

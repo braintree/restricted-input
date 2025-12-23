@@ -39,7 +39,7 @@ export class IE9Strategy extends BaseStrategy {
     setSelection(
       input,
       formattedState.selection.start,
-      formattedState.selection.end
+      formattedState.selection.end,
     );
   }
 
