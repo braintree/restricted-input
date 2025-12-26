@@ -1,13 +1,6 @@
 name: "Integration Tests"
 
-on:
-  push:
-    branches:
-      - "main"
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - "*"
+on: [push]
 
 jobs:
   ubuntu-job:

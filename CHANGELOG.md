@@ -24,6 +24,7 @@
   - uuid to 13.0.0
   - webdriverio to 9.21.0
 - Update Node to v24
+- Fix workflows to run unit tests on branch push
 
 ## 4.1.4 (2025-02-26)
 
