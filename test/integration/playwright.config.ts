@@ -1,6 +1,7 @@
 import { defineConfig, PlaywrightTestProject } from "@playwright/test";
 import * as path from "path";
 import * as dotenv from "dotenv";
+import { getLocalIdentifier } from "./browserstack-local";
 
 // Load .env from project root
 dotenv.config({
@@ -34,6 +35,9 @@ const getCaps = (browser: { browserName: string }): Record<string, string> => {
     "browserstack.debug": "true",
     "browserstack.console": "errors",
     "browserstack.networkLogs": "false",
+    "browserstack.localIdentifier": process.env.BROWSERSTACK_LOCAL_IDENTIFIER
+      ? process.env.BROWSERSTACK_LOCAL_IDENTIFIER
+      : getLocalIdentifier(),
     build: build,
     project: "Restricted Input",
     name: `Playwright test - ${browser.browserName}`,
