@@ -5,3 +5,8 @@ dist/
 dist-app/
 .env
 jsdoc/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
