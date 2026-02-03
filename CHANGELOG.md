@@ -6,6 +6,8 @@
   - adds dev dependencies:
     - @playwright/test 1.58.0
     - playwright 1.58.0
+  - removes @wdio dependencies and uuid
+  - add safari tests
 
 ## 4.1.4 (2025-02-26)
 

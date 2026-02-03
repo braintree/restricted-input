@@ -3,7 +3,6 @@ import * as path from "path";
 import * as dotenv from "dotenv";
 import { getLocalIdentifier } from "./browserstack-local";
 
-// Load .env from project root
 dotenv.config({
   path: path.resolve(__dirname, "../../.env"),
 });
@@ -19,13 +18,14 @@ const build = `"Restricted Input" - ${type} ${Date.now()}`;
 const BROWSERSTACK_USERNAME = process.env.BROWSERSTACK_USERNAME ?? "";
 const BROWSERSTACK_ACCESS_KEY = process.env.BROWSERSTACK_ACCESS_KEY ?? "";
 
-// BrowserStack capabilities
-const getCaps = (browser: { browserName: string }): Record<string, string> => {
+const getCaps = (browser: {
+  browserName: string;
+  playwrightName?: string;
+}): Record<string, string> => {
   const caps = {
-    browser:
-      browser.browserName === "firefox"
-        ? "playwright-firefox"
-        : browser.browserName,
+    browser: browser.playwrightName
+      ? browser.playwrightName
+      : browser.browserName,
     os: "Windows",
     os_version: "10",
     "browserstack.local": "true",
@@ -46,18 +46,26 @@ const getCaps = (browser: { browserName: string }): Record<string, string> => {
   return caps;
 };
 
-// Define browser configurations
 const browsers = [
   { browserName: "chrome", version: "latest" },
   { browserName: "Edge", version: "latest" },
-  { browserName: "firefox", version: "latest" },
+  {
+    browserName: "firefox",
+    playwrightName: "playwright-firefox",
+    version: "latest",
+  },
+  {
+    browserName: "safari",
+    playwrightName: "playwright-webkit",
+    version: "latest",
+  },
 ];
 
 module.exports = defineConfig({
   testDir: "./",
   testMatch: "**/restricted-input.spec.ts",
   fullyParallel: true,
-  retries: process.env.DISABLE_RETRIES ? 0 : 1,
+  retries: process.env.DISABLE_RETRIES ? 0 : 2,
   workers: 4,
   reporter: [["list"], ["html"]],
   timeout: 90000,

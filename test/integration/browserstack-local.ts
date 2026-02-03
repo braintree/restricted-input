@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import browserstack from "browserstack-local";
-import { v4 as uuid } from "uuid";
 
-const localIdentifier = uuid() as string;
+const localIdentifier =
+  process.env.BROWSERSTACK_LOCAL_IDENTIFIER || "restricted-input-local";
 let bsLocal: browserstack.Local | null = null;
 
 export async function startBrowserStackLocal(): Promise<void> {

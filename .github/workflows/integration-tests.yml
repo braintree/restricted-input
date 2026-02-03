@@ -40,3 +40,4 @@ jobs:
     env:
       CI: true
       HOST: "localhost"
+      DISABLE_RETRIES: true
