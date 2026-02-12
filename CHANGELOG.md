@@ -1,4 +1,13 @@
-# Restricted Input - Changelog
+# Changelog
+
+## UNRELEASED
+
+- Move integration tests from wdio to playwright
+  - adds dev dependencies:
+    - @playwright/test 1.58.0
+    - playwright 1.58.0
+  - removes @wdio dependencies and uuid
+  - add safari tests
 
 ## 4.1.4 (2025-02-26)
 
@@ -81,10 +90,8 @@
 ## 3.0.0
 
 - Add Typescript types
-
-**Breaking Changes**
-
-Private methods in Restricted Input are now private
+- BREAKING CHANGES
+  - Private methods in Restricted Input are now private
 
 ## 2.1.1
 
@@ -107,9 +114,8 @@ Private methods in Restricted Input are now private
 
 - Fix bug in iOS Chrome where autofill may not format correctly
 
-_Breaking Changes_
-
-- Inputs initialize in formatted state if input has a preset value
+- BREAKING CHANGES
+  - Inputs initialize in formatted state if input has a preset value
 
 ## 1.2.7 (2017-11-01)
 

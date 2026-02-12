@@ -18,14 +18,14 @@ Try the latest version of Restricted Input [here](https://braintree.github.io/re
 
 ## Development
 
-**Install dependencies**
+### Install dependencies
 
 ```bash
 nvm use # if you have node version manager installed
 npm i
 ```
 
-**Watch files and run demo server**
+### Watch files and run demo server
 
 ```bash
 npm run development
@@ -33,7 +33,7 @@ npm run development
 
 This will start a server on port `3099` which can be overridden with the `PORT` env var.
 
-**Unit tests**
+### Unit tests
 
 The following command will run the linting task and the unit tests.
 
@@ -41,9 +41,9 @@ The following command will run the linting task and the unit tests.
 npm test
 ```
 
-**Integration tests**
+### Integration tests
 
-We use [Browserstack](https://www.browserstack.com) to automate end to end testing on Google Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11.
+We use [Browserstack](https://www.browserstack.com) to automate end to end testing on Google Chrome, Firefox, and Microsoft Edge.
 
 First, [sign up for a free open source Browserstack account](https://www.browserstack.com/open-source?ref=pricing).
 
@@ -60,38 +60,19 @@ BROWSERSTACK_USERNAME=username
 BROWSERSTACK_ACCESS_KEY=access_key
 ```
 
-To run the integration tests in Safari, Google Chrome, Firefox, IE11 and Microsoft Edge:
+To run the integration tests on Browserstack:
 
 ```sh
-npm run development # in another terminal window
 npm run test:integration
 ```
 
-To run tests in only one browser, prefix the test command with an `ONLY_BROWSERS` env variable:
+To run tests locally on browsers you do not have installed, you may need to install playwright browsers:
 
 ```sh
-# run only in edge browser
-ONLY_BROWSERS=edge npm run test:integration
-
-# run only in chrome browser
-ONLY_BROWSERS=chrome npm run test:integration
-
-# run only in ie 11 browser
-ONLY_BROWSERS=ie npm run test:integration
-
-# run only in safari browser
-ONLY_BROWSERS=safari npm run test:integration
-
-# run only in firefox browser
-ONLY_BROWSERS=firefox npm run test:integration
+npx playwright install firefox chrome msedge
 ```
 
-To run tests in certain browsers, prefix the test command with an `ONLY_BROWSERS` env variable, with each browser comma separated:
-
-```sh
-# run only in edge and chrome browsers
-ONLY_BROWSERS=edge,chrome npm run test:integration
-```
+And the tests are run locally with `npm run test:integration:local`.
 
 To run only certain tests, add the `.only` property before running the test:
 
@@ -177,7 +158,7 @@ const formattedCreditCardInput = new RestrictedInput({
 
 ## Browser Support
 
-**Desktop**
+### Desktop
 
 - Chrome (latest)
 - Firefox (17+)
