@@ -44,7 +44,7 @@
     "prepublishOnly": "npm run build && npm run build:app"
   },
   "dependencies": {
-    "@braintree/browser-detection": "^1.17.2"
+    "@braintree/browser-detection": "^2.1.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.0",
