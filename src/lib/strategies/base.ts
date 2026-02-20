@@ -9,10 +9,10 @@ import { isBackspace } from "../is-backspace";
 import { isDelete } from "../is-delete";
 import { PatternFormatter as Formatter, FormatMetadata } from "../formatter";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   interface Window {
     clipboardData: {
+      // eslint-disable-next-line no-unused-vars
       getData: (text: string) => string;
     };
   }
@@ -151,7 +151,7 @@ export class BaseStrategy extends StrategyInterface {
     setSelection(
       input,
       formattedState.selection.start,
-      formattedState.selection.end
+      formattedState.selection.end,
     );
 
     this.afterReformatInput(formattedState);
@@ -183,7 +183,7 @@ export class BaseStrategy extends StrategyInterface {
     setSelection(
       input,
       unformattedState.selection.start,
-      unformattedState.selection.end
+      unformattedState.selection.end,
     );
   }
 
@@ -218,7 +218,7 @@ export class BaseStrategy extends StrategyInterface {
     splicedEntry.splice(
       selection.start,
       selection.end - selection.start,
-      entryValue
+      entryValue,
     );
     splicedEntry = splicedEntry.join("");
 
@@ -232,7 +232,7 @@ export class BaseStrategy extends StrategyInterface {
     setSelection(
       this.inputElement,
       selection.start + entryValue.length,
-      selection.start + entryValue.length
+      selection.start + entryValue.length,
     );
 
     this.postPasteEventHandler();

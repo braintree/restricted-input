@@ -28,7 +28,7 @@ describe("parsePattern", function () {
       "creates a regex for digits with %s",
       (digit) => {
         expect(parsePattern("{{" + digit + "}}")[0].value).toEqual(/\d/);
-      }
+      },
     );
   });
 
@@ -37,9 +37,9 @@ describe("parsePattern", function () {
       "creates a regex for non-digits with %s",
       (character) => {
         expect(parsePattern("{{" + character + "}}")[0].value).toEqual(
-          /[A-Za-z]/
+          /[A-Za-z]/,
         );
-      }
+      },
     );
   });
 
@@ -72,7 +72,7 @@ describe("parsePattern", function () {
       expect(function () {
         parsePattern(pattern);
       }).toThrowError(
-        "Only alphanumeric or wildcard pattern matchers are allowed"
+        "Only alphanumeric or wildcard pattern matchers are allowed",
       );
     });
   });

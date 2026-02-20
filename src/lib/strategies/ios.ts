@@ -56,7 +56,7 @@ export class IosStrategy extends BaseStrategy {
     setSelection(
       input,
       formattedState.selection.start,
-      formattedState.selection.end
+      formattedState.selection.end,
     );
   }
 

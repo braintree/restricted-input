@@ -120,7 +120,7 @@ describe("Formatter", function () {
           };
 
           expect(formatter.format(options).value).toBe(expectedResult);
-        }
+        },
       );
     });
 

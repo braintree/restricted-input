@@ -21,7 +21,7 @@ test.describe("Restricted Input", () => {
 
       await input.fill("");
       await input.pressSequentially(
-        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56"
+        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56",
       );
       const value = await input.inputValue();
 
@@ -364,7 +364,7 @@ test.describe("Restricted Input", () => {
 
       await input.fill("");
       await input.pressSequentially(
-        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5"
+        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+5",
       );
       const value = await input.inputValue();
 
@@ -679,7 +679,7 @@ test.describe("Restricted Input", () => {
 
       await input.fill("");
       await input.pressSequentially(
-        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56"
+        "a12bcdef3ghh4ij56klmn7opqr8stuv9wx0yz !123@#$4%^&*()_=+56",
       );
       const value = await input.inputValue();
 

@@ -6,7 +6,7 @@ const PLACEHOLDER_PATTERN = "({{[^}]+}})";
 const PERMACHAR_REGEX = "(\\s|\\S)";
 const PATTERN_REGEX = new RegExp(
   PLACEHOLDER_PATTERN + "|" + PERMACHAR_REGEX,
-  "g"
+  "g",
 );
 const PLACEHOLDER_PATTERN_REGEX = new RegExp("^" + PLACEHOLDER_PATTERN + "$");
 const replacerRegex = new RegExp("{|}", "g");
@@ -28,7 +28,8 @@ function isAlpha(char: string): boolean {
 function createRegexForChar(char: string): RegExp {
   if (isDigit(char)) {
     return DIGIT_REGEX;
-  } else if (isAlpha(char)) {
+  }
+  if (isAlpha(char)) {
     return ALPHA_REGEX;
   }
 
@@ -61,7 +62,7 @@ export function parsePattern(patternString: string): Pattern[] {
 
         if (!isPlaceholder(placeholderChar)) {
           throw new Error(
-            "Only alphanumeric or wildcard pattern matchers are allowed"
+            "Only alphanumeric or wildcard pattern matchers are allowed",
           );
         }
 

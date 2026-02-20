@@ -22,7 +22,7 @@ export async function startBrowserStackLocal(): Promise<void> {
         return reject(error);
       }
       console.log(
-        `BrowserStack Local connected with localIdentifier=${localIdentifier}`
+        `BrowserStack Local connected with localIdentifier=${localIdentifier}`,
       );
       return resolve();
     });

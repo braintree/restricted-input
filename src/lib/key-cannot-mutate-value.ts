@@ -10,7 +10,7 @@ export function keyCannotMutateValue(event: KeyboardEvent): boolean {
 
   // https://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-key
   switch (event.key) {
-    case undefined: // eslint-disable-line
+    case undefined:
     case "Unidentified": // Cannot be determined
     case "": // Uninitialized
       break;

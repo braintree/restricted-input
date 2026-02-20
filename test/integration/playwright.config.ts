@@ -85,11 +85,11 @@ module.exports = defineConfig({
         channel: browser.browserName === "edge" ? "msedge" : "chrome",
         connectOptions: {
           wsEndpoint: `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(
-            JSON.stringify(getCaps(browser))
+            JSON.stringify(getCaps(browser)),
           )}`,
         },
       },
-    })
+    }),
   ) as PlaywrightTestProject[],
   webServer: {
     command: "npm start",
