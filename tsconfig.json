@@ -2,12 +2,15 @@
   "compilerOptions": {
     "allowJs": true,
     "esModuleInterop": true,
+    "rootDir": "./",
     "outDir": "./dist",
     "module": "commonjs",
     "skipLibCheck": true,
     "target": "es5",
+    "ignoreDeprecations": "6.0", // 
     "lib": ["es2015", "dom"],
-    "strict": true
+    "strict": true,
+    "types": ["jest"]
   },
   "include": ["./src/**/*"],
   "exclude": ["./src/**/__mocks__/**/*"]
