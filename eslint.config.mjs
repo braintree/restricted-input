@@ -3,7 +3,7 @@ import braintreeClientConfig from "eslint-config-braintree/client";
 
 export default defineConfig([
   globalIgnores(["**/dist/", "**/dist-app/"]),
-  ...braintreeClientConfig,
+  ...braintreeClientConfig.default,
   {
     languageOptions: {
       globals: {
