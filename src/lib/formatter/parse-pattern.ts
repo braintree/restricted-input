@@ -9,7 +9,7 @@ const PATTERN_REGEX = new RegExp(
   "g",
 );
 const PLACEHOLDER_PATTERN_REGEX = new RegExp("^" + PLACEHOLDER_PATTERN + "$");
-const replacerRegex = new RegExp("{|}", "g");
+const replacerRegex = /{|}/g;
 
 export type Pattern = {
   value: RegExp | string;

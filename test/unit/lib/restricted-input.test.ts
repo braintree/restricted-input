@@ -1,4 +1,4 @@
-import RestrictedInput = require("../../../src/lib/restricted-input");
+import RestrictedInput from "../../../src/lib/restricted-input";
 import { BaseStrategy } from "../../../src/lib/strategies/base";
 import { IosStrategy } from "../../../src/lib/strategies/ios";
 import { IE9Strategy } from "../../../src/lib/strategies/ie9";
@@ -129,7 +129,7 @@ describe("RestrictedInput", function () {
 
       ri.getUnformattedValue();
 
-      expect(ri.strategy.getUnformattedValue).toBeCalledTimes(1);
+      expect(ri.strategy.getUnformattedValue).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -144,8 +144,8 @@ describe("RestrictedInput", function () {
 
       ri.setPattern("{{1}}");
 
-      expect(ri.strategy.setPattern).toBeCalledTimes(1);
-      expect(ri.strategy.setPattern).toBeCalledWith("{{1}}");
+      expect(ri.strategy.setPattern).toHaveBeenCalledTimes(1);
+      expect(ri.strategy.setPattern).toHaveBeenCalledWith("{{1}}");
     });
   });
 

@@ -5,7 +5,7 @@ const localIdentifier =
   process.env.BROWSERSTACK_LOCAL_IDENTIFIER || "restricted-input-local";
 let bsLocal: browserstack.Local | null = null;
 
-export async function startBrowserStackLocal(): Promise<void> {
+export function startBrowserStackLocal(): Promise<void> {
   return new Promise((resolve, reject) => {
     bsLocal = new browserstack.Local();
 
@@ -29,7 +29,7 @@ export async function startBrowserStackLocal(): Promise<void> {
   });
 }
 
-export async function stopBrowserStackLocal(): Promise<void> {
+export function stopBrowserStackLocal(): Promise<void> {
   return new Promise((resolve) => {
     if (bsLocal) {
       console.log("Stopping BrowserStack Local...");

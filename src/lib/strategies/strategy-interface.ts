@@ -1,4 +1,5 @@
 export type Input = HTMLInputElement | HTMLTextAreaElement;
+// eslint-disable-next-line no-unused-vars
 export type OnPasteEventMethod = (options: {
   unformattedInputValue: string;
 }) => void;
@@ -18,5 +19,6 @@ export abstract class StrategyInterface {
   }
 
   abstract getUnformattedValue(): string;
+  // eslint-disable-next-line no-unused-vars
   abstract setPattern(pattern: string): void;
 }

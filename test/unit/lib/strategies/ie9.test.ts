@@ -25,7 +25,7 @@ describe("IE9 Strategy", function () {
       const strategy = new IE9Strategy(options);
 
       ["keydown", "paste", "focus"].forEach(function (event) {
-        expect(strategy.inputElement.addEventListener).toBeCalledWith(
+        expect(strategy.inputElement.addEventListener).toHaveBeenCalledWith(
           event,
           expect.any(Function),
         );

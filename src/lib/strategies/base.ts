@@ -160,7 +160,7 @@ export class BaseStrategy extends StrategyInterface {
   // If a strategy needs to impliment specific behavior
   // after reformatting has happend, the strategy just
   // overwrites this method on their own prototype
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   protected afterReformatInput(formattedState: FormatMetadata): void {
     // noop
   }

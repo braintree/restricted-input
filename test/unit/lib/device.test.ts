@@ -116,7 +116,7 @@ describe("device", function () {
       let key, ua;
 
       for (key in AGENTS) {
-        if (!AGENTS.hasOwnProperty(key)) {
+        if (!Object.prototype.hasOwnProperty.call(AGENTS, key)) {
           continue;
         }
         if (!/iPhone|iPad|iPod/.test(key)) {
@@ -171,7 +171,7 @@ describe("device", function () {
       let key, ua;
 
       for (key in AGENTS) {
-        if (!AGENTS.hasOwnProperty(key)) {
+        if (!Object.prototype.hasOwnProperty.call(AGENTS, key)) {
           continue;
         }
         if (!/samsungBrowser/.test(key)) {

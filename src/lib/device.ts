@@ -6,15 +6,15 @@ const UA = (typeof window !== "undefined" &&
 // TODO remove this when browser detection is converted to typescript
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
-import isAndroid = require("@braintree/browser-detection/is-android");
+import isAndroid from "@braintree/browser-detection/is-android";
 // @ts-ignore
-import isChromeOs = require("@braintree/browser-detection/is-chrome-os");
+import isChromeOs from "@braintree/browser-detection/is-chrome-os";
 // @ts-ignore
-import isChrome = require("@braintree/browser-detection/is-chrome");
+import isChrome from "@braintree/browser-detection/is-chrome";
 // @ts-ignore
-import isIos = require("@braintree/browser-detection/is-ios");
+import isIos from "@braintree/browser-detection/is-ios";
 // @ts-ignore
-import isIE9 = require("@braintree/browser-detection/is-ie9");
+import isIE9 from "@braintree/browser-detection/is-ie9";
 /* eslint-enable @typescript-eslint/ban-ts-comment */
 
 // Old Android Webviews used specific versions of Chrome with 0.0.0 as their version suffix
