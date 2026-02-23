@@ -7,7 +7,7 @@ app.use("/jsdoc", express.static(path.resolve("jsdoc")));
 app.use(express.static(path.resolve("dist-app")));
 app.use(express.static(path.resolve("test/support")));
 
-app.get("*", function (req, res) {
+app.get("/{*path}", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
