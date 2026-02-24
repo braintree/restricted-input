@@ -5,6 +5,7 @@ import { getLocalIdentifier } from "./browserstack-local";
 
 dotenv.config({
   path: path.resolve(__dirname, "../../.env"),
+  quiet: true,
 });
 
 let type;
