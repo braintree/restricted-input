@@ -7,7 +7,7 @@
     "module": "commonjs",
     "skipLibCheck": true,
     "target": "es5",
-    "ignoreDeprecations": "6.0", // Silences warning on target es5 which will become deprecated in TypeScript 7.0
+    "ignoreDeprecations": "5.0", // Silences warning on target es5 which will become deprecated in TypeScript 7.0
     "lib": ["es2015", "dom"],
     "strict": true,
     "types": ["jest"]
