@@ -3,11 +3,31 @@
 ## UNRELEASED
 
 - Move integration tests from wdio to playwright
-  - adds dev dependencies:
-    - @playwright/test 1.58.0
-    - playwright 1.58.0
-  - removes @wdio dependencies and uuid
-  - add safari tests
+- removes @wdio dependencies and uuid
+- add safari tests
+- Update to node v24
+- Updates dependencies
+  - braintree/browser-detection to 2.1.1
+  - @playwright/test to 1.58.2
+  - @types/jest to 30.0.0
+  - @typescript-eslint/eslint-plugin to 8.56.0
+  - browserify to 17.0.1
+  - browserstack-local to 1.5.10
+  - dotenv to 17.3.1
+  - eslint to 9.39.2
+  - eslint-config-braintree to 7.0.1
+  - eslint-plugin-prettier to 5.5.5
+  - express to 5.2.1
+  - jest to 30.2.0
+  - jest-environment-jsdom to 30.2.0
+  - jest-util to 30.2.0
+  - jsdoc to 4.0.5
+  - playwright to 1.58.2
+  - ts-jest to 29.4.6
+- adds dev dependencies:
+  - @playwright/test 1.58.0
+  - playwright 1.58.0
+  - prettier 3.8.1
 
 ## 4.1.4 (2025-02-26)
 
