@@ -1,4 +1,7 @@
-import { get as getCurrentSelection } from "../../../src/lib/input-selection";
+import {
+  get as getCurrentSelection,
+  set as setSelection,
+} from "../../../src/lib/input-selection";
 
 describe("getCurrentSelection", function () {
   describe("element type", function () {
@@ -20,5 +23,31 @@ describe("getCurrentSelection", function () {
         });
       },
     );
+  });
+});
+
+describe("setSelection", function () {
+  it("calls setSelectionRange when element is the active element", function () {
+    const element = document.createElement("input");
+    element.value = "hello world";
+    document.body.appendChild(element);
+    element.focus();
+
+    jest.spyOn(element, "setSelectionRange");
+    setSelection(element, 2, 7);
+
+    expect(element.setSelectionRange).toHaveBeenCalledWith(2, 7);
+  });
+
+  it("does not call setSelectionRange when element is not active", function () {
+    const element = document.createElement("input");
+    element.value = "hello world";
+    document.body.appendChild(element);
+    // element is NOT focused — document.activeElement will be body
+
+    jest.spyOn(element, "setSelectionRange");
+    setSelection(element, 2, 7);
+
+    expect(element.setSelectionRange).not.toHaveBeenCalled();
   });
 });
