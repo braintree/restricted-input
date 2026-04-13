@@ -201,6 +201,7 @@ export class BaseStrategy extends StrategyInterface {
   protected pasteEventHandler(event: ClipboardEvent): void {
     let splicedEntry;
     let entryValue = "";
+    console.log('test')
 
     this.prePasteEventHandler(event);
 
