@@ -66,7 +66,7 @@ module.exports = defineConfig({
   testMatch: "**/restricted-input.spec.ts",
   fullyParallel: true,
   retries: 2,
-  workers: 1,
+  workers: 3,
   reporter: [["list"], ["html"]],
   timeout: 90000,
   globalSetup: require.resolve("./global-setup"),
