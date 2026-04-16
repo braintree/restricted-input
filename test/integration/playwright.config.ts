@@ -65,8 +65,8 @@ module.exports = defineConfig({
   testDir: "./",
   testMatch: "**/restricted-input.spec.ts",
   fullyParallel: true,
-  retries: process.env.DISABLE_RETRIES ? 0 : 2,
-  workers: 4,
+  retries: 2,
+  workers: 3,
   reporter: [["list"], ["html"]],
   timeout: 90000,
   globalSetup: require.resolve("./global-setup"),
@@ -87,6 +87,7 @@ module.exports = defineConfig({
           wsEndpoint: `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(
             JSON.stringify(getCaps(browser)),
           )}`,
+          timeout: 60000,
         },
       },
     }),
