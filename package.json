@@ -43,18 +43,23 @@
     "test:all": "npm run test && npm run test:integration",
     "prepublishOnly": "npm run build && npm run build:app",
     "prettier": "prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "commit": "cz"
   },
   "dependencies": {
     "@braintree/browser-detection": "^2.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@playwright/test": "^1.58.2",
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "browserify": "^17.0.1",
     "browserstack-local": "^1.5.10",
     "chokidar-cli": "^3.0.0",
+    "commitizen": "^4.3.1",
+    "cz-customizable": "^7.5.4",
     "dotenv": "^17.3.1",
     "eslint": "^9.39.2",
     "eslint-config-braintree": "^7.0.1",
@@ -91,6 +96,11 @@
         "branches": 80,
         "functions": 80
       }
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
     }
   }
 }
