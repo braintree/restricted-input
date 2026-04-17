@@ -8,4 +8,8 @@ export class NoopKeyboardStrategy extends StrategyInterface {
   setPattern(): void {
     // noop
   }
+  
+  destroy(): void {
+    // noop
+  }
 }
