@@ -11,6 +11,6 @@ on:
 
 jobs:
   ci:
-    uses: braintree/web-sdk-github-actions/.github/workflows/ci.yml@main
+    uses: braintree/web-sdk-github-actions/.github/workflows/ci.yml@3d3621c5bb46edf879370cec4e63a34d345db4cf
     with:
       lint-command: "npx prettier --check ."
