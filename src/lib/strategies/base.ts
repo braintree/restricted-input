@@ -46,6 +46,7 @@ export class BaseStrategy extends StrategyInterface {
   getUnformattedValue(forceUnformat?: boolean): string {
     let value = this.inputElement.value;
 
+    console.log(value);
     if (forceUnformat || this.isFormatted) {
       value = this.formatter.unformat({
         value: this.inputElement.value,
