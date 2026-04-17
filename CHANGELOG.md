@@ -1,8 +1,9 @@
-# Changelog
+# CHANGELOG
 
-## unreleased
+## UNRELEASED
 
 - Improve unit test coverage across strategy layer and fix weak assertions
+- feat(deps): Add [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to the repo
 
 ## 4.2.0 (2026-03-04)
 
