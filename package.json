@@ -42,28 +42,35 @@
     "test:integration:local": "playwright test --config=playwright.local.config.ts",
     "test:all": "npm run test && npm run test:integration",
     "prepublishOnly": "npm run build && npm run build:app",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prepare": "husky",
+    "commit": "cz"
   },
   "dependencies": {
     "@braintree/browser-detection": "^2.1.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@playwright/test": "1.58.2",
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "browserify": "^17.0.1",
     "browserstack-local": "^1.5.10",
     "chokidar-cli": "^3.0.0",
+    "commitizen": "^4.3.1",
+    "cz-customizable": "^7.5.4",
     "dotenv": "^17.3.1",
     "eslint": "^9.39.2",
     "eslint-config-braintree": "^7.0.1",
     "eslint-plugin-prettier": "^5.5.5",
     "express": "^5.2.1",
+    "husky": "^9.1.7",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "jest-util": "^30.2.0",
     "jsdoc": "^4.0.5",
-    "playwright": "^1.58.2",
+    "playwright": "1.58.2",
     "prettier": "^3.8.1",
     "ts-jest": "^29.4.6",
     "tsify": "^5.0.4",
@@ -89,6 +96,11 @@
         "branches": 80,
         "functions": 80
       }
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
     }
   }
 }

@@ -1,7 +1,15 @@
 import { defineConfig, PlaywrightTestProject } from "@playwright/test";
+import { readFileSync } from "fs";
 import * as path from "path";
 import * as dotenv from "dotenv";
 import { getLocalIdentifier } from "./browserstack-local";
+
+const { version: playwrightVersion } = JSON.parse(
+  readFileSync(
+    path.resolve(__dirname, "../../node_modules/playwright/package.json"),
+    "utf-8",
+  ),
+) as { version: string };
 
 dotenv.config({
   path: path.resolve(__dirname, "../../.env"),
@@ -31,7 +39,7 @@ const getCaps = (browser: {
     "browserstack.local": "true",
     "browserstack.username": BROWSERSTACK_USERNAME,
     "browserstack.accessKey": BROWSERSTACK_ACCESS_KEY,
-    "client.playwrightVersion": "1.57.0",
+    "client.playwrightVersion": playwrightVersion,
     "browserstack.debug": "true",
     "browserstack.console": "errors",
     "browserstack.networkLogs": "false",
