@@ -21,4 +21,5 @@ export abstract class StrategyInterface {
   abstract getUnformattedValue(): string;
   // eslint-disable-next-line no-unused-vars
   abstract setPattern(pattern: string): void;
+	abstract destroy(): void;
 }
