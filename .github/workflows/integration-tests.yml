@@ -14,27 +14,27 @@ jobs:
     name: "BrowserStack Test on Ubuntu"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
       - name: "BrowserStack Env Setup"
-        uses: "browserstack/github-actions/setup-env@master"
+        uses: browserstack/github-actions/setup-env@110c0a843fea32c53638e18e7fd54e52200bfc2d # master
         with:
           username: ${{ secrets.BROWSERSTACK_USERNAME }}
           access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           build-name: BUILD_INFO
           project-name: REPO_NAME
       - name: "BrowserStackLocal Setup"
-        uses: "browserstack/github-actions/setup-local@master"
+        uses: browserstack/github-actions/setup-local@110c0a843fea32c53638e18e7fd54e52200bfc2d # master
         with:
           local-testing: start
           local-identifier: random
       - name: "Node Setup"
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: .nvmrc
       - run: npm install
       - run: npm run test:integration
       - name: "BrowserStackLocal Stop"
-        uses: "browserstack/github-actions/setup-local@master"
+        uses: browserstack/github-actions/setup-local@110c0a843fea32c53638e18e7fd54e52200bfc2d # master
         with:
           local-testing: stop
     env:
