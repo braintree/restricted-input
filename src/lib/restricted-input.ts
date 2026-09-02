@@ -13,8 +13,8 @@ import { BaseStrategy } from "./strategies/base";
 /**
  * Instances of this class can be used to modify the formatter for an input
  * @class
- * @param {object} options The initialization paramaters for this class
- * @param {object} options.element - A Input DOM object that RestrictedInput operates on
+ * @param {object} options The initialization parameters for this class
+ * @param {object} options.element - An Input DOM object that RestrictedInput operates on
  * @param {string} options.pattern - The pattern to enforce on this element
  */
 class RestrictedInput {
