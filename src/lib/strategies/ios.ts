@@ -1,8 +1,13 @@
-import { BaseStrategy } from "./base";
+import { BaseStrategy, isSimulatedEvent } from "./base";
 import { keyCannotMutateValue } from "../key-cannot-mutate-value";
 import { get as getSelection, set as setSelection } from "../input-selection";
 
 export class IosStrategy extends BaseStrategy {
+  // No keydown before an input event means autofill overwrote the value,
+  // not a keystroke.
+  private hasKeydownEvent = false;
+  private isHandlingPaste = false;
+
   getUnformattedValue(): string {
     return super.getUnformattedValue(true);
   }
@@ -11,14 +16,38 @@ export class IosStrategy extends BaseStrategy {
     this.inputElement.addEventListener("keydown", (event) => {
       this.keydownListener(event as KeyboardEvent);
     });
+    this.inputElement.addEventListener("keyup", () => {
+      this.hasKeydownEvent = false;
+    });
     this.inputElement.addEventListener("input", (event) => {
-      const isCustomEvent = event instanceof CustomEvent;
+      // pasteEventHandler already formatted the value and dispatches this
+      // itself purely to notify other listeners; nothing left to do here.
+      if (this.isHandlingPaste) {
+        return;
+      }
 
-      // Safari AutoFill fires CustomEvents
-      // Set state to format before calling format listener
+      const isCustomEvent = event instanceof CustomEvent;
+      // A raw autofill write has no keydown (Chrome's is simulated and
+      // filtered out by isSimulatedEvent) and no inputType, unlike a real
+      // edit (cut, drop, composition, typing), which the browser already
+      // applied correctly.
+      const isWholesaleWrite =
+        !isCustomEvent &&
+        !this.hasKeydownEvent &&
+        !(event as InputEvent).inputType;
+
+      this.hasKeydownEvent = false;
+
+      // Safari AutoFill uses CustomEvents. Either way, reformat from the
+      // current value instead of diffing it.
       if (isCustomEvent) {
         this.stateToFormat = {
           selection: { start: 0, end: 0 },
+          value: this.inputElement.value,
+        };
+      } else if (isWholesaleWrite) {
+        this.stateToFormat = {
+          selection: getSelection(this.inputElement),
           value: this.inputElement.value,
         };
       }
@@ -30,7 +59,12 @@ export class IosStrategy extends BaseStrategy {
       }
     });
     this.inputElement.addEventListener("paste", (event) => {
-      this.pasteEventHandler(event as ClipboardEvent);
+      this.isHandlingPaste = true;
+      try {
+        this.pasteEventHandler(event as ClipboardEvent);
+      } finally {
+        this.isHandlingPaste = false;
+      }
     });
   }
 
@@ -64,6 +98,11 @@ export class IosStrategy extends BaseStrategy {
     if (keyCannotMutateValue(event)) {
       return;
     }
+
+    if (!isSimulatedEvent(event)) {
+      this.hasKeydownEvent = true;
+    }
+
     if (this.isDeletion(event)) {
       this.stateToFormat = this.formatter.simulateDeletion({
         event: event,
