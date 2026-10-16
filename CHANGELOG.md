@@ -2,6 +2,7 @@
 
 ## UNRELEASED
 
+- Fix bug where iOS Chrome / Google Wallet autofill could drop digits from formatted fields (braintree/braintree-web#775)
 - Improve unit test coverage across strategy layer and fix weak assertions
 - feat(deps): Add [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) to the repo
 

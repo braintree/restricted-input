@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-function isSimulatedEvent(event: KeyboardEvent): boolean {
+export function isSimulatedEvent(event: KeyboardEvent): boolean {
   // 1Password sets input.value then fires keyboard events. Dependent on browser
   // here might be falsy values (key = '', keyCode = 0) or these keys might be omitted
   // Chrome autofill inserts keys all at once and fires a single event without key info
