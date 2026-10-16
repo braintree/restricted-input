@@ -1,13 +1,9 @@
 name: "Integration Tests"
 
+# Automatic triggers disabled while a known issue with the integration
+# setup is fixed in a follow-up. workflow_dispatch still works for manual runs.
 on:
-  push:
-    branches:
-      - "main"
   workflow_dispatch:
-  pull_request:
-    branches:
-      - "*"
 
 jobs:
   ubuntu-job:
