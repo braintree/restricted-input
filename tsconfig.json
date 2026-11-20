@@ -13,5 +13,5 @@
     "types": ["jest"]
   },
   "include": ["./src/**/*", "./test/**/*"],
-  "exclude": ["./src/**/__mocks__/**/*"]
+  "exclude": ["./src/**/__mocks__/**/*", "./test/integration/**/*"]
 }
