@@ -43,36 +43,22 @@ npm test
 
 ### Integration tests
 
-We use [Browserstack](https://www.browserstack.com) to automate end to end testing on Google Chrome, Firefox, and Microsoft Edge.
+We use [Vitest Browser Mode](https://vitest.dev/guide/browser/) with Playwright to run end to end tests in Chromium, Firefox, and WebKit.
 
-First, [sign up for a free open source Browserstack account](https://www.browserstack.com/open-source?ref=pricing).
-
-Copy the `.env.example` file to `.env`
+Install the Playwright browsers once:
 
 ```sh
-cp .env.example .env
+npx playwright install chromium firefox webkit
 ```
 
-Fill in the BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY environmental variables with your credentials:
-
-```sh
-BROWSERSTACK_USERNAME=username
-BROWSERSTACK_ACCESS_KEY=access_key
-```
-
-To run the integration tests on Browserstack:
+Then run the integration tests:
 
 ```sh
 npm run test:integration
 ```
 
-To run tests locally on browsers you do not have installed, you may need to install playwright browsers:
-
-```sh
-npx playwright install firefox chrome msedge
-```
-
-And the tests are run locally with `npm run test:integration:local`.
+This builds the browser bundle before running the tests. If running Vitest
+directly, first run `npm run build:app`.
 
 To run only certain tests, add the `.only` property before running the test:
 
